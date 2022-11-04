@@ -1,0 +1,7 @@
+{
+  "mongoPort": 27017,
+  "mongoDbName": "GamBooru",
+  "expressPort": 3030,
+  "secret": "i know secrets shouldn't be uploaded to the next but you want the app to work RIGHT???",
+  "reminder": "change this to dotenv someday"
+}

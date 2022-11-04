@@ -1,9 +1,9 @@
 {
   "name": "gam-booru",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "ng-start": "ng serve",
+    "ng-start": "ng serve --open",
     "start": "concurrently -n Server,Angular -c green,red \"cd server && nodemon\" \"pnpm ng-start\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -23,6 +23,7 @@
     "@angular/router": "^14.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "coupon-code": "^0.4.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.0",
