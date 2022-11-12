@@ -18,8 +18,6 @@ app.use(cors());
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
-require("./routes/index")(app);
-
 app.get("/", (req, res) => {
   res.status(303).redirect(`http://localhost:4200`);
 });
@@ -29,6 +27,8 @@ app.get("/about", (req, res) => {
     `Express server using MongoDB to serve GamBooru's backend, \nchange port from ${settings.expressPort} to 4200 to go to site`
   );
 });
+
+require("./routes/index")(app);
 
 app.listen(settings.expressPort, () => {
   console.log(

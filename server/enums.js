@@ -4,3 +4,11 @@ exports.Roles = Object.freeze({
   Janitor: "janitor",
   Admin: "admin",
 });
+
+exports.TagCategories = Object.freeze({
+  Tag: "tag",
+  Metadata: "metadata",
+  Artist: "artist",
+  Copyright: "copyright",
+  Character: "character",
+});
