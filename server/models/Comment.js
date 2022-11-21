@@ -12,7 +12,8 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
     upVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    flagged: [String],
+    reply: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    flag: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

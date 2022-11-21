@@ -21,7 +21,7 @@ const tagSchema = new mongoose.Schema(
     example: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
     locked: { type: Boolean, default: false },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
-    flagged: [String],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );
