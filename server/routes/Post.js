@@ -2,7 +2,7 @@ const router = require("express").Router();
 const ObjectId = require("mongodb").ObjectId;
 const md5 = require("md5");
 
-const { likeMode } = require("../enums/likeMode.enum");
+// const { likeMode } = require("../enums/likeMode.enum");
 
 const { UserModel } = require("../models/User");
 const { PostModel } = require("../models/Post");
@@ -40,15 +40,18 @@ router
   .route("/")
   .post(async (req, res) => {
     try {
-      if (req.body?.body?.length > 2000 || req.body?.status.length > 30)
-        return res.status(406).send({ message: "Felid too long" });
+      // if (req.body?.body?.length > 2000 || req.body?.status.length > 30)
+      //   return res.status(406).send({ message: "Felid too long" });
 
-      let imageIds = await uploadImages(req.body.images, req);
-      await PostModel.create({
-        ...req.body,
-        author: req.userInSession,
-        images: imageIds,
-      });
+      // let imageIds = await uploadImages(req.body.images, req);
+
+      // await PostModel.create({
+      //   ...req.body,
+      //   author: req.userInSession,
+      //   images: imageIds,
+      // });
+      console.log(req.body);
+      console.log("pass");
       res.status(200).send({ message: "Entry Created" });
     } catch (err) {
       return res

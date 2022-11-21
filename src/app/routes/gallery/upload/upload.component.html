@@ -1,0 +1,31 @@
+<pre>{{ form.value | json }}</pre>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label for="file">Choose File</label><br />
+  <input
+    type="file"
+    formControlName="file"
+    name="file"
+    (change)="onFileChange($event)"
+    accept="image/*, video/*"
+  />
+  <br />
+
+  <span *ngIf="source?.invalid && source?.touched">
+    You bust provide a source
+  </span>
+
+  <label for="source">Source: </label><br />
+  <input formControlName="source" name="source" /> <br />
+
+  <label for="tags">Tags </label>
+
+  <ng-select
+    [items]="tags"
+    [multiple]="true"
+    [hideSelected]="true"
+    formControlName="tags"
+  >
+  </ng-select>
+
+  <button class="button" type="submit" [disabled]="form.invalid">Upload</button>
+</form>

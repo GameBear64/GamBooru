@@ -1,9 +1,10 @@
 <nav>
   <a routerLink="/">Index (logo here)</a>
-  <a routerLink="/posts">Posts</a>
+  <a routerLink="/gallery">Posts</a>
   <a routerLink="/?">Random</a>
   <a routerLink="/comments">Comment Feed</a>
-  <a routerLink="/user">Account</a>
+  <a *ngIf="auth.loggedIn" routerLink="/user">Account</a>
+  <a *ngIf="!auth.loggedIn" routerLink="/auth/login">Login</a>
 </nav>
 <hr />
 <router-outlet> </router-outlet>

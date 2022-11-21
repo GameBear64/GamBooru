@@ -6,7 +6,8 @@ import { RatingsComponent } from './ratings/ratings.component';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: ':?id', component: IdComponent },
+  { path: '', component: IdComponent },
+  { path: ':id', component: IdComponent },
   { path: 'ratings', component: RatingsComponent },
   { path: 'settings', component: SettingsComponent },
 ];
