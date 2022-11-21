@@ -16,7 +16,6 @@ const postSchema = new mongoose.Schema(
     rating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
     views: { type: Number, default: 0 },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
-    flagged: [String],
   },
   { timestamps: true }
 );
