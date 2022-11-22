@@ -19,7 +19,7 @@ export class UploadComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
-  tags = ['Volvo', 'Saab', 'Opel', 'Audi'];
+  tags = ['realism', 'anime', 'wallpaper', 'art'];
   form!: FormGroup;
 
   ngOnInit(): void {

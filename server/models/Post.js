@@ -7,11 +7,14 @@ const postSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    source: [String],
-    images: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Image", required: true },
-    ],
-    tags: { type: mongoose.Schema.Types.ObjectId, ref: "Tag" },
+    source: String,
+    images: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+      required: true,
+    },
+    // tags: { type: mongoose.Schema.Types.ObjectId, ref: "Tag" },
+    tags: [String], //only for testing
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     rating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
     views: { type: Number, default: 0 },

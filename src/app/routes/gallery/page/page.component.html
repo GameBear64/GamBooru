@@ -1,2 +1,11 @@
-<p>page works!</p>
 <a routerLink="/gallery/upload">Upload</a>
+
+<br />
+
+<hr />
+posts:
+<hr />
+
+<!-- <pre> {{ posts | json }}</pre> -->
+
+<img *ngFor="let post of posts" [src]="post.images.thumbnail" />

@@ -1,4 +1,4 @@
-const checkAuth = require("./../middleware/checkAuth");
+// const checkAuth = require("./../middleware/checkAuth");
 
 const authRoutes = require("./Auth");
 // const userRoutes = require('./User');
@@ -10,12 +10,14 @@ module.exports = function (app) {
   // no-auth routes
   app.use("/auth", authRoutes);
 
-  // auth middleware
+  //partial auth routes
+  app.use("/post", postRoutes);
+
+  // // auth middleware
   // app.use(checkAuth);
 
   // // routes
   // app.use('/user', userRoutes);
-  app.use("/post", postRoutes);
   // app.use('/search', searchRoutes);
   // app.use('/comment', commentRoutes);
 

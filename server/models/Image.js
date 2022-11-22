@@ -2,7 +2,15 @@ const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema(
   {
-    name: {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    // name: {
+    //   type: String,
+    //   required: true,
+    // },
+    md5: {
       type: String,
       required: true,
     },
@@ -10,9 +18,9 @@ const imageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    thumbnail: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
