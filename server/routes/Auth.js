@@ -45,6 +45,7 @@ router
 router
   .route("/register")
   .post(async (req, res) => {
+    console.log(req.body);
     let userExists = await UserModel.findOne({ email: req.body.email });
     if (userExists) return res.status(403).send({ message: "User exists" });
 
@@ -58,7 +59,7 @@ router
       bcrypt.hash(req.body?.password, salt, async function (err, hash) {
         req.body.password = hash;
         req.body.profilePicture = `https://ui-avatars.com/api/?size=255&bold=true&background=random&name=${encodeURIComponent(
-          `${req.body.firstName} ${req.body?.lastName}`
+          `${req.body.username}`
         )}`;
 
         try {

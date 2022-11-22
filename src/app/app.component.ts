@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './routes/auth.service';
+import { MasterAuthService } from './routes/master-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { AuthService } from './routes/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(protected auth: AuthService) {}
+  constructor(protected auth: MasterAuthService) {}
 
   title = 'GamBooru';
 }

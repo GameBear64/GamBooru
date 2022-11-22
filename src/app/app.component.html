@@ -3,8 +3,10 @@
   <a routerLink="/gallery">Posts</a>
   <a routerLink="/?">Random</a>
   <a routerLink="/comments">Comment Feed</a>
-  <a *ngIf="auth.loggedIn" routerLink="/user">Account</a>
-  <a *ngIf="!auth.loggedIn" routerLink="/auth/login">Login</a>
+  <a *ngIf="auth.loggedIn?.user" routerLink="/user">Account</a>
+  <a *ngIf="auth.loggedIn?.user" routerLink="/auth/logout">Logout</a>
+  <a *ngIf="!auth.loggedIn?.user" routerLink="/auth/login">Login</a>
 </nav>
 <hr />
+user: {{ auth.loggedIn?.user?._id | json }}
 <router-outlet> </router-outlet>
