@@ -1,14 +1,14 @@
 exports.Roles = Object.freeze({
-  Delinquent: "delinquent",
-  User: "user",
-  Janitor: "janitor",
-  Admin: "admin",
+  Delinquent: "Delinquent",
+  User: "User",
+  Janitor: "Janitor",
+  Admin: "Admin",
 });
 
 exports.TagCategories = Object.freeze({
-  Tag: "tag",
-  Metadata: "metadata",
-  Artist: "artist",
-  Copyright: "copyright",
-  Character: "character",
+  Tag: "Tag",
+  Metadata: "Metadata",
+  Artist: "Artist",
+  Copyright: "Copyright",
+  Character: "cCharacter",
 });

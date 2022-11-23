@@ -1,4 +1,5 @@
 <!-- <pre>{{ form.value | json }}</pre> -->
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="file">Choose File</label><br />
   <input
@@ -21,6 +22,8 @@
 
   <ng-select
     [items]="tags"
+    bindLabel="name"
+    bindValue="_id"
     [multiple]="true"
     [hideSelected]="true"
     formControlName="tags"

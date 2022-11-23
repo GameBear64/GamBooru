@@ -1,1 +1,14 @@
-<p>all works!</p>
+<a routerLink="/tags/create">Create tag</a>
+
+<p>Showing all {{ tags?.count || "" }} tags!</p>
+
+<!-- <pre>{{ tags | json }}</pre> -->
+
+<div>
+  <span *ngFor="let tag of tags?.tags">
+    <a [routerLink]="['/tags', tag._id]">
+      {{ tag.name }}
+    </a>
+    <br />
+  </span>
+</div>

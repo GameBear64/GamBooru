@@ -1,1 +1,15 @@
-<p>single works!</p>
+<!-- <pre>{{ tag | json }}</pre> -->
+
+<h1>{{ tag?.name }}</h1>
+<p>{{ tag?.description }}</p>
+
+<p>
+  Category: <b>{{ tag?.category }}</b>
+</p>
+
+<div class="exampleImages">
+  <h4>Example images:</h4>
+  <a *ngFor="let post of tag?.example" [routerLink]="['/gallery', post._id]">
+    <img [src]="post.image.thumbnail" />
+  </a>
+</div>

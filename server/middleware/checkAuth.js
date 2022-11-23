@@ -5,8 +5,9 @@ module.exports = (req, res, next) => {
   try {
     var decoded = jwt.verify(req.headers.jwt, secret);
     req.userInSession = { id: decoded.id, role: decoded.role };
-    next();
   } catch (err) {
-    return res.status(401).send({ message: "Not Authorized" });
+    // return res.status(401).send({ message: "Not Authorized" });
+    req.userInSession = null;
   }
+  next();
 };

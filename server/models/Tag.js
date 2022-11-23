@@ -11,13 +11,12 @@ const tagSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: [
-      {
-        type: String,
-        enum: Object.values(TagCategories),
-        default: TagCategories.Tag,
-      },
-    ],
+    category: {
+      type: String,
+      enum: Object.values(TagCategories),
+      default: TagCategories.Tag,
+    },
+
     example: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
     locked: { type: Boolean, default: false },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],

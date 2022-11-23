@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TagsService } from '../../tags/tags.service';
 
 @Component({
   selector: 'app-upload',
@@ -17,14 +18,17 @@ export class UploadComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private galleryService: GalleryService,
+    private tagService: TagsService,
     private changeDetector: ChangeDetectorRef,
     private router: Router
   ) {}
 
-  tags = ['realism', 'anime', 'wallpaper', 'art'];
   form!: FormGroup;
+  tags!: any;
 
   ngOnInit(): void {
+    this.tagService.getTags().subscribe((data: any) => (this.tags = data.tags));
+
     this.form = this.fb.group({
       file: new FormControl(null, [Validators.required]),
       fileSource: null,

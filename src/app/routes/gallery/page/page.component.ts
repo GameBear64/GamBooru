@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { reduce } from 'rxjs';
 import { GalleryService } from '../gallery.service';
 
 @Component({
@@ -11,17 +10,23 @@ export class PageComponent implements OnInit {
   constructor(private galleryService: GalleryService) {}
 
   posts: any;
-  visibleTags!: any;
+  visibleTags: { _id: string; name: string }[] = [];
 
   ngOnInit(): void {
     this.galleryService.getPosts().subscribe((data) => {
       this.posts = data;
 
-      let tagSet = new Set();
       this.posts.forEach((post: any) => {
-        post.tags.forEach((tag: any) => tagSet.add(tag));
+        post.tags.forEach((tag: any) => {
+          if (
+            this.visibleTags.every(
+              (visibleTag: any) => visibleTag.name !== tag.name
+            )
+          ) {
+            this.visibleTags.push(tag);
+          }
+        });
       });
-      this.visibleTags = Array.from(tagSet);
     });
   }
 }

@@ -1,13 +1,16 @@
 <a routerLink="/gallery/upload">Upload</a>
 
 <br />
+<br />
 
 <!-- <pre> {{ posts | json }}</pre> -->
 <!-- <pre> {{ visibleTags | json }}</pre> -->
 
 <div class="container">
   <div class="aside">
-    <p *ngFor="let tag of visibleTags">{{ tag }}</p>
+    <a *ngFor="let tag of visibleTags" [routerLink]="['/tags', tag._id]">
+      {{ tag.name }}
+    </a>
   </div>
   <div class="main">
     <div class="imagePost" *ngFor="let post of posts">

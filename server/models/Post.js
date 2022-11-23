@@ -13,8 +13,7 @@ const postSchema = new mongoose.Schema(
       ref: "Image",
       required: true,
     },
-    // tags: { type: mongoose.Schema.Types.ObjectId, ref: "Tag" },
-    tags: [String], //only for testing
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     rating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
     views: { type: Number, default: 0 },

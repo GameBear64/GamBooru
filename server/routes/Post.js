@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 const md5 = require("md5");
 const sharp = require("sharp");
 
@@ -16,31 +16,37 @@ router.route("/count").get(async (req, res) => {
 });
 
 router.route("/page/:page").get(async (req, res) => {
-  // prettier-ignore
   try {
+    // prettier-ignore
     let posts = await PostModel
     .find({})
     .sort({ createdAt: -1 })
     .skip((req.params.page - 1 ) * 20)
     .limit(20)
     .populate('image', "thumbnail")
+    .populate('tags', "name")
+
     res.status(200).send(posts);
   } catch (err) {
     return res
-        .status(406)
-        .send({ message: "Error while fetching posts", error: err });
+      .status(406)
+      .send({ message: "Error while fetching posts", error: err });
   }
 });
 
 router
   .route("/")
-  .all(checkAuth)
   .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
+
     try {
       let imageIds = await uploadImage(req.body.fileSource, req);
+      let linkTags = req.body.tags.map((tag) => ObjectId(tag));
 
       await PostModel.create({
         ...req.body,
+        tags: linkTags,
         author: req.userInSession.id,
         image: imageIds,
       });
@@ -58,20 +64,21 @@ router
 router.route("/:id").get(async (req, res) => {
   let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
     .populate("image")
-    // .populate({
-    //   path: "comments",
-    //   populate: {
-    //     path: "author",
-    //     select: ["nickname", "firstName", "lastName", "profilePicture"],
-    //   },
-    //   options: {
-    //     project: {
-    //       score: { $subtract: ["$upVotes", "$downVotes"] },
-    //     },
-    //     sort: { score: -1, createdAt: -1 },
-    //   },
-    // })
-    .populate("author");
+    .populate("tags", "name")
+    .populate("author", "name");
+  // .populate({
+  //   path: "comments",
+  //   populate: {
+  //     path: "author",
+  //     select: ["nickname", "firstName", "lastName", "profilePicture"],
+  //   },
+  //   options: {
+  //     project: {
+  //       score: { $subtract: ["$upVotes", "$downVotes"] },
+  //     },
+  //     sort: { score: -1, createdAt: -1 },
+  //   },
+  // })
 
   res.status(200).send(post);
 });
