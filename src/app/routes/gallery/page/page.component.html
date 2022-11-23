@@ -2,10 +2,18 @@
 
 <br />
 
-<hr />
-posts:
-<hr />
-
 <!-- <pre> {{ posts | json }}</pre> -->
+<!-- <pre> {{ visibleTags | json }}</pre> -->
 
-<img *ngFor="let post of posts" [src]="post.images.thumbnail" />
+<div class="container">
+  <div class="aside">
+    <p *ngFor="let tag of visibleTags">{{ tag }}</p>
+  </div>
+  <div class="main">
+    <div class="imagePost" *ngFor="let post of posts">
+      <a [routerLink]="['/gallery', post._id]">
+        <img [src]="post.image.thumbnail" />
+      </a>
+    </div>
+  </div>
+</div>

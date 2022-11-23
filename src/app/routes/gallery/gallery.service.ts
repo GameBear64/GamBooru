@@ -13,9 +13,11 @@ export class GalleryService {
     return this.http.get('http://localhost:3030/post/page/1');
   }
 
-  post(content: any) {
-    console.log(content);
+  getPost(postId: string) {
+    return this.http.get('http://localhost:3030/post/' + postId);
+  }
 
+  post(content: any) {
     // names ${cc.generate({ parts: 1, partLen: 5 }).toLocaleLowerCase()}_${artist + (artist || metadata)}
     this.http
       .post<any>('http://localhost:3030/post', content, {

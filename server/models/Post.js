@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     source: String,
-    images: {
+    image: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Image",
       required: true,

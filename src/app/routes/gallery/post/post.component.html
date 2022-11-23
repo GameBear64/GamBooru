@@ -1,1 +1,11 @@
-<p>post works!</p>
+<!-- <pre> {{ post | json }}</pre> -->
+
+<div class="container">
+  <div class="aside">
+    <p *ngFor="let tag of post?.tags">{{ tag }}</p>
+  </div>
+  <div class="main">
+    <h1 *ngIf="!post?.image?.data">Loading...</h1>
+    <img *ngIf="post?.image?.data" [src]="post.image.data" />
+  </div>
+</div>

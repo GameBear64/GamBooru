@@ -6,9 +6,11 @@ const { UserModel } = require("../models/User");
 
 const settings = require("./../../settings.json");
 
-const createJWTSendCookie = (id) => {
+const createJWTSendCookie = (user) => {
   let expireAt = 3 * 30 * 24 * 60 * 60; /*3 months*/
-  return jwt.sign({ id }, settings.secret, { expiresIn: expireAt });
+  return jwt.sign({ id: user.id, role: user.role }, settings.secret, {
+    expiresIn: expireAt,
+  });
 };
 
 const filterUserFelids = ({ _id, userName }) => ({
@@ -29,7 +31,7 @@ router
       function (err, result) {
         if (result) {
           return res.status(200).send({
-            jwt: createJWTSendCookie(userAttempting.id),
+            jwt: createJWTSendCookie(userAttempting),
             user: filterUserFelids(userAttempting),
           });
         } else {
@@ -65,7 +67,7 @@ router
         try {
           let user = await UserModel.create(req.body);
           return res.status(201).send({
-            jwt: createJWTSendCookie(user.id),
+            jwt: createJWTSendCookie(user),
             user: filterUserFelids(user),
           });
         } catch (err) {

@@ -26,13 +26,11 @@ const userSchema = new mongoose.Schema(
       default: null,
       maxLength: [2500, "Too long"],
     },
-    roles: [
-      {
-        type: String,
-        enum: Object.values(Roles),
-        default: Roles.User,
-      },
-    ],
+    role: {
+      type: String,
+      enum: Object.values(Roles),
+      default: Roles.User,
+    },
     links: [{ icon: String, heading: String, target: String }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     inbox: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],

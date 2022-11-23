@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -16,7 +17,8 @@ export class UploadComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private galleryService: GalleryService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   tags = ['realism', 'anime', 'wallpaper', 'art'];
@@ -34,6 +36,9 @@ export class UploadComponent implements OnInit {
   onSubmit(): void {
     this.galleryService.post(this.form.value);
     this.form.reset();
+    setTimeout(() => {
+      this.router.navigate(['/gallery']);
+    }, 1000);
   }
 
   onFileChange(event: any) {

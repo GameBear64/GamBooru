@@ -5,17 +5,15 @@ const sharp = require("sharp");
 
 const checkAuth = require("./../middleware/checkAuth");
 
-const { UserModel } = require("../models/User");
 const { PostModel } = require("../models/Post");
 const { ImageModel } = require("../models/Image");
 // const { CommentModel } = require("../models/Comment");
 
-// const filterEditedResponse = ({ status, body, images }) => {
-//   let newImages = images.filter((img) => !img.author);
-//   images = images.filter((img) => img.author).map((img) => img._id);
+router.route("/count").get(async (req, res) => {
+  let count = await PostModel.count({});
 
-//   return { status, body, images, newImages };
-// };
+  res.status(200).send({ count });
+});
 
 router.route("/page/:page").get(async (req, res) => {
   // prettier-ignore
@@ -25,8 +23,8 @@ router.route("/page/:page").get(async (req, res) => {
     .sort({ createdAt: -1 })
     .skip((req.params.page - 1 ) * 20)
     .limit(20)
-    .populate('images', "thumbnail")
-    res.status(200).send({ posts });
+    .populate('image', "thumbnail")
+    res.status(200).send(posts);
   } catch (err) {
     return res
         .status(406)
@@ -43,8 +41,8 @@ router
 
       await PostModel.create({
         ...req.body,
-        author: req.userInSession,
-        images: imageIds,
+        author: req.userInSession.id,
+        image: imageIds,
       });
       res.status(200).send({ message: "Entry Created" });
     } catch (err) {
@@ -57,48 +55,33 @@ router
     res.status(405).send({ message: "Use another method" });
   });
 
-// router
-//   .route("/:id")
-//   .get(async (req, res) => {
-//     // let commentsFiltering = await CommentModel.aggregate([
-//     //   {
-//     //     $project: {
-//     //       score: { $subtract: ['$upVotes', '$downVotes'] },
-//     //     },
-//     //   },
-//     //   {
-//     //     $sort: { score: -1 },
-//     //   },
-//     // ]);
+router.route("/:id").get(async (req, res) => {
+  let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
+    .populate("image")
+    // .populate({
+    //   path: "comments",
+    //   populate: {
+    //     path: "author",
+    //     select: ["nickname", "firstName", "lastName", "profilePicture"],
+    //   },
+    //   options: {
+    //     project: {
+    //       score: { $subtract: ["$upVotes", "$downVotes"] },
+    //     },
+    //     sort: { score: -1, createdAt: -1 },
+    //   },
+    // })
+    .populate("author");
 
-//     // console.log(commentsFiltering);
-
-//     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
-//       .populate("images")
-//       .populate({
-//         path: "comments",
-//         populate: {
-//           path: "author",
-//           select: ["nickname", "firstName", "lastName", "profilePicture"],
-//         },
-//         options: {
-//           project: {
-//             score: { $subtract: ["$upVotes", "$downVotes"] },
-//           },
-//           sort: { score: -1, createdAt: -1 },
-//         },
-//       })
-//       .populate("author", "nickname firstName lastName profilePicture");
-
-//     res.status(200).send(post);
-//   })
+  res.status(200).send(post);
+});
 //   .patch(async (req, res) => {
 //     if (req.body?.body?.length > 2000 || req.body?.status?.length > 30)
 //       return res.status(406).send({ message: "Felid too long" });
 
 //     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
-//     if (req.userInSession !== post.author.toString())
+//     if (req.userInSession.id !== post.author.toString())
 //       return res.status(401).send({ message: "Not Authorized" });
 
 //     try {
@@ -119,7 +102,7 @@ router
 //   .delete(async (req, res) => {
 //     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
-//     if (req.userInSession !== post.author.toString())
+//     if (req.userInSession.id !== post.author.toString())
 //       return res.status(401).send({ message: "Not Authorized" });
 
 //     await post.delete();
@@ -138,18 +121,18 @@ router
 
 //     if (post.likeMode === likeMode.Cheer) {
 //       await post.update(
-//         { $push: { likes: req.userInSession } },
+//         { $push: { likes: req.userInSession.id } },
 //         { timestamps: false }
 //       );
 //     } else {
-//       if (post.likes.includes(req.userInSession)) {
+//       if (post.likes.includes(req.userInSession.id)) {
 //         await post.update(
-//           { $pull: { likes: req.userInSession } },
+//           { $pull: { likes: req.userInSession.id } },
 //           { timestamps: false }
 //         );
 //       } else {
 //         await post.update(
-//           { $push: { likes: req.userInSession } },
+//           { $push: { likes: req.userInSession.id } },
 //           { timestamps: false }
 //         );
 //       }
@@ -188,14 +171,14 @@ async function uploadImage(image, req) {
   const buffer = Buffer.from(image.split(";base64,").pop(), "base64");
 
   return sharp(buffer)
-    .resize(150, 150)
+    .resize(150, 150, { fit: "inside" })
     .toBuffer()
     .then((thumbnail) => {
       return ImageModel.create({
         data: image,
         thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
         md5: md5(image),
-        author: req.userInSession,
+        author: req.userInSession.id,
       });
     });
 }

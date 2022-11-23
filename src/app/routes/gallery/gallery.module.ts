@@ -18,9 +18,8 @@ const routes: Routes = [
     component: UploadComponent,
     canActivate: [GalleryGuardGuard],
   },
-  { path: 'post/:id', component: PostComponent },
   { path: 'collection/:id', component: CollectionComponent },
-  { path: ':page', component: PageComponent },
+  { path: ':id', component: PostComponent },
   { path: '', component: PageComponent },
 ];
 
