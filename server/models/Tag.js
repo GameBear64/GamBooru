@@ -16,7 +16,10 @@ const tagSchema = new mongoose.Schema(
       enum: Object.values(TagCategories),
       default: TagCategories.Tag,
     },
-
+    count: {
+      type: Number,
+      default: 0,
+    },
     example: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
     locked: { type: Boolean, default: false },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],

@@ -6,9 +6,15 @@ exports.Roles = Object.freeze({
 });
 
 exports.TagCategories = Object.freeze({
-  Tag: "Tag",
-  Metadata: "Metadata",
   Artist: "Artist",
   Copyright: "Copyright",
-  Character: "cCharacter",
+  Character: "Character",
+  Metadata: "Metadata",
+  Tag: "Tag",
+});
+
+exports.Ratings = Object.freeze({
+  Favorite: "Favorite",
+  Like: "Like",
+  Dislike: "Dislike",
 });

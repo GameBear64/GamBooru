@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema(
     },
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    rating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
+    rating: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }],
     views: { type: Number, default: 0 },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
   },

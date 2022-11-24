@@ -7,13 +7,13 @@ import { GalleryService } from '../gallery.service';
   styleUrls: ['./page.component.scss'],
 })
 export class PageComponent implements OnInit {
-  constructor(private galleryService: GalleryService) {}
+  constructor(protected galleryService: GalleryService) {}
 
   posts: any;
-  visibleTags: { _id: string; name: string }[] = [];
+  visibleTags: { _id: string; name: string; category: string }[] = [];
 
   ngOnInit(): void {
-    this.galleryService.getPosts().subscribe((data) => {
+    this.galleryService.getPosts().subscribe((data: any) => {
       this.posts = data;
 
       this.posts.forEach((post: any) => {

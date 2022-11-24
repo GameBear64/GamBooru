@@ -40,10 +40,18 @@ router
   });
 
 router.route("/:id").get(async (req, res) => {
+  let postCount = await PostModel.find({ tags: req.params.id }).count();
+
+  await TagModel.updateOne(
+    { _id: ObjectId(req.params.id) },
+    { count: postCount },
+    { upsert: true, timestamps: false }
+  );
+
   let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) }).lean();
 
   if (tag.example.length == 0) {
-    let example = await PostModel.find({ tags: tag._id })
+    let example = await PostModel.find({ tags: req.params.id })
       .select("_id")
       .limit(10)
       .populate("image", "thumbnail");

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const { Ratings } = require("../enums.js");
+
 const ratingSchema = new mongoose.Schema(
   {
     post: {
@@ -7,27 +9,15 @@ const ratingSchema = new mongoose.Schema(
       ref: "Post",
       required: true,
     },
-    favorite: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        type: Number,
-        default: 0,
-      },
-    ],
-    like: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        type: Number,
-        default: 0,
-      },
-    ],
-    dislike: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        type: Number,
-        default: 0,
-      },
-    ],
+    user: {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: String,
+      enum: Object.values(Ratings),
+    },
   },
   { timestamps: true }
 );

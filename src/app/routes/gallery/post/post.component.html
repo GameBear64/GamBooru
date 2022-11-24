@@ -1,13 +1,49 @@
 <!-- <pre> {{ post | json }}</pre> -->
+<!-- <pre> {{ form.value | json }}</pre> -->
 
 <div class="container">
   <div class="aside">
-    <a *ngFor="let tag of post?.tags" [routerLink]="['/tags', tag._id]">
+    <!-- <a *ngFor="let tag of post?.tags" [routerLink]="['/tags', tag._id]">
       {{ tag.name }}
-    </a>
+    </a> -->
+    <app-tag-list
+      *ngIf="post?.tags.length > 0"
+      [tags]="post?.tags"
+    ></app-tag-list>
+    <hr />
+    <p>Uploader: {{ post?.author?.username }}</p>
+    <p>
+      Source: <br />
+      {{ post?.source }}
+    </p>
+    <p>Views: {{ post?.views }}</p>
+    <p>Posted: {{ post?.createdAt | date }}</p>
   </div>
   <div class="main">
     <h1 *ngIf="!post?.image?.data">Loading...</h1>
-    <img *ngIf="post?.image?.data" [src]="post.image.data" />
+    <img *ngIf="post?.image?.data" [src]="post.image.data" /> <br />
+
+    <div *ngIf="editMode">
+      <form [formGroup]="form" (ngSubmit)="editSubmit()">
+        <label for="source">Source: </label><br />
+        <input formControlName="source" name="source" /> <br />
+        <ng-select
+          [items]="editTags"
+          bindLabel="name"
+          bindValue="_id"
+          [multiple]="true"
+          [hideSelected]="true"
+          formControlName="tags"
+        >
+        </ng-select>
+
+        <button class="button" type="submit" [disabled]="form.invalid">
+          Upload
+        </button>
+      </form>
+    </div>
+
+    <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
+    <button *ngIf="editMode" (click)="toggleEditMode()">Cancel</button>
   </div>
 </div>

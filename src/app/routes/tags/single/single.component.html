@@ -7,6 +7,10 @@
   Category: <b>{{ tag?.category }}</b>
 </p>
 
+<p>
+  Post count: <b>{{ tag?.count }}</b>
+</p>
+
 <div class="exampleImages">
   <h4>Example images:</h4>
   <a *ngFor="let post of tag?.example" [routerLink]="['/gallery', post._id]">

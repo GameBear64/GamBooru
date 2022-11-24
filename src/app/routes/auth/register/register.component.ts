@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { MustMatch } from 'src/components/helpers/must-match.validator';
+import { MustMatch } from 'src/app/components/helpers/must-match.validator';
 
 @Component({
   selector: 'app-register',

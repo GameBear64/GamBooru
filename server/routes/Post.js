@@ -24,7 +24,7 @@ router.route("/page/:page").get(async (req, res) => {
     .skip((req.params.page - 1 ) * 20)
     .limit(20)
     .populate('image', "thumbnail")
-    .populate('tags', "name")
+    .populate('tags', "name category count")
 
     res.status(200).send(posts);
   } catch (err) {
@@ -42,11 +42,10 @@ router
 
     try {
       let imageIds = await uploadImage(req.body.fileSource, req);
-      let linkTags = req.body.tags.map((tag) => ObjectId(tag));
+      // let linkTags = req.body.tags.map((tag) => ObjectId(tag));
 
       await PostModel.create({
         ...req.body,
-        tags: linkTags,
         author: req.userInSession.id,
         image: imageIds,
       });
@@ -61,51 +60,53 @@ router
     res.status(405).send({ message: "Use another method" });
   });
 
-router.route("/:id").get(async (req, res) => {
-  let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
-    .populate("image")
-    .populate("tags", "name")
-    .populate("author", "name");
-  // .populate({
-  //   path: "comments",
-  //   populate: {
-  //     path: "author",
-  //     select: ["nickname", "firstName", "lastName", "profilePicture"],
-  //   },
-  //   options: {
-  //     project: {
-  //       score: { $subtract: ["$upVotes", "$downVotes"] },
-  //     },
-  //     sort: { score: -1, createdAt: -1 },
-  //   },
-  // })
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    await PostModel.updateOne(
+      { _id: ObjectId(req.params.id) },
+      { $inc: { views: 1 } },
+      { timestamps: false }
+    );
 
-  res.status(200).send(post);
-});
-//   .patch(async (req, res) => {
-//     if (req.body?.body?.length > 2000 || req.body?.status?.length > 30)
-//       return res.status(406).send({ message: "Felid too long" });
+    let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
+      .populate("image")
+      .populate("tags", "name category count")
+      .populate("author", "username");
 
-//     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
+    // .populate({
+    //   path: "comments",
+    //   populate: {
+    //     path: "author",
+    //     select: ["nickname", "firstName", "lastName", "profilePicture"],
+    //   },
+    //   options: {
+    //     project: {
+    //       score: { $subtract: ["$upVotes", "$downVotes"] },
+    //     },
+    //     sort: { score: -1, createdAt: -1 },
+    //   },
+    // })
 
-//     if (req.userInSession.id !== post.author.toString())
-//       return res.status(401).send({ message: "Not Authorized" });
+    res.status(200).send(post);
+  })
+  .patch(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
 
-//     try {
-//       let response = filterEditedResponse(req.body);
-//       let imageIds = await uploadImages(response.newImages, req);
-//       delete response.newImages;
+    try {
+      await PostModel.updateOne(
+        { _id: ObjectId(req.params.id) },
+        { ...req.body }
+      );
 
-//       response.images = response.images.concat(imageIds);
-//       await post.update(response);
-
-//       return res.status(200).send({ message: "Entry patched" });
-//     } catch (err) {
-//       return res
-//         .status(406)
-//         .send({ message: "Error while editing post", error: err });
-//     }
-//   })
+      return res.status(200).send({ message: "Entry patched" });
+    } catch (err) {
+      return res
+        .status(406)
+        .send({ message: "Error while editing post", error: err });
+    }
+  });
 //   .delete(async (req, res) => {
 //     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 

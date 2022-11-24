@@ -8,6 +8,8 @@ import { PostComponent } from './post/post.component';
 import { CollectionComponent } from './collection/collection.component';
 import { UploadComponent } from './upload/upload.component';
 
+import { TagListModule } from 'src/app/components/tag-list/tag-list.module';
+
 import { GalleryGuardGuard } from './gallery-guard.guard';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -36,6 +38,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    TagListModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

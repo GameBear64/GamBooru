@@ -8,9 +8,10 @@
 
 <div class="container">
   <div class="aside">
-    <a *ngFor="let tag of visibleTags" [routerLink]="['/tags', tag._id]">
-      {{ tag.name }}
-    </a>
+    <app-tag-list
+      *ngIf="visibleTags.length > 0"
+      [tags]="visibleTags"
+    ></app-tag-list>
   </div>
   <div class="main">
     <div class="imagePost" *ngFor="let post of posts">

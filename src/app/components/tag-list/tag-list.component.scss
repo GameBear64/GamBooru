@@ -1,0 +1,46 @@
+p {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  display: inline;
+  padding-right: 5px;
+}
+
+span {
+  display: inline;
+  color: #979797;
+}
+
+.artistTags {
+  a {
+    color: green;
+  }
+}
+
+.characterTags {
+  a {
+    color: #e73efa;
+  }
+}
+
+.copyrightTags {
+  a {
+    color: red;
+  }
+}
+
+.metadataTags {
+  a {
+    color: orange;
+  }
+}
+
+.tagTags {
+  a {
+    color: blue;
+  }
+}
