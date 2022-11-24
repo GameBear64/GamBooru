@@ -1,39 +1,41 @@
-<div class="artistTags" *ngIf="tags['Artist']">
-  <p>Artist</p>
-  <div *ngFor="let tag of tags['Artist']">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
+<div class="list">
+  <div class="artistTags" *ngIf="tags['Artist']">
+    <p>Artist</p>
+    <div *ngFor="let tag of tags['Artist']">
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
-</div>
 
-<div class="characterTags" *ngIf="tags['Copyright']">
-  <p>Copyright</p>
-  <div *ngFor="let tag of tags['Copyright']">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
+  <div class="characterTags" *ngIf="tags['Copyright']">
+    <p>Copyright</p>
+    <div *ngFor="let tag of tags['Copyright']">
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
-</div>
 
-<div class="copyrightTags" *ngIf="tags['Character']">
-  <p>Character</p>
-  <div *ngFor="let tag of tags['Character']">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
+  <div class="copyrightTags" *ngIf="tags['Character']">
+    <p>Character</p>
+    <div *ngFor="let tag of tags['Character']">
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
-</div>
 
-<div class="metadataTags" *ngIf="tags['Metadata']">
-  <p>Metadata</p>
-  <div *ngFor="let tag of tags['Metadata']">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
+  <div class="metadataTags" *ngIf="tags['Metadata']">
+    <p>Metadata</p>
+    <div *ngFor="let tag of tags['Metadata']">
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
-</div>
 
-<div class="tagTags" *ngIf="tags['Tag']">
-  <p>Tag</p>
-  <div *ngFor="let tag of tags['Tag']">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
+  <div class="tagTags" *ngIf="tags['Tag']">
+    <p>Tag</p>
+    <div *ngFor="let tag of tags['Tag']">
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
 </div>

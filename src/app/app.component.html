@@ -9,7 +9,4 @@
   <a *ngIf="!auth.loggedIn?.user" routerLink="/auth/login">Login</a>
 </nav>
 <hr />
-user: {{ auth.loggedIn?.user?._id | json }}
-<br />
-<hr />
 <router-outlet> </router-outlet>

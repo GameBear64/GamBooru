@@ -52,6 +52,7 @@ router.route("/:id").get(async (req, res) => {
 
   if (tag.example.length == 0) {
     let example = await PostModel.find({ tags: req.params.id })
+      .sort({ createdAt: -1 })
       .select("_id")
       .limit(10)
       .populate("image", "thumbnail");
