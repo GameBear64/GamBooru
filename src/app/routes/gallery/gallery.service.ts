@@ -48,4 +48,18 @@ export class GalleryService {
         },
       });
   }
+
+  postComment(postId: string, comment: string) {
+    this.http
+      .post<any>(
+        'http://localhost:3030/comment/' + postId,
+        comment,
+        this.httpOptions
+      )
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+      });
+  }
 }

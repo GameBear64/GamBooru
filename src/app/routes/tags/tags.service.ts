@@ -8,6 +8,13 @@ import { MasterAuthService } from '../master-auth.service';
 export class TagsService {
   constructor(private http: HttpClient, private mAuth: MasterAuthService) {}
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      jwt: this.mAuth.loggedIn?.jwt || 'none',
+    }),
+  };
+
   getCategories() {
     return this.http.get<String[]>('http://localhost:3030/tags/categories');
   }
@@ -22,12 +29,7 @@ export class TagsService {
 
   post(content: any) {
     this.http
-      .post<any>('http://localhost:3030/tags', content, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          jwt: this.mAuth.loggedIn?.jwt || 'none',
-        }),
-      })
+      .post<any>('http://localhost:3030/tags', content, this.httpOptions)
       .subscribe({
         next: (data) => {
           console.log(data);

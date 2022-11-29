@@ -18,3 +18,10 @@ exports.Ratings = Object.freeze({
   Like: "Like",
   Dislike: "Dislike",
 });
+
+exports.Flaggable = Object.freeze({
+  Post: "Post",
+  Comment: "Comment",
+  Tag: "Tag",
+  User: "User",
+});

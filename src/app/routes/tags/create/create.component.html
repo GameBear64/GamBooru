@@ -3,6 +3,39 @@
 <!-- categories: -->
 <!-- <pre>{{ categories | json }}</pre> -->
 
+<h1>Rules:</h1>
+<p>
+  If a tag already exists do not create synonym tags, always check for similar
+  words when searching for tags
+</p>
+<h2>Categories</h2>
+<p>There are 5 categories, each has a purpose</p>
+<ul>
+  <li>
+    Artist - this should be pretty self explanatory, use this category when
+    creating a tag for an artist
+  </li>
+  <li>
+    Copyright - is for tags relating to a company, franchise or brands. Example:
+    Coca-Cola, Stranger Things, Asus, Disney
+  </li>
+  <li>
+    Character - with this you should tag fictional or real characters. It is
+    best to clarify where those characters come from for generic names to avoid
+    duplicates. Example: Velma (scoby-doo), Harry Poter, PewDiePie, Tom (Tom &
+    Gerry)
+  </li>
+  <li>
+    Metadata - This describes the file itself or things about the file or
+    illustration. Example: 90s style, 4k resolution, wallpaper, pirated
+  </li>
+  <li>
+    Tag - all of the generic tags, things depicted in the image, go under the
+    tag category. Example: Popcorn, Blonde hair, Nature, fangs, Cabin, Roses,
+    Stylish clothes
+  </li>
+</ul>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="name">Name</label><br />
   <input formControlName="name" name="name" /> <br />

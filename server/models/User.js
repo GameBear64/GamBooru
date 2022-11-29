@@ -1,5 +1,6 @@
-const { Roles } = require("../enums.js");
 const mongoose = require("mongoose");
+
+const { Roles } = require("../enums.js");
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,10 +32,9 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(Roles),
       default: Roles.User,
     },
-    links: [{ icon: String, heading: String, target: String }],
-    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    inbox: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    savedSearches: [String],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
   },
   { timestamps: true }
 );

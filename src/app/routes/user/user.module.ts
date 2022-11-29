@@ -6,10 +6,10 @@ import { RatingsComponent } from './ratings/ratings.component';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: IdComponent },
-  { path: ':id', component: IdComponent },
   { path: 'ratings', component: RatingsComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: ':id', component: IdComponent },
+  { path: '', component: IdComponent },
 ];
 
 @NgModule({

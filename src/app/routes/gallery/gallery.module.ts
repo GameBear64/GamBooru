@@ -9,8 +9,9 @@ import { CollectionComponent } from './collection/collection.component';
 import { UploadComponent } from './upload/upload.component';
 
 import { TagListModule } from 'src/app/components/tag-list/tag-list.module';
+import { CommentBoxModule } from 'src/app/components/comment-box/comment-box.module';
 
-import { GalleryGuardGuard } from './gallery-guard.guard';
+import { MasterGuardGuard } from '../master-guard.guard';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -18,7 +19,7 @@ const routes: Routes = [
   {
     path: 'upload',
     component: UploadComponent,
-    canActivate: [GalleryGuardGuard],
+    canActivate: [MasterGuardGuard],
   },
   { path: 'collection/:id', component: CollectionComponent },
   { path: ':id', component: PostComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgSelectModule,
     TagListModule,
+    CommentBoxModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

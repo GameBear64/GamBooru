@@ -24,6 +24,7 @@ const tagSchema = new mongoose.Schema(
     locked: { type: Boolean, default: false },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
   },
   { timestamps: true }
 );

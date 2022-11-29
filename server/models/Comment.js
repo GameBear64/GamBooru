@@ -7,13 +7,13 @@ const commentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     body: {
       type: String,
       required: true,
     },
-    upVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    reply: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    flag: { type: Boolean, default: false },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
   },
   { timestamps: true }
 );

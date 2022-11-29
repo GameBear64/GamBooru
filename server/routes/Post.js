@@ -42,7 +42,6 @@ router
 
     try {
       let imageIds = await uploadImage(req.body.fileSource, req);
-      // let linkTags = req.body.tags.map((tag) => ObjectId(tag));
 
       await PostModel.create({
         ...req.body,
@@ -72,21 +71,20 @@ router
     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
       .populate("image")
       .populate("tags", "name category count")
-      .populate("author", "username");
-
-    // .populate({
-    //   path: "comments",
-    //   populate: {
-    //     path: "author",
-    //     select: ["nickname", "firstName", "lastName", "profilePicture"],
-    //   },
-    //   options: {
-    //     project: {
-    //       score: { $subtract: ["$upVotes", "$downVotes"] },
-    //     },
-    //     sort: { score: -1, createdAt: -1 },
-    //   },
-    // })
+      .populate("author", "username")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: ["username", "profilePicture"],
+        },
+        options: {
+          project: {
+            score: { $subtract: ["$upVotes", "$downVotes"] },
+          },
+          sort: { score: -1, createdAt: -1 },
+        },
+      });
 
     res.status(200).send(post);
   })
@@ -154,21 +152,6 @@ router
 //   .all((req, res) => {
 //     res.status(405).send({ message: "Use another method" });
 //   });
-
-// router.route("/byuser/:authorId/:page").get(async (req, res) => {
-//   let count = await PostModel.count({ author: req.params.authorId });
-
-//   // prettier-ignore
-//   let posts = await PostModel
-//     .find({author: req.params.authorId})
-//     .sort({ createdAt: -1 })
-//     .skip(req.params.page * 10)
-//     .limit(10)
-//     .populate('images')
-//     .populate('author', 'nickname firstName lastName profilePicture');
-
-//   res.status(200).send({ posts, count });
-// });
 
 async function uploadImage(image, req) {
   let foundImage = await ImageModel.findOne({ md5: md5(image) });

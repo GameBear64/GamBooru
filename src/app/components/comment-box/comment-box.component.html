@@ -1,0 +1,32 @@
+<!-- <pre> {{ comment | json }} </pre> -->
+
+<div class="commentBox">
+  <div class="meta">
+    <img [src]="comment?.author?.profilePicture" alt="" />
+    <div>
+      <p>{{ comment?.author?.username }}</p>
+      <p class="details">
+        {{ comment?.createdAt | date }}
+        <span *ngIf="comment?.createdAt !== comment.updatedAt">
+          • edited at {{ comment.updatedAt | date }}</span
+        >
+      </p>
+    </div>
+  </div>
+  <div class="content">{{ comment?.body }}</div>
+  <hr />
+  <div class="actions" *ngIf="mAuth?.loggedIn?.user; else notLoggedIn">
+    <p>
+      <button (click)="like()">Like!</button>
+      {{ comment?.likes.length }} likes
+    </p>
+    <div>
+      <button (click)="flag()">flag</button>
+      <button (click)="edit()">edit</button>
+      <button (click)="delete()">delete</button>
+    </div>
+  </div>
+  <ng-template #notLoggedIn>
+    <p style="margin: 0">{{ comment?.likes.length }} likes</p>
+  </ng-template>
+</div>

@@ -27,6 +27,7 @@ export class PostComponent implements OnInit {
   editMode = false;
   form!: FormGroup;
   editTags!: any;
+  commentSection!: FormGroup;
 
   ngOnInit(): void {
     this.postId = this.route.snapshot.params['id'];
@@ -39,6 +40,18 @@ export class PostComponent implements OnInit {
       source: new FormControl(null, [Validators.required]),
       tags: new FormControl([], [Validators.required]),
     });
+
+    this.commentSection = this.fb.group({
+      comment: new FormControl(null),
+    });
+  }
+
+  refresh() {
+    setTimeout(() => {
+      this.galleryService
+        .getPost(this.postId)
+        .subscribe((data) => (this.post = data));
+    }, 500);
   }
 
   toggleEditMode() {
@@ -57,10 +70,13 @@ export class PostComponent implements OnInit {
     this.galleryService.patchPost(this.postId, this.form.value);
     this.form.reset();
 
-    setTimeout(() => {
-      this.galleryService
-        .getPost(this.postId)
-        .subscribe((data) => (this.post = data));
-    }, 500);
+    this.refresh();
+  }
+
+  commentSubmit() {
+    this.galleryService.postComment(this.postId, this.commentSection.value);
+    this.commentSection.reset();
+
+    this.refresh();
   }
 }

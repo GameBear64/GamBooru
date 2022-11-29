@@ -1,27 +1,29 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
-// interface tagInterface {
-//   _id: string;
-//   name: string;
-//   category: string;
-// }
+interface TagList {
+  _id: string;
+  name: string;
+  category: string;
+  count: number;
+}
+
+interface TransformedTagList {
+  [key: string]: TagList[];
+}
 
 @Component({
   selector: 'app-tag-list',
   templateUrl: './tag-list.component.html',
   styleUrls: ['./tag-list.component.scss'],
 })
-export class TagListComponent implements OnInit, OnChanges {
+export class TagListComponent implements OnChanges {
   constructor() {}
 
-  @Input() tags?: any;
-
-  ngOnInit(): void {
-    // console.log(this.tags);
-  }
+  @Input() showCategories: boolean = true;
+  @Input() tags?: TagList[] | TransformedTagList[] | any;
 
   ngOnChanges() {
-    this.tags = this.groupByCategory(this.tags as any);
+    this.tags = this.groupByCategory(this.tags as TagList[]);
   }
 
   groupByCategory(tags: any) {

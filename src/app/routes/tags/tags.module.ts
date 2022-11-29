@@ -7,9 +7,15 @@ import { SingleComponent } from './single/single.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
 
+import { MasterGuardGuard } from '../master-guard.guard';
+
 const routes: Routes = [
   { path: '', component: AllComponent },
-  { path: 'create', component: CreateComponent },
+  {
+    path: 'create',
+    component: CreateComponent,
+    canActivate: [MasterGuardGuard],
+  },
   { path: ':id', component: SingleComponent },
 ];
 
