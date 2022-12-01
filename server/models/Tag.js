@@ -21,10 +21,10 @@ const tagSchema = new mongoose.Schema(
       default: 0,
     },
     example: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
-    locked: { type: Boolean, default: false },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
+    locked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

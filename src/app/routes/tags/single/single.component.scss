@@ -1,3 +1,43 @@
-.exampleImages a {
+.tagPage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: "description examples";
+  min-height: 80vh;
+}
+
+.description,
+.examples {
+  padding: 0 30px;
+}
+
+.description {
+  grid-area: description;
+}
+
+.examples {
+  grid-area: examples;
+  border-left: 1px solid #333;
+  a {
+    padding: 10px;
+  }
+}
+
+.lockedStatus {
+  background-color: #8ae1f9;
+  margin: 10vh 0 5vh 0;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+    display: inline-block;
+  }
+
+  button {
+    margin: 0 10px;
+  }
 }

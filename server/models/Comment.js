@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { FlagModel } = require("./Flag");
 
 const commentSchema = new mongoose.Schema(
   {
@@ -17,5 +18,12 @@ const commentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+commentSchema.pre("deleteOne", async function (next) {
+  const doc = await this.model.findOne(this.getQuery());
+  await FlagModel.deleteMany({ id: { $in: doc.flag } });
+
+  next();
+});
 
 exports.CommentModel = mongoose.model("Comment", commentSchema);

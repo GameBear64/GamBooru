@@ -10,6 +10,8 @@
     accept="image/*, video/*"
   />
   <br />
+  <img *ngIf="form.value.fileSource" [src]="form.value.fileSource" alt="" />
+  <br />
 
   <span *ngIf="source?.invalid && source?.touched">
     You bust provide a source

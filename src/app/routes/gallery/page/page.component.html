@@ -1,11 +1,29 @@
-<a routerLink="/gallery/upload">Upload</a>
-
-<br />
-<br />
-
 <!-- <pre> {{ posts | json }}</pre> -->
 <!-- <pre> {{ visibleTags | json }}</pre> -->
+<!-- <pre> {{ searchForm.value | json }}</pre> -->
 
+<div class="search">
+  <a routerLink="/gallery/upload">Upload</a>
+  <form [formGroup]="searchForm" (ngSubmit)="startSearch()">
+    <ng-select
+      [items]="tags"
+      bindLabel="name"
+      bindValue="name"
+      [multiple]="true"
+      [hideSelected]="true"
+      formControlName="tags"
+    >
+    </ng-select>
+
+    <select formControlName="order" name="order">
+      <option value="byDate">By date</option>
+      <option value="byScore">By score</option>
+      <option value="byViews">By views</option>
+    </select>
+
+    <button>Search</button>
+  </form>
+</div>
 <div class="container">
   <div class="aside">
     <app-tag-list

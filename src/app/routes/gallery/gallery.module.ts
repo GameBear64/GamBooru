@@ -22,6 +22,7 @@ const routes: Routes = [
     canActivate: [MasterGuardGuard],
   },
   { path: 'collection/:id', component: CollectionComponent },
+  { path: 'page/:page', component: PageComponent },
   { path: ':id', component: PostComponent },
   { path: '', component: PageComponent },
 ];

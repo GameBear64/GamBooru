@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const { ImageModel } = require("./Image");
+const { CommentModel } = require("./Comment");
+const { FlagModel } = require("./Flag");
 
 const postSchema = new mongoose.Schema(
   {
@@ -13,14 +16,23 @@ const postSchema = new mongoose.Schema(
       ref: "Image",
       required: true,
     },
+    views: { type: Number, default: 0 },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    rating: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }],
-    views: { type: Number, default: 0 },
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
   },
   { timestamps: true }
 );
+
+postSchema.pre("deleteOne", async function (next) {
+  const doc = await this.model.findOne(this.getQuery());
+  await ImageModel.deleteOne({ id: doc.image });
+  await CommentModel.deleteMany({ id: { $in: doc.comments } });
+  await FlagModel.deleteMany({ id: { $in: doc.flag } });
+
+  next();
+});
 
 exports.PostModel = mongoose.model("Post", postSchema);

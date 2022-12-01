@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(Roles),
       default: Roles.User,
     },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],

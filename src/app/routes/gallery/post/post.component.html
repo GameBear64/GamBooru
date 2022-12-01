@@ -14,7 +14,14 @@
       {{ post?.source }}
     </p>
     <p>Views: {{ post?.views }}</p>
+    <p>Likes: {{ post?.likes?.length }}</p>
     <p>Posted: {{ post?.createdAt | date }}</p>
+    <div class="actions">
+      <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
+      <button *ngIf="!editMode" (click)="like()">Like</button>
+      <button *ngIf="!editMode" (click)="flag()">Flag</button>
+      <button *ngIf="!editMode" (click)="delete()">Delete</button>
+    </div>
   </div>
   <div class="main">
     <h1 *ngIf="!post?.image?.data">Loading...</h1>
@@ -35,13 +42,11 @@
         </ng-select>
 
         <button class="button" type="submit" [disabled]="form.invalid">
-          Upload
+          Update
         </button>
+        <button (click)="toggleEditMode()">Cancel</button>
       </form>
     </div>
-
-    <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
-    <button *ngIf="editMode" (click)="toggleEditMode()">Cancel</button>
 
     <br />
     <h2>Comment:</h2>

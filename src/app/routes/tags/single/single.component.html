@@ -1,19 +1,53 @@
 <!-- <pre>{{ tag | json }}</pre> -->
+<div class="tagPage">
+  <div class="description">
+    <h1>{{ tag?.name }}</h1>
+    <p>{{ tag?.description }}</p>
+    <p>
+      Category: <b>{{ tag?.category }}</b>
+    </p>
+    <p>
+      Post count: <b>{{ tag?.count }}</b>
+    </p>
+    <div class="lockedStatus" *ngIf="!tag?.locked; else locked">
+      <p>
+        This tag can be edited freely, feel free to provide more information
+        about the subject.
+      </p>
+      <button (click)="toggleEdit()">Edit</button>
+    </div>
+    <ng-template #locked>
+      <p>This tag has been locked by a moderator and cannot be edited.</p>
+    </ng-template>
 
-<h1>{{ tag?.name }}</h1>
-<p>{{ tag?.description }}</p>
-
-<p>
-  Category: <b>{{ tag?.category }}</b>
-</p>
-
-<p>
-  Post count: <b>{{ tag?.count }}</b>
-</p>
-
-<div class="exampleImages">
-  <h4>Example images:</h4>
-  <a *ngFor="let post of tag?.example" [routerLink]="['/gallery', post._id]">
-    <img [src]="post.image.thumbnail" />
-  </a>
+    <div *ngIf="editMode">
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <label for="description">Description</label><br />
+        <textarea formControlName="description" name="description"> </textarea>
+        <br />
+        <span
+          *ngIf="f?.['description']?.invalid && f?.['description']?.touched"
+        >
+          Invalid description ({{
+            50 - (editForm.value.description?.length || 50)
+          }}
+          more characters)
+          <br />
+        </span>
+        <br />
+        <label for="category">Category</label><br />
+        <select formControlName="category" name="category">
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </form>
+    </div>
+  </div>
+  <div class="examples">
+    <h4>Example images:</h4>
+    <a *ngFor="let post of tag?.example" [routerLink]="['/gallery', post._id]">
+      <img [src]="post.image.thumbnail" />
+    </a>
+  </div>
 </div>

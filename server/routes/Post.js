@@ -2,12 +2,14 @@ const router = require("express").Router();
 const { ObjectId } = require("mongodb");
 const md5 = require("md5");
 const sharp = require("sharp");
+const rateLimited = new Set();
 
-const checkAuth = require("./../middleware/checkAuth");
+const { Flaggable } = require("../enums.js");
 
 const { PostModel } = require("../models/Post");
 const { ImageModel } = require("../models/Image");
-// const { CommentModel } = require("../models/Comment");
+const { FlagModel } = require("../models/Flag");
+const { CommentModel } = require("../models/Comment");
 
 router.route("/count").get(async (req, res) => {
   let count = await PostModel.count({});
@@ -16,18 +18,73 @@ router.route("/count").get(async (req, res) => {
 });
 
 router.route("/page/:page").get(async (req, res) => {
+  let query = req.query?.tags
+    ? {
+        $and: req.query?.tags?.split(",").map((tagId) => ({
+          $in: [ObjectId(tagId), "$tags"],
+        })),
+      }
+    : true;
+
+  let sort = {
+    byDate: { createdAt: -1 },
+    byScore: { likesCount: -1 },
+    byViews: { views: -1 },
+  }[req.query?.order || "byDate"];
+
   try {
-    // prettier-ignore
-    let posts = await PostModel
-    .find({})
-    .sort({ createdAt: -1 })
-    .skip((req.params.page - 1 ) * 20)
-    .limit(20)
-    .populate('image', "thumbnail")
-    .populate('tags', "name category count")
+    let posts = await PostModel.aggregate([
+      {
+        $addFields: {
+          searchFlag: query,
+        },
+      },
+      {
+        $match: { searchFlag: true },
+      },
+      {
+        $lookup: {
+          from: "images",
+          localField: "image",
+          foreignField: "_id",
+          as: "image",
+        },
+      },
+      { $unwind: { path: "$image", preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: "tags",
+          localField: "tags",
+          foreignField: "_id",
+          as: "tags",
+        },
+      },
+      {
+        $addFields: { likesCount: { $size: { $ifNull: ["$likes", []] } } },
+      },
+      {
+        $sort: sort,
+      },
+      {
+        $project: {
+          searchFlag: 0,
+          likesCount: 0,
+          "image.data": 0,
+          "image.author": 0,
+          "image.md5": 0,
+          "tags.description": 0,
+          "tags.example": 0,
+          "tags.history": 0,
+          "tags.comments": 0,
+        },
+      },
+    ])
+      .skip((req.params.page - 1) * 20)
+      .limit(20);
 
     res.status(200).send(posts);
   } catch (err) {
+    console.log(err);
     return res
       .status(406)
       .send({ message: "Error while fetching posts", error: err });
@@ -62,31 +119,49 @@ router
 router
   .route("/:id")
   .get(async (req, res) => {
-    await PostModel.updateOne(
-      { _id: ObjectId(req.params.id) },
-      { $inc: { views: 1 } },
-      { timestamps: false }
-    );
+    // ======== rate limit for views ==============
+    let viewIdString = `${req?.userInSession?.id}/${req.params.id}`;
+    if (req?.userInSession?.id && !rateLimited.has(viewIdString)) {
+      await PostModel.updateOne(
+        { _id: ObjectId(req.params.id) },
+        { $inc: { views: 1 } },
+        { timestamps: false }
+      );
 
-    let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
-      .populate("image")
-      .populate("tags", "name category count")
-      .populate("author", "username")
-      .populate({
-        path: "comments",
-        populate: {
-          path: "author",
-          select: ["username", "profilePicture"],
-        },
-        options: {
-          project: {
-            score: { $subtract: ["$upVotes", "$downVotes"] },
+      // ===== rate limit timer =======
+      rateLimited.add(viewIdString);
+      setTimeout(() => {
+        rateLimited.delete(viewIdString);
+      }, 10 * 60 * 1000); //==== 10 minutes ====
+    }
+
+    try {
+      let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
+        .populate("image")
+        .populate("tags", "name category count")
+        .populate("author", "username")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "author",
+            select: ["username", "profilePicture"],
           },
-          sort: { score: -1, createdAt: -1 },
-        },
-      });
+          options: {
+            project: {
+              score: { $subtract: ["$upVotes", "$downVotes"] },
+            },
+            sort: { score: -1, createdAt: -1 },
+          },
+        });
 
-    res.status(200).send(post);
+      if (post == null) return res.status(404).send({ message: "Not found" });
+
+      res.status(200).send(post);
+    } catch (err) {
+      return res
+        .status(406)
+        .send({ message: "Error while editing post", error: err });
+    }
   })
   .patch(async (req, res) => {
     if (!req.userInSession)
@@ -104,54 +179,69 @@ router
         .status(406)
         .send({ message: "Error while editing post", error: err });
     }
+  })
+  .delete(async (req, res) => {
+    let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
+
+    if (req.userInSession.id !== post.author.toString())
+      return res.status(401).send({ message: "Not Authorized" });
+
+    await PostModel.deleteOne({ _id: ObjectId(req.params.id) });
+
+    res.status(200).send({ message: "Entry deleted" });
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
   });
-//   .delete(async (req, res) => {
-//     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
-//     if (req.userInSession.id !== post.author.toString())
-//       return res.status(401).send({ message: "Not Authorized" });
+router
+  .route("/like/:id")
+  .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
 
-//     await post.delete();
-//     await CommentModel.deleteMany({ _id: { $in: post.comments } });
+    let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
-//     await res.status(200).send({ message: "Entry deleted" });
-//   })
-//   .all((req, res) => {
-//     res.status(405).send({ message: "Use another method" });
-//   });
+    if (post.likes.includes(req.userInSession.id)) {
+      await post.update(
+        { $pull: { likes: req.userInSession.id } },
+        { timestamps: false }
+      );
+      res.status(200).send({ message: "Removed like" });
+    } else {
+      await post.update(
+        { $push: { likes: req.userInSession.id } },
+        { timestamps: false }
+      );
+      res.status(200).send({ message: "Liked" });
+    }
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
+  });
 
-// router
-//   .route("/like/:id")
-//   .patch(async (req, res) => {
-//     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
+router
+  .route("/flag/:id")
+  .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
 
-//     if (post.likeMode === likeMode.Cheer) {
-//       await post.update(
-//         { $push: { likes: req.userInSession.id } },
-//         { timestamps: false }
-//       );
-//     } else {
-//       if (post.likes.includes(req.userInSession.id)) {
-//         await post.update(
-//           { $pull: { likes: req.userInSession.id } },
-//           { timestamps: false }
-//         );
-//       } else {
-//         await post.update(
-//           { $push: { likes: req.userInSession.id } },
-//           { timestamps: false }
-//         );
-//       }
-//     }
+    let newFlag = await FlagModel.create({
+      author: req.userInSession.id,
+      reason: req.body.reason,
+      type: Flaggable.Post,
+    });
 
-//     // get most relevant info
-//     post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
-
-//     res.status(200).send({ message: "Entry patched", likes: post.likes });
-//   })
-//   .all((req, res) => {
-//     res.status(405).send({ message: "Use another method" });
-//   });
+    await PostModel.updateOne(
+      { _id: ObjectId(req.params.id) },
+      { $push: { flag: newFlag } },
+      { timestamps: false }
+    );
+    res.status(200).send({ message: "Flagged" });
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "This route is POST only" });
+  });
 
 async function uploadImage(image, req) {
   let foundImage = await ImageModel.findOne({ md5: md5(image) });

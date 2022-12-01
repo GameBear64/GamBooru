@@ -1,7 +1,6 @@
 <nav>
   <a routerLink="/">Index (logo here)</a>
   <a routerLink="/gallery">Posts</a>
-  <a routerLink="/?">Random</a>
   <a routerLink="/comments">Comment Feed</a>
   <a routerLink="/tags">Tags</a>
   <a *ngIf="auth.loggedIn?.user" routerLink="/user">Account</a>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MasterAuthService } from '../master-auth.service';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +17,16 @@ export class GalleryService {
     }),
   };
 
-  getPosts() {
-    return this.http.get('http://localhost:3030/post/page/1');
+  getPosts(page: number, searchParams: any) {
+    let search = new URLSearchParams(searchParams).toString();
+    return this.http.get(`http://localhost:3030/post/page/${page}?${search}`);
   }
 
   getPost(postId: string) {
-    return this.http.get('http://localhost:3030/post/' + postId);
+    return this.http.get(
+      'http://localhost:3030/post/' + postId,
+      this.httpOptions
+    );
   }
 
   patchPost(postId: string, updatedContent: any) {
@@ -54,6 +59,36 @@ export class GalleryService {
       .post<any>(
         'http://localhost:3030/comment/' + postId,
         comment,
+        this.httpOptions
+      )
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+      });
+  }
+
+  postDelete(postId: string) {
+    this.http
+      .delete<any>('http://localhost:3030/post/' + postId, this.httpOptions)
+      .subscribe();
+  }
+
+  postLike(postId: string) {
+    this.http
+      .post<any>(
+        'http://localhost:3030/post/like/' + postId,
+        {},
+        this.httpOptions
+      )
+      .subscribe();
+  }
+
+  postFlag(postId: string, reason: string) {
+    this.http
+      .post<any>(
+        'http://localhost:3030/post/flag/' + postId,
+        { reason },
         this.httpOptions
       )
       .subscribe({

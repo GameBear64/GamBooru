@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
 
@@ -19,7 +19,8 @@ export class PostComponent implements OnInit {
     private galleryService: GalleryService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private tagService: TagsService
+    private tagService: TagsService,
+    private router: Router
   ) {}
 
   postId!: string;
@@ -32,9 +33,7 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.postId = this.route.snapshot.params['id'];
 
-    this.galleryService
-      .getPost(this.postId)
-      .subscribe((data) => (this.post = data));
+    this.refresh(0);
 
     this.form = this.fb.group({
       source: new FormControl(null, [Validators.required]),
@@ -46,12 +45,13 @@ export class PostComponent implements OnInit {
     });
   }
 
-  refresh() {
+  refresh(timeout = 100) {
     setTimeout(() => {
-      this.galleryService
-        .getPost(this.postId)
-        .subscribe((data) => (this.post = data));
-    }, 500);
+      this.galleryService.getPost(this.postId).subscribe({
+        next: (data: any) => (this.post = data),
+        error: (error) => this.router.navigate(['/gallery']),
+      });
+    }, timeout);
   }
 
   toggleEditMode() {
@@ -78,5 +78,40 @@ export class PostComponent implements OnInit {
     this.commentSection.reset();
 
     this.refresh();
+  }
+
+  like() {
+    this.galleryService.postLike(this.postId);
+    this.refresh();
+  }
+
+  flag() {
+    let reason = prompt(
+      'Whats the problem, please describe with as much detail as possible'
+    );
+    if (!reason || reason.length < 20)
+      return alert(
+        'No reason provided or reason is too short, it must be at least 20 characters long. \nKeep in mind false flags can lead to suspension of your account so please flag responsibly. \n\nCurrent flag abandoned.'
+      );
+    if (
+      confirm(
+        `You want to report this post for the following reason: \n${reason} \n\nProceed?`
+      )
+    ) {
+      alert('Report has been send to moderation, thank you for your time.');
+      this.galleryService.postFlag(this.postId, reason);
+      this.refresh();
+    }
+  }
+
+  delete() {
+    if (
+      confirm(
+        `Are you sure you want to delete this? This action cannot be undone.`
+      )
+    ) {
+      this.galleryService.postDelete(this.postId);
+      this.refresh();
+    }
   }
 }
