@@ -41,6 +41,11 @@
             {{ category }}
           </option>
         </select>
+        <br />
+        <br />
+        <button class="button" type="submit" [disabled]="editForm.invalid">
+          Update
+        </button>
       </form>
     </div>
   </div>

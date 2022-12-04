@@ -1,0 +1,20 @@
+<!-- <pre>{{ form.value | json }}</pre> -->
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label for="title">Title: </label><br />
+  <!-- todo: "for" works with "id"s and i havent put any anywhere... -->
+  <input formControlName="title" name="title" /> <br />
+  <span *ngIf="f?.['title']?.invalid && f?.['title']?.touched">
+    You bust provide a title
+  </span>
+
+  <label for="description">Description: </label><br />
+  <input formControlName="description" name="description" /> <br />
+  <span *ngIf="f?.['description']?.invalid && f?.['description']?.touched">
+    Invalid description ({{ 50 - (form.value.description?.length || 0) }} more
+    characters)
+    <br />
+  </span>
+
+  <button class="button" type="submit" [disabled]="form.invalid">Upload</button>
+</form>

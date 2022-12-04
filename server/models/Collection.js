@@ -7,13 +7,17 @@ const collectionSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
     },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    rating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
-    views: Number,
+    history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
+    views: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

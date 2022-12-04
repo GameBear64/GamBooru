@@ -12,6 +12,13 @@ const routes: Routes = [
       import('./routes/gallery/gallery.module').then((m) => m.GalleryModule),
   },
   {
+    path: 'collection',
+    loadChildren: () =>
+      import('./routes/collections/collections.module').then(
+        (m) => m.CollectionsModule
+      ),
+  },
+  {
     path: 'tags',
     loadChildren: () =>
       import('./routes/tags/tags.module').then((m) => m.TagsModule),

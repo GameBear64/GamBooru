@@ -1,0 +1,34 @@
+.meta {
+  display: flex;
+  flex-direction: row;
+  img {
+    max-height: 200px;
+    border-radius: 10%;
+  }
+  p {
+    margin: 0;
+  }
+  h1 {
+    font-weight: normal;
+    font-size: 3em;
+    margin: 0;
+  }
+
+  .bio {
+    padding: 10px 0;
+  }
+
+  .details {
+    font-size: medium;
+    padding: 10px 0;
+    color: #767676;
+    padding-top: 5px;
+  }
+
+  .userData {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 20px;
+  }
+}

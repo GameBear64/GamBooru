@@ -1,4 +1,12 @@
-<p>id works!</p>
-{{ userId }}
-
 <pre>{{ user | json }}</pre>
+
+<div class="meta">
+  <img [src]="user?.profilePicture" alt="user pfp" />
+  <div class="userData">
+    <div>
+      <h1>{{ user?.username }}</h1>
+      <p class="bio">{{ user?.biography }}</p>
+    </div>
+    <p class="details">Member since {{ user?.createdAt | date }}</p>
+  </div>
+</div>

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MasterAuthService } from '../master-auth.service';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root',
@@ -96,5 +95,24 @@ export class GalleryService {
           console.log(data);
         },
       });
+  }
+
+  getCollectionList(userId: string) {
+    return this.http.get(
+      'http://localhost:3030/collection/list/' + userId,
+      this.httpOptions
+    );
+  }
+
+  addToCollection(postId: string, collections: string[]) {
+    console.log({ post: postId, collections });
+
+    return this.http
+      .post<any>(
+        'http://localhost:3030/collection/add',
+        { post: postId, collections },
+        this.httpOptions
+      )
+      .subscribe();
   }
 }

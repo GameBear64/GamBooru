@@ -20,15 +20,15 @@ export class SingleComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+  tagId!: string;
   tag: any;
   editMode = false;
   editForm!: FormGroup;
   categories!: [String];
 
   ngOnInit(): void {
-    let tagId = this.route.snapshot.params['id'];
-
-    this.tagService.getTag(tagId).subscribe((data) => (this.tag = data));
+    this.tagId = this.route.snapshot.params['id'];
+    this.tagService.getTag(this.tagId).subscribe((data) => (this.tag = data));
 
     this.tagService
       .getCategories()
@@ -51,5 +51,13 @@ export class SingleComponent implements OnInit {
     return this.editForm.controls;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.editMode = false;
+    this.tagService.patch(this.tag._id, this.editForm.value);
+    this.editForm.reset();
+
+    setTimeout(() => {
+      this.tagService.getTag(this.tagId).subscribe((data) => (this.tag = data));
+    });
+  }
 }

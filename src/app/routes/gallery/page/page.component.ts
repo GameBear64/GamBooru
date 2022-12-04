@@ -78,3 +78,5 @@ export class PageComponent implements OnInit {
     });
   }
 }
+
+//todo: pagination

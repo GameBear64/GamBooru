@@ -9,7 +9,6 @@ const { Flaggable } = require("../enums.js");
 const { PostModel } = require("../models/Post");
 const { ImageModel } = require("../models/Image");
 const { FlagModel } = require("../models/Flag");
-const { CommentModel } = require("../models/Comment");
 
 router.route("/count").get(async (req, res) => {
   let count = await PostModel.count({});
@@ -147,10 +146,7 @@ router
             select: ["username", "profilePicture"],
           },
           options: {
-            project: {
-              score: { $subtract: ["$upVotes", "$downVotes"] },
-            },
-            sort: { score: -1, createdAt: -1 },
+            sort: { likes: -1, createdAt: -1 },
           },
         });
 

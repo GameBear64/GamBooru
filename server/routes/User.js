@@ -9,7 +9,9 @@ router.route("/:id").get(async (req, res) => {
   let userInfo = await UserModel.findOne({
     _id: ObjectId(req.params.id),
   })
-    .select("username profilePicture biography comments role following")
+    .select(
+      "username profilePicture biography comments role following createdAt"
+    )
     .populate("following", "_id username profilePicture");
 
   res.status(200).send(userInfo);

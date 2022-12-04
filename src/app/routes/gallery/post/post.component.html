@@ -1,5 +1,6 @@
-<!-- <pre> {{ post | json }}</pre> -->
-<!-- <pre> {{ commentSection.value | json }}</pre> -->
+<!-- <pre>{{ post | json }}</pre> -->
+<pre>{{ commentSection.value | json }}</pre>
+<pre>{{ collectionForm.value | json }}</pre>
 
 <div class="container">
   <div class="aside">
@@ -16,12 +17,35 @@
     <p>Views: {{ post?.views }}</p>
     <p>Likes: {{ post?.likes?.length }}</p>
     <p>Posted: {{ post?.createdAt | date }}</p>
-    <div class="actions">
-      <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
-      <button *ngIf="!editMode" (click)="like()">Like</button>
-      <button *ngIf="!editMode" (click)="flag()">Flag</button>
-      <button *ngIf="!editMode" (click)="delete()">Delete</button>
+    <form
+      *ngIf="userCollections"
+      [formGroup]="collectionForm"
+      (ngSubmit)="saveCollections()"
+    >
+      <h4>Add to collection:</h4>
+      <div *ngFor="let collections of userCollections">
+        <input
+          type="checkbox"
+          formArrayName="collectionTitles"
+          name="collectionTitles"
+          [value]="collections._id"
+          [checked]="collections.posts.includes(post._id)"
+          (change)="onCheckboxChange($event)"
+        />
+        {{ collections.title }}
+      </div>
+      <br />
+      <button class="button" type="submit">Save</button>
+    </form>
+    <div class="actions" *ngIf="!editMode && !userCollections">
+      <button (click)="like()">Like</button>
+      <button (click)="flag()">Flag</button>
+      <button (click)="addToCollectionTrigger()">Add to collection</button>
+      <hr />
+      <button (click)="toggleEditMode()">Edit</button>
+      <button (click)="delete()">Delete</button>
     </div>
+    <br /><br />
   </div>
   <div class="main">
     <h1 *ngIf="!post?.image?.data">Loading...</h1>

@@ -40,28 +40,47 @@ router
     res.status(405).send({ message: "Use another method" });
   });
 
-router.route("/:id").get(async (req, res) => {
-  let postCount = await PostModel.find({ tags: req.params.id }).count();
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    let postCount = await PostModel.find({ tags: req.params.id }).count();
 
-  await TagModel.updateOne(
-    { _id: ObjectId(req.params.id) },
-    { count: postCount },
-    { upsert: true, timestamps: false }
-  );
+    await TagModel.updateOne(
+      { _id: ObjectId(req.params.id) },
+      { count: postCount },
+      { upsert: true, timestamps: false }
+    );
 
-  let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) }).lean();
+    let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) }).lean();
 
-  if (tag.example.length == 0) {
-    let example = await PostModel.find({ tags: req.params.id })
-      .sort({ createdAt: -1 })
-      .select("_id")
-      .limit(10)
-      .populate("image", "thumbnail");
+    if (tag.example.length == 0) {
+      let example = await PostModel.find({ tags: req.params.id })
+        .sort({ createdAt: -1 })
+        .select("_id")
+        .limit(10)
+        .populate("image", "thumbnail");
 
-    return res.status(200).send({ ...tag, example });
-  }
+      return res.status(200).send({ ...tag, example });
+    }
 
-  res.status(200).send(tag);
-});
+    res.status(200).send(tag);
+  })
+  .patch(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
+
+    try {
+      await TagModel.updateOne(
+        { _id: ObjectId(req.params.id) },
+        { ...req.body }
+      );
+
+      return res.status(200).send({ message: "Entry patched" });
+    } catch (err) {
+      return res
+        .status(406)
+        .send({ message: "Error while editing post", error: err });
+    }
+  });
 
 module.exports = router;

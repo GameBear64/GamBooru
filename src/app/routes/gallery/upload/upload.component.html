@@ -13,15 +13,13 @@
   <img *ngIf="form.value.fileSource" [src]="form.value.fileSource" alt="" />
   <br />
 
-  <span *ngIf="source?.invalid && source?.touched">
-    You bust provide a source
-  </span>
-
   <label for="source">Source: </label><br />
   <input formControlName="source" name="source" /> <br />
+  <span *ngIf="source?.invalid && source?.touched">
+    You must provide a source
+  </span>
 
-  <label for="tags">Tags </label>
-
+  <label for="tags">Tags</label>
   <ng-select
     [items]="tags"
     bindLabel="name"

@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema(
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
   },
   { timestamps: true }

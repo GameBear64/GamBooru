@@ -5,7 +5,7 @@ import { MasterAuthService } from '../master-auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class TagsService {
+export class CollectionsService {
   constructor(private http: HttpClient, private mAuth: MasterAuthService) {}
 
   httpOptions = {
@@ -15,21 +15,9 @@ export class TagsService {
     }),
   };
 
-  getCategories() {
-    return this.http.get<String[]>('http://localhost:3030/tags/categories');
-  }
-
-  getTags() {
-    return this.http.get('http://localhost:3030/tags');
-  }
-
-  getTag(tagId: string) {
-    return this.http.get('http://localhost:3030/tags/' + tagId);
-  }
-
-  post(content: any) {
-    this.http
-      .post<any>('http://localhost:3030/tags', content, this.httpOptions)
+  getCollection(colId: string) {
+    return this.http
+      .get('http://localhost:3030/collection/' + colId, this.httpOptions)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -37,17 +25,22 @@ export class TagsService {
       });
   }
 
-  patch(postId: string, updatedContent: any) {
-    return this.http
-      .patch(
-        'http://localhost:3030/tags/' + postId,
-        updatedContent,
+  postCollection(content: any) {
+    this.http
+      .post<any>('http://localhost:3030/collection', content, this.httpOptions)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+      });
+  }
+
+  deleteCollection(colId: string) {
+    this.http
+      .delete<any>(
+        'http://localhost:3030/collection/' + colId,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 }

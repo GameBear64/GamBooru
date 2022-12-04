@@ -34,6 +34,7 @@ export class UploadComponent implements OnInit {
       fileSource: null,
       source: new FormControl(null, [Validators.required]),
       tags: new FormControl([], [Validators.required]),
+      //todo: add a requirement for at least 5 tags
     });
   }
 

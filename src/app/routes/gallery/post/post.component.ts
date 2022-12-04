@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { CollectionsService } from '../../collections/collections.service';
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
 
@@ -29,6 +32,14 @@ export class PostComponent implements OnInit {
   form!: FormGroup;
   editTags!: any;
   commentSection!: FormGroup;
+  userCollections!:
+    | null
+    | {
+        _id: string;
+        title: string;
+        posts: string[];
+      }[];
+  collectionForm!: FormGroup;
 
   ngOnInit(): void {
     this.postId = this.route.snapshot.params['id'];
@@ -38,6 +49,10 @@ export class PostComponent implements OnInit {
     this.form = this.fb.group({
       source: new FormControl(null, [Validators.required]),
       tags: new FormControl([], [Validators.required]),
+    });
+
+    this.collectionForm = this.fb.group({
+      collectionTitles: new FormArray([]),
     });
 
     this.commentSection = this.fb.group({
@@ -112,6 +127,42 @@ export class PostComponent implements OnInit {
     ) {
       this.galleryService.postDelete(this.postId);
       this.refresh();
+    }
+  }
+
+  addToCollectionTrigger() {
+    this.galleryService
+      .getCollectionList(this.post.author._id)
+      .subscribe((data: any) => (this.userCollections = data));
+  }
+
+  saveCollections() {
+    this.galleryService.addToCollection(
+      this.postId,
+      this.collectionForm.value.collectionTitles
+    );
+
+    const collectionTitles = this.collectionForm.controls[
+      'collectionTitles'
+    ] as FormArray;
+    collectionTitles.value.forEach((_: any) => {
+      collectionTitles.removeAt(0);
+    });
+
+    this.userCollections = null;
+  }
+
+  onCheckboxChange(event: any) {
+    const collectionTitles = this.collectionForm.controls[
+      'collectionTitles'
+    ] as FormArray;
+    if (event.target.checked) {
+      collectionTitles.push(new FormControl(event.target.value));
+    } else {
+      const index = collectionTitles.controls.findIndex(
+        (x) => x.value === event.target.value
+      );
+      collectionTitles.removeAt(index);
     }
   }
 }
