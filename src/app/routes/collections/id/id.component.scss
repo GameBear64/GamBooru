@@ -1,0 +1,26 @@
+.heading {
+  height: 20vh;
+  background-color: #eee;
+  padding: 2vh 4vw;
+}
+
+img {
+  padding: 10px;
+}
+
+.images,
+form {
+  padding-top: 20px;
+  width: 90vw;
+  margin: auto;
+}
+
+.topH {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  button {
+    height: max-content;
+    margin-top: 22px;
+  }
+}

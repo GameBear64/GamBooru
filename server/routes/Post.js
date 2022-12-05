@@ -25,6 +25,8 @@ router.route("/page/:page").get(async (req, res) => {
       }
     : true;
 
+  // next time do it with $all
+
   let sort = {
     byDate: { createdAt: -1 },
     byScore: { likesCount: -1 },

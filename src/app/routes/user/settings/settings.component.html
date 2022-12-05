@@ -1,1 +1,56 @@
-<p>settings works!</p>
+<pre>{{ user | json }}</pre>
+<pre>{{ form?.value | json }}</pre>
+
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label for="username">username: </label><br />
+  <!-- todo: "for" works with "id"s and i havent put any anywhere... -->
+  <input formControlName="username" name="username" /> <br />
+  <span *ngIf="f?.['username']?.invalid && f?.['username']?.touched">
+    You bust provide a username
+  </span>
+
+  <label for="biography">biography: </label><br />
+  <textarea formControlName="biography" name="biography"> </textarea> <br />
+  <span *ngIf="f?.['biography']?.invalid && f?.['biography']?.touched">
+    Invalid biography ({{ 20 - (form.value.biography?.length || 0) }} more
+    characters)
+    <br />
+  </span>
+
+  <button class="button" type="submit" [disabled]="form.invalid">Update</button>
+</form>
+
+<hr />
+<h2>Danger zone</h2>
+
+<form [formGroup]="passwordReset" (ngSubmit)="onSubmit()">
+  <label for="password">Password </label>
+  <input formControlName="password" name="password" /> <br />
+  <div *ngIf="f?.['password']?.invalid && f?.['password']?.touched">
+    That password sucks...
+  </div>
+
+  <label for="confirmPassword">Confirm Password </label>
+  <input formControlName="confirmPassword" name="confirmPassword" /> <br />
+  <div
+    *ngIf="f?.['confirmPassword']?.errors?.['mustMatch'] && f?.['confirmPassword']?.touched"
+  >
+    Passwords must match.
+  </div>
+
+  <label for="newPass">New Password </label>
+  <input formControlName="newPass" name="newPass" /> <br />
+  <div *ngIf="f?.['newPass']?.invalid && f?.['newPass']?.touched">
+    That password sucks...
+  </div>
+
+  <button class="button" type="submit">Update</button>
+</form>
+
+<br />
+<br />
+<br />
+
+<button>Delete account</button>
+
+<hr />

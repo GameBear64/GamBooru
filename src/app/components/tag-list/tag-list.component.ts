@@ -21,6 +21,7 @@ export class TagListComponent implements OnChanges {
 
   @Input() showCategories: boolean = true;
   @Input() tags?: TagList[] | TransformedTagList[] | any;
+  @Input() inline?: Boolean;
 
   ngOnChanges() {
     this.tags = this.groupByCategory(this.tags as TagList[]);

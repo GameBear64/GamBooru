@@ -16,8 +16,22 @@ export class CollectionsService {
   };
 
   getCollection(colId: string) {
-    return this.http
-      .get('http://localhost:3030/collection/' + colId, this.httpOptions)
+    return this.http.get(
+      'http://localhost:3030/collection/' + colId,
+      this.httpOptions
+    );
+  }
+
+  getLikesCollection() {
+    return this.http.get(
+      'http://localhost:3030/collection/likes',
+      this.httpOptions
+    );
+  }
+
+  postCollection(content: any) {
+    this.http
+      .post<any>('http://localhost:3030/collection', content, this.httpOptions)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -25,9 +39,13 @@ export class CollectionsService {
       });
   }
 
-  postCollection(content: any) {
+  patchCollection(colId: string, content: any) {
     this.http
-      .post<any>('http://localhost:3030/collection', content, this.httpOptions)
+      .patch<any>(
+        'http://localhost:3030/collection/' + colId,
+        content,
+        this.httpOptions
+      )
       .subscribe({
         next: (data) => {
           console.log(data);

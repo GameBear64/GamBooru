@@ -1,6 +1,6 @@
 <!-- <pre>{{ tags | json }}</pre> -->
 
-<div class="list">
+<div class="list" [ngClass]="{ inline: inline }">
   <div *ngFor="let category of tags | keyvalue" [class]="category.key + 'Tags'">
     <p *ngIf="showCategories">{{ category.key }}</p>
 

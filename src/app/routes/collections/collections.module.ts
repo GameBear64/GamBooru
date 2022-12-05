@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateComponent } from './create/create.component';
 import { IdComponent } from './id/id.component';
 
+import { TagListModule } from 'src/app/components/tag-list/tag-list.module';
+
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
   { path: ':id', component: IdComponent },
@@ -18,6 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
+    TagListModule,
   ],
 })
 export class CollectionsModule {}

@@ -28,7 +28,7 @@ export class CreateComponent implements OnInit {
       title: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [
         Validators.required,
-        Validators.minLength(50),
+        Validators.minLength(20),
       ]),
     });
   }
@@ -41,7 +41,7 @@ export class CreateComponent implements OnInit {
     this.collectionService.postCollection(this.form.value);
     this.form.reset();
     setTimeout(() => {
-      // this.router.navigate(['/user']);
+      this.router.navigate(['/user']);
     }, 500);
   }
 }

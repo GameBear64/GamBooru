@@ -1,4 +1,4 @@
-<pre>{{ user | json }}</pre>
+<!-- <pre>{{ user | json }}</pre> -->
 
 <div class="meta">
   <img [src]="user?.profilePicture" alt="user pfp" />
@@ -6,7 +6,28 @@
     <div>
       <h1>{{ user?.username }}</h1>
       <p class="bio">{{ user?.biography }}</p>
+      <a routerLink="/user/settings">Settings</a>
     </div>
     <p class="details">Member since {{ user?.createdAt | date }}</p>
+  </div>
+</div>
+
+<div class="collections">
+  <h4>Generated collections:</h4>
+  <div class="generated">
+    <div class="singleCollection genCollection">
+      <a routerLink="/collection/likes">Likes</a>
+    </div>
+  </div>
+  <h4>Your collections:</h4>
+  <div class="created">
+    <div *ngFor="let collection of user?.collection" class="singleCollection">
+      <a [routerLink]="['/collection', collection._id]">{{
+        collection.title
+      }}</a>
+    </div>
+    <div class="singleCollection create">
+      <a routerLink="/collection/create">create collection</a>
+    </div>
   </div>
 </div>

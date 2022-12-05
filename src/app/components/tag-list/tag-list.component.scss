@@ -19,6 +19,16 @@ span {
   min-height: 70vh;
 }
 
+.inline {
+  min-height: auto;
+  div {
+    display: inline;
+  }
+  span {
+    padding-right: 15px;
+  }
+}
+
 .ArtistTags {
   a {
     color: green;

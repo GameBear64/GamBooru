@@ -4,6 +4,7 @@ const { ObjectId } = require("mongodb");
 const checkAuth = require("../middleware/checkAuth");
 
 const { UserModel } = require("../models/User");
+const { CollectionModel } = require("../models/Collection");
 
 router.route("/:id").get(async (req, res) => {
   let userInfo = await UserModel.findOne({
@@ -12,9 +13,14 @@ router.route("/:id").get(async (req, res) => {
     .select(
       "username profilePicture biography comments role following createdAt"
     )
-    .populate("following", "_id username profilePicture");
+    .populate("following", "_id username profilePicture")
+    .lean();
 
-  res.status(200).send(userInfo);
+  let collection = await CollectionModel.find({
+    author: ObjectId(req.params.id),
+  }).select("title");
+
+  res.status(200).send({ ...userInfo, collection });
 });
 // .patch(async (req, res) => {
 //   if (!req.userInSession)

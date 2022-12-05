@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CollectionsService } from '../../collections/collections.service';
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
 
@@ -64,7 +63,7 @@ export class PostComponent implements OnInit {
     setTimeout(() => {
       this.galleryService.getPost(this.postId).subscribe({
         next: (data: any) => (this.post = data),
-        error: (error) => this.router.navigate(['/gallery']),
+        error: () => this.router.navigate(['/gallery']),
       });
     }, timeout);
   }
@@ -131,9 +130,22 @@ export class PostComponent implements OnInit {
   }
 
   addToCollectionTrigger() {
+    const collectionTitles = this.collectionForm.controls[
+      'collectionTitles'
+    ] as FormArray;
+
     this.galleryService
       .getCollectionList(this.post.author._id)
-      .subscribe((data: any) => (this.userCollections = data));
+      .subscribe((data: any) => {
+        this.userCollections = data;
+
+        console.log(collectionTitles);
+
+        data.forEach((cols: any) => {
+          if (cols.posts.includes(this.postId))
+            collectionTitles.push(new FormControl(cols._id));
+        });
+      });
   }
 
   saveCollections() {
