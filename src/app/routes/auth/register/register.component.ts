@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 
 import { MustMatch } from 'src/app/components/helpers/must-match.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,11 @@ import { MustMatch } from 'src/app/components/helpers/must-match.validator';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   registerForm!: FormGroup;
 
@@ -47,5 +52,6 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     this.authService.register(this.registerForm.value);
     this.registerForm.reset();
+    this.router.navigate(['/']);
   }
 }

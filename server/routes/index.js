@@ -1,4 +1,4 @@
-const checkAuth = require("./../middleware/checkAuth");
+const checkAuth = require("../tools/checkAuth");
 
 const authRoutes = require("./Auth");
 const postRoutes = require("./Post");

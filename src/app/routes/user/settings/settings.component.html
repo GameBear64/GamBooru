@@ -1,5 +1,7 @@
-<pre>{{ user | json }}</pre>
-<pre>{{ form?.value | json }}</pre>
+<!-- <pre>{{ user | json }}</pre>
+<pre>{{ form?.value | json }}</pre> -->
+
+<h1>{{ user?.username }}'s settings</h1>
 
 <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="username">username: </label><br />
@@ -23,7 +25,7 @@
 <hr />
 <h2>Danger zone</h2>
 
-<form [formGroup]="passwordReset" (ngSubmit)="onSubmit()">
+<form [formGroup]="passwordReset" (ngSubmit)="onSubmitPassword()">
   <label for="password">Password </label>
   <input formControlName="password" name="password" /> <br />
   <div *ngIf="f?.['password']?.invalid && f?.['password']?.touched">

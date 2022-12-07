@@ -83,9 +83,11 @@ router
   });
 
 router
-  .route("/password")
+  .route("/resetPassword")
   .patch(async (req, res) => {
-    let userProfile = await UserModel.findOne({ email: req.body.email });
+    let userProfile = await UserModel.findOne({
+      _id: ObjectId(req.userInSession.id),
+    });
 
     //confirm old password first
     bcrypt.compare(req.body?.oldPassword, userProfile.password).then((rez) => {

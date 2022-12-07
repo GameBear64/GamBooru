@@ -24,6 +24,11 @@ const routes: Routes = [
       import('./routes/tags/tags.module').then((m) => m.TagsModule),
   },
   {
+    path: 'flags',
+    loadChildren: () =>
+      import('./routes/flags/flags.module').then((m) => m.FlagsModule),
+  },
+  {
     path: 'comments',
     loadChildren: () =>
       import('./routes/comments/comments.module').then((m) => m.CommentsModule),
@@ -37,12 +42,6 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./routes/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./routes/admin/admin.module').then((m) => m.AdminModule),
-    canActivate: [AuthGuard],
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' },

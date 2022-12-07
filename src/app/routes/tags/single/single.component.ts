@@ -58,6 +58,6 @@ export class SingleComponent implements OnInit {
 
     setTimeout(() => {
       this.tagService.getTag(this.tagId).subscribe((data) => (this.tag = data));
-    });
+    }, 300);
   }
 }

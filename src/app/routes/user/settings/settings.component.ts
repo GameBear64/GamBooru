@@ -73,13 +73,32 @@ export class SettingsComponent implements OnInit {
     return this.form?.controls;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.userService.updateUser(this.form?.value || {});
+    setTimeout(() => {
+      this.userService
+        .getUser(this.userId)
+        .subscribe((data: any) => (this.user = data));
+    }, 300);
+  }
+
+  onSubmitPassword() {
+    this.userService.resetPassword(this.passwordReset.value);
+    this.passwordReset.reset();
+    setTimeout(() => {
+      this.userService
+        .getUser(this.userId)
+        .subscribe((data: any) => (this.user = data));
+    }, 300);
+  }
+
+  deleteUser() {
+    this.userService.deleteUser();
+    this.router.navigate(['/']);
+  }
 }
 
 // todo:
-//  - all this
-//  - the history things on the backend
-//  - admin panel
-//  - admin users elevated privileges and guarding
+//  - deletion vote
 //  - pagination on home
 //  - styles and docs
