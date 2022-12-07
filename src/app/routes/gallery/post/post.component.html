@@ -28,8 +28,8 @@
           type="checkbox"
           formArrayName="collectionTitles"
           name="collectionTitles"
-          [value]="collections._id"
-          [checked]="collections.posts.includes(post._id)"
+          [value]="collections?._id"
+          [checked]="collections.posts.includes(post?._id)"
           (change)="onCheckboxChange($event)"
         />
         {{ collections.title }}
@@ -45,6 +45,8 @@
       <button (click)="toggleEditMode()">Edit</button>
       <button (click)="delete()">Delete</button>
     </div>
+    <br />
+    <a [routerLink]="['/flags', post?._id]">Flag history</a>
     <br /><br />
   </div>
   <div class="main">

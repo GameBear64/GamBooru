@@ -18,6 +18,14 @@ const flagSchema = new mongoose.Schema(
       enum: Object.values(Flaggable),
       required: true,
     },
+    parent: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    resolved: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
