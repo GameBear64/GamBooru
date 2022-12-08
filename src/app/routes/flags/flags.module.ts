@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AllComponent } from './all/all.component';
-import { SingleComponent } from './single/single.component';
 
-const routes: Routes = [
-  { path: '', component: AllComponent },
-  { path: ':id', component: SingleComponent },
-];
+const routes: Routes = [{ path: '', component: AllComponent }];
 
 @NgModule({
-  declarations: [AllComponent, SingleComponent],
+  declarations: [AllComponent],
   imports: [CommonModule, RouterModule.forChild(routes)],
 })
 export class FlagsModule {}

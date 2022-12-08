@@ -29,7 +29,7 @@ export class PageComponent implements OnInit {
     this.searchForm = this.fb.group({
       tags: [this.route.snapshot.queryParams?.['tags']],
       order: this.route.snapshot.queryParams?.['order'] || 'byDate',
-      page: this.route.snapshot.params?.['page'] || 1,
+      page: 1,
     });
 
     this.tagService.getTags().subscribe((data: any) => {
@@ -39,7 +39,7 @@ export class PageComponent implements OnInit {
     });
 
     this.route.paramMap.subscribe((paramMap) => {
-      this.searchForm.patchValue({ page: Number(paramMap.get('page')) });
+      this.searchForm.patchValue({ page: Number(paramMap.get('page') || '1') });
 
       this.getPage(this.searchForm.value);
     });
@@ -62,9 +62,15 @@ export class PageComponent implements OnInit {
   }
 
   getPage(query: { page: number; tags: string[]; order: string }) {
-    let tagIds = this.tags
-      .filter((tag: any) => query?.tags?.includes(tag.name))
-      .map((tag: any) => tag._id);
+    let tagIds;
+
+    if (this.tags?.length > 0) {
+      tagIds = this.tags
+        .filter((tag: any) => query?.tags?.includes(tag.name))
+        .map((tag: any) => tag._id);
+    } else {
+      tagIds = [];
+    }
 
     this.galleryService
       .getPosts(query.page, { tags: tagIds, order: query.order })

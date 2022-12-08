@@ -40,6 +40,38 @@ router
   });
 
 router
+  .route("/voteDelete/:id")
+  .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
+
+    await CommentModel.updateOne(
+      { _id: ObjectId(req.params.id) },
+      { $addToSet: { deletionVotes: ObjectId(req.userInSession.id) } },
+      { timestamps: false }
+    );
+
+    let comment = await CommentModel.find({ _id: ObjectId(req.params.id) });
+
+    if (comment.deletionVotes > 10) {
+      comment.delete();
+
+      return res.status(200).send({
+        message:
+          "Comment has been deleted due to too many people voting for deletion",
+      });
+    } else {
+      return res.status(200).send({
+        message:
+          "Voted, comment will be deleted when enough people have voted for it's deletion",
+      });
+    }
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
+  });
+
+router
   .route("/flag/:id")
   .post(async (req, res) => {
     if (!req.userInSession)

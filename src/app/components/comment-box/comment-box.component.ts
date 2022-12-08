@@ -14,6 +14,7 @@ export class CommentBoxComponent {
   ) {}
 
   @Input() highlight = false;
+  @Input() disableActions = false;
   @Input() comment!: any;
   @Output() refresh = new EventEmitter<string>();
 

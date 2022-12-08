@@ -105,8 +105,6 @@ export class GalleryService {
   }
 
   addToCollection(postId: string, collections: string[]) {
-    console.log({ post: postId, collections });
-
     return this.http
       .post<any>(
         'http://localhost:3030/collection/add',
@@ -120,5 +118,25 @@ export class GalleryService {
     return this.http.get<{ count: number; pages: number }>(
       'http://localhost:3030/post/count'
     );
+  }
+
+  voteDeletePost(postId: string) {
+    return this.http
+      .post<any>(
+        'http://localhost:3030/post/voteDelete/' + postId,
+        {},
+        this.httpOptions
+      )
+      .subscribe();
+  }
+
+  voteDeleteComment(commentId: string) {
+    return this.http
+      .post<any>(
+        'http://localhost:3030/comment/voteDelete/' + commentId,
+        {},
+        this.httpOptions
+      )
+      .subscribe();
   }
 }
