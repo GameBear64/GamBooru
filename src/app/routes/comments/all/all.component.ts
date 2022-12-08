@@ -1,3 +1,4 @@
+import { CommentsService } from './../comments.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all.component.scss'],
 })
 export class AllComponent implements OnInit {
-  constructor() {}
+  constructor(private commentService: CommentsService) {}
 
   comments!: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.commentService
+      .getComments()
+      .subscribe((data: any) => (this.comments = data));
+  }
 }

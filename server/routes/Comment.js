@@ -7,6 +7,28 @@ const { FlagModel } = require("../models/Flag");
 
 const { Flaggable } = require("../enums.js");
 
+router
+  .route("/")
+  .get(async (req, res) => {
+    let comments = await CommentModel.find({})
+      .populate("author", "username profilePicture")
+      .populate({
+        path: "post",
+        select: ["image"],
+        populate: {
+          path: "image",
+          select: ["thumbnail"],
+        },
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).send(comments);
+  })
+
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
+  });
+
 router.route("/parent/:id").get(async (req, res) => {
   let comment = await CommentModel.findOne({ _id: ObjectId(req.params.id) });
 

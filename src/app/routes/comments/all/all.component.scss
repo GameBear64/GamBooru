@@ -1,0 +1,11 @@
+.comment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  img {
+    padding: 0 20px;
+  }
+  app-comment-box {
+    width: 80vw;
+  }
+}
