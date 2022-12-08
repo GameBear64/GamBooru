@@ -10,10 +10,12 @@ const { PostModel } = require("../models/Post");
 const { ImageModel } = require("../models/Image");
 const { FlagModel } = require("../models/Flag");
 
+const pageSize = 20;
+
 router.route("/count").get(async (req, res) => {
   let count = await PostModel.count({});
 
-  res.status(200).send({ count });
+  res.status(200).send({ count, pages: Math.ceil(count / pageSize) });
 });
 
 router.route("/page/:page").get(async (req, res) => {
@@ -80,8 +82,8 @@ router.route("/page/:page").get(async (req, res) => {
         },
       },
     ])
-      .skip((req.params.page - 1) * 20)
-      .limit(20);
+      .skip((req.params.page - 1) * pageSize)
+      .limit(pageSize);
 
     res.status(200).send(posts);
   } catch (err) {
@@ -228,6 +230,7 @@ router
       author: req.userInSession.id,
       reason: req.body.reason,
       type: Flaggable.Post,
+      parent: ObjectId(req.params.id),
     });
 
     await PostModel.updateOne(
@@ -244,7 +247,7 @@ router
 async function uploadImage(image, req) {
   let foundImage = await ImageModel.findOne({ md5: md5(image) });
 
-  if (image.length > 1100000) return { message: "Image too big" };
+  if (image.length > 8388608 /*8MB*/) return { message: "Image too big" };
   if (foundImage) return { message: "Image exists" };
 
   const buffer = Buffer.from(image.split(";base64,").pop(), "base64");

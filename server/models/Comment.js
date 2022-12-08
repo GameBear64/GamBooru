@@ -16,6 +16,7 @@ const commentSchema = new mongoose.Schema(
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
+    deletionVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

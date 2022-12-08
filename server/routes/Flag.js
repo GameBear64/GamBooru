@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { ObjectId } = require("mongodb");
 
 const { FlagModel } = require("../models/Flag");
 
@@ -6,7 +7,7 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      let flags = await FlagModel.find({});
+      let flags = await FlagModel.find({}).populate("author", "username");
 
       res.status(200).send(flags);
     } catch (err) {
@@ -38,11 +39,14 @@ router
     res.status(405).send({ message: "Use another method" });
   });
 
-router.route("/resolve/:id").patch(async (req, res) => {
+router.route("/resolve/:id").post(async (req, res) => {
+  if (!req.userInSession)
+    return res.status(401).send({ message: "Not Authorized" });
+
   try {
     await FlagModel.updateOne(
       { _id: ObjectId(req.params.id) },
-      { resolved: true }
+      { resolved: ObjectId(req.userInSession.id) }
     );
 
     return res.status(200).send({ message: "Entry patched" });

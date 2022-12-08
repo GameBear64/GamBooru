@@ -1,6 +1,6 @@
 <!-- <pre> {{ comment | json }} </pre> -->
 
-<div class="commentBox">
+<div class="commentBox" [ngClass]="{ highlight }">
   <div class="meta">
     <img [src]="comment?.author?.profilePicture" alt="" />
     <div>

@@ -115,4 +115,10 @@ export class GalleryService {
       )
       .subscribe();
   }
+
+  getCount() {
+    return this.http.get<{ count: number; pages: number }>(
+      'http://localhost:3030/post/count'
+    );
+  }
 }

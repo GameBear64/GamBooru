@@ -24,7 +24,8 @@ const tagSchema = new mongoose.Schema(
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
-    locked: { type: Boolean, default: false },
+    deletionVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    lockVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

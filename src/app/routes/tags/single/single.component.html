@@ -9,13 +9,14 @@
     <p>
       Post count: <b>{{ tag?.count }}</b>
     </p>
-    <div class="lockedStatus" *ngIf="!tag?.locked; else locked">
+    <!-- <div class="lockedStatus" *ngIf="!tag?.locked; else locked">
       <p>
         This tag can be edited freely, feel free to provide more information
         about the subject.
       </p>
       <button (click)="toggleEdit()">Edit</button>
-    </div>
+    </div> -->
+    <!-- fix with new lockVotes -->
     <ng-template #locked>
       <p>This tag has been locked by a moderator and cannot be edited.</p>
     </ng-template>

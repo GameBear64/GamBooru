@@ -1,1 +1,42 @@
-<p>all works!</p>
+<!-- <pre>{{ flags | json }}</pre> -->
+
+<div *ngIf="flags; else noFlags" class="all">
+  <h1>Currently active:</h1>
+
+  <div *ngFor="let flag of flags">
+    <div class="flagBox" *ngIf="!flag.resolved">
+      <p>
+        {{ flag.author.username }} complains about a
+        {{ flag.type | lowercase }}:
+      </p>
+      <p>{{ flag.reason }}</p>
+      <div class="actions">
+        <button (click)="goToPost(flag)">Go to content</button>
+        <button (click)="resolve(flag)">Resolve</button>
+      </div>
+      <p>Date: {{ flag.createdAt | date }}</p>
+    </div>
+  </div>
+  <div *ngIf="allFlagsResolved">All clear boss.</div>
+
+  <h1>Resolved:</h1>
+
+  <div *ngFor="let flag of flags">
+    <div class="flagBox" *ngIf="flag.resolved">
+      <p>
+        {{ flag.author.username }} complains about a
+        {{ flag.type | lowercase }}:
+      </p>
+      <p>{{ flag.reason }}</p>
+      <div class="actions">
+        <button (click)="goToPost(flag)">Go to content</button>
+      </div>
+      <p>Date: {{ flag.createdAt | date }}</p>
+    </div>
+  </div>
+  <div *ngIf="noResolvedFlags">
+    So there hasn't been any flags yet... right???
+  </div>
+</div>
+
+<ng-template #noFlags class="nothing"> No flags found </ng-template>

@@ -13,6 +13,7 @@ export class CommentBoxComponent {
     protected mAuth: MasterAuthService
   ) {}
 
+  @Input() highlight = false;
   @Input() comment!: any;
   @Output() refresh = new EventEmitter<string>();
 

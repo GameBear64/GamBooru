@@ -87,6 +87,7 @@
         *ngFor="let comment of post?.comments"
         [comment]="comment"
         (refresh)="refresh()"
+        [highlight]="highlightComment == comment._id"
       >
       </app-comment-box>
     </div>

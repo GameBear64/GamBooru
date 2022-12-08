@@ -39,8 +39,10 @@ export class PostComponent implements OnInit {
         posts: string[];
       }[];
   collectionForm!: FormGroup;
+  highlightComment!: string | null;
 
   ngOnInit(): void {
+    this.highlightComment = this.route.snapshot.fragment;
     this.postId = this.route.snapshot.params['id'];
 
     this.refresh(0);
@@ -63,7 +65,7 @@ export class PostComponent implements OnInit {
     setTimeout(() => {
       this.galleryService.getPost(this.postId).subscribe({
         next: (data: any) => (this.post = data),
-        error: () => this.router.navigate(['/gallery']),
+        error: () => this.router.navigate(['/404']),
       });
     }, timeout);
   }

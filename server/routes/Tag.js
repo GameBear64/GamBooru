@@ -14,7 +14,9 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      let tags = await TagModel.find({});
+      let tags = await TagModel.find({})
+        .collation({ locale: "en", strength: 2 })
+        .sort({ name: 1 });
       let count = await TagModel.count({});
       res.status(200).send({ tags, count });
     } catch (err) {

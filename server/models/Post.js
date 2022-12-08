@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema(
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
+    deletionVotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -30,7 +31,6 @@ postSchema.pre("deleteOne", async function (next) {
   const doc = await this.model.findOne(this.getQuery());
   await ImageModel.deleteOne({ id: doc.image });
   await CommentModel.deleteMany({ id: { $in: doc.comments } });
-  await FlagModel.deleteMany({ id: { $in: doc.flag } });
 
   next();
 });

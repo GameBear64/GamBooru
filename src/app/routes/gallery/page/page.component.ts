@@ -23,6 +23,7 @@ export class PageComponent implements OnInit {
   visibleTags: { _id: string; name: string; category: string }[] = [];
   tags!: any;
   searchForm!: FormGroup;
+  availablePages!: number;
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -36,6 +37,16 @@ export class PageComponent implements OnInit {
 
       this.getPage(this.searchForm.value);
     });
+
+    this.route.paramMap.subscribe((paramMap) => {
+      this.searchForm.patchValue({ page: Number(paramMap.get('page')) });
+
+      this.getPage(this.searchForm.value);
+    });
+
+    this.galleryService
+      .getCount()
+      .subscribe((data: any) => (this.availablePages = data.pages));
   }
 
   startSearch() {
@@ -60,23 +71,20 @@ export class PageComponent implements OnInit {
       .subscribe((data: any) => {
         this.posts = data;
 
-        this.getVisibleTags();
+        this.getVisibleTags(data);
       });
   }
 
-  getVisibleTags() {
-    this.posts.forEach((post: any) => {
+  getVisibleTags(fromPosts: any) {
+    let tempArr: any = [];
+    fromPosts.forEach((post: any) => {
       post.tags.forEach((tag: any) => {
-        if (
-          this.visibleTags.every(
-            (visibleTag: any) => visibleTag.name !== tag.name
-          )
-        ) {
-          this.visibleTags.push(tag);
+        if (tempArr.every((visibleTag: any) => visibleTag.name !== tag.name)) {
+          tempArr.push(tag);
         }
       });
     });
+
+    this.visibleTags = [...tempArr];
   }
 }
-
-//todo: pagination

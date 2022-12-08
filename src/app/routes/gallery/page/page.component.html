@@ -1,6 +1,6 @@
 <!-- <pre> {{ posts | json }}</pre> -->
 <!-- <pre> {{ visibleTags | json }}</pre> -->
-<pre> {{ searchForm.value | json }}</pre>
+<!-- <pre> {{ searchForm.value | json }}</pre> -->
 
 <div class="search">
   <a routerLink="/gallery/upload">Upload</a>
@@ -38,5 +38,17 @@
         <img [src]="post.image.thumbnail" />
       </a>
     </div>
+  </div>
+  <div class="pageControl">
+    <a [routerLink]="['/gallery/page', 1]" *ngIf="searchForm.value.page != 1"
+      >«</a
+    >
+    {{ searchForm.value.page }} / {{ availablePages }}
+    <a
+      [routerLink]="['/gallery/page', 2]"
+      *ngIf="searchForm.value.page != availablePages"
+    >
+      »
+    </a>
   </div>
 </div>

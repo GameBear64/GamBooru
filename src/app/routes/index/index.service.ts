@@ -8,6 +8,8 @@ export class IndexService {
   constructor(private http: HttpClient) {}
 
   getCount() {
-    return this.http.get<{ count: number }>('http://localhost:3030/post/count');
+    return this.http.get<{ count: number; pages: number }>(
+      'http://localhost:3030/post/count'
+    );
   }
 }

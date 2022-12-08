@@ -23,8 +23,8 @@ const flagSchema = new mongoose.Schema(
       required: true,
     },
     resolved: {
-      type: Boolean,
-      default: false,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
