@@ -20,7 +20,8 @@ router
           select: ["thumbnail"],
         },
       })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(100);
 
     res.status(200).send(comments);
   })

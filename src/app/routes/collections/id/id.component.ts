@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MasterAuthService } from '../../master-auth.service';
 import { CollectionsService } from '../collections.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class IdComponent implements OnInit {
     private collectionService: CollectionsService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    protected mAuth: MasterAuthService
   ) {}
 
   collectionId!: string;

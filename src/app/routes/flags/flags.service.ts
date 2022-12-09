@@ -19,6 +19,10 @@ export class FlagsService {
     return this.http.get('http://localhost:3030/flag');
   }
 
+  getFlags(parentId: string) {
+    return this.http.get('http://localhost:3030/flag/' + parentId);
+  }
+
   getFlagFor(id: string) {
     return this.http.get('http://localhost:3030/flag/of/' + id);
   }

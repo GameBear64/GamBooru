@@ -1,6 +1,6 @@
 import { FlagsService } from './../flags.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-all',
@@ -8,12 +8,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./all.component.scss'],
 })
 export class AllComponent implements OnInit {
-  constructor(private flagService: FlagsService, private router: Router) {}
+  constructor(
+    private flagService: FlagsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   flags!: any;
 
   ngOnInit(): void {
-    this.flagService.getAllFlags().subscribe((data) => (this.flags = data));
+    let specificParent = this.route.snapshot.params?.['id'] || false;
+
+    if (specificParent) {
+      console.log(specificParent);
+
+      this.flagService
+        .getFlags(specificParent)
+        .subscribe((data) => (this.flags = data));
+    } else {
+      this.flagService.getAllFlags().subscribe((data) => (this.flags = data));
+    }
   }
 
   get allFlagsResolved() {

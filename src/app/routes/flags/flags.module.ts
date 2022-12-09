@@ -4,7 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AllComponent } from './all/all.component';
 
-const routes: Routes = [{ path: '', component: AllComponent }];
+const routes: Routes = [
+  { path: '', component: AllComponent },
+  { path: ':id', component: AllComponent },
+];
 
 @NgModule({
   declarations: [AllComponent],

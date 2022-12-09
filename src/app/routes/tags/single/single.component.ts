@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MasterAuthService } from '../../master-auth.service';
 import { TagsService } from '../tags.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class SingleComponent implements OnInit {
   constructor(
     protected tagService: TagsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected mAuth: MasterAuthService
   ) {}
 
   tagId!: string;
@@ -46,6 +48,8 @@ export class SingleComponent implements OnInit {
       category: new FormControl(this.tag?.category, [Validators.required]),
     });
   }
+
+  voteLock() {}
 
   get f() {
     return this.editForm.controls;

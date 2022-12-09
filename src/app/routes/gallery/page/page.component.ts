@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MasterAuthService } from '../../master-auth.service';
 
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
@@ -16,7 +17,8 @@ export class PageComponent implements OnInit {
     private tagService: TagsService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    protected mAuth: MasterAuthService
   ) {}
 
   posts: any;

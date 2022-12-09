@@ -3,7 +3,7 @@
 <!-- <pre> {{ searchForm.value | json }}</pre> -->
 
 <div class="search">
-  <a routerLink="/gallery/upload">Upload</a>
+  <a routerLink="/gallery/upload" *ngIf="mAuth?.loggedIn?.user?._id">Upload</a>
   <form [formGroup]="searchForm" (ngSubmit)="startSearch()">
     <ng-select
       [items]="tags"

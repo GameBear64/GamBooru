@@ -2,9 +2,15 @@
 
 <div class="commentBox" [ngClass]="{ highlight }">
   <div class="meta">
-    <img [src]="comment?.author?.profilePicture" alt="" />
+    <a [routerLink]="['/user', comment.author._id]">
+      <img [src]="comment?.author?.profilePicture" alt="" />
+    </a>
     <div>
-      <p>{{ comment?.author?.username }}</p>
+      <p>
+        <a [routerLink]="['/user', comment.author._id]">
+          {{ comment?.author?.username }}
+        </a>
+      </p>
       <p class="details">
         {{ comment?.createdAt | date }}
         <span *ngIf="comment?.createdAt !== comment.updatedAt">

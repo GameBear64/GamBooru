@@ -1,12 +1,19 @@
 <!-- <pre>{{ tags | json }}</pre> -->
-<a routerLink="/tags/create">Create tag</a>
+<a routerLink="/tags/create" *ngIf="mAuth?.loggedIn?.user?._id">Create tag</a>
 
-<p>Showing all {{ tags?.count || "" }} tags!</p>
+<div class="tagPage">
+  <div
+    *ngFor="let category of tags | keyvalue"
+    [class]="category.key + 's' | lowercase"
+  >
+    <h2>{{ category.key }}s</h2>
 
-<div>
-  <div *ngFor="let tag of tags?.tags" [class]="tag.category + 'Tags'">
-    <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-    <span>{{ tag?.count }}</span>
-    <br />
+    <div
+      *ngFor="let tag of $any(category.value)"
+      [class]="tag.category + 'Tags'"
+    >
+      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+      <span>{{ tag?.count }}</span>
+    </div>
   </div>
 </div>

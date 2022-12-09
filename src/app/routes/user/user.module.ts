@@ -6,8 +6,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IdComponent } from './id/id.component';
 import { SettingsComponent } from './settings/settings.component';
 
+import { MasterGuardGuard } from '../master-guard.guard';
+
 const routes: Routes = [
-  { path: 'settings', component: SettingsComponent },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [MasterGuardGuard],
+  },
   { path: ':id', component: IdComponent },
   { path: '', component: IdComponent },
 ];

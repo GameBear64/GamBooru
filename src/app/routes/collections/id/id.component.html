@@ -4,7 +4,7 @@
 <div class="heading">
   <div class="topH">
     <h1>{{ collection?.title }}</h1>
-    <div>
+    <div *ngIf="collection.author._id === mAuth?.loggedIn?.user?._id">
       <button *ngIf="editIsPossible" (click)="toggleEditMode()">Edit</button>
       <button *ngIf="editIsPossible" (click)="delete()">Delete</button>
     </div>

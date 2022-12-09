@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MasterAuthService } from '../../master-auth.service';
+
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
 
@@ -22,7 +24,8 @@ export class PostComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private tagService: TagsService,
-    private router: Router
+    private router: Router,
+    protected mAuth: MasterAuthService
   ) {}
 
   postId!: string;

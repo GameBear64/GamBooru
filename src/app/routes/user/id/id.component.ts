@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 export class IdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private mAuth: MasterAuthService,
+    protected mAuth: MasterAuthService,
     private userService: UserService
   ) {}
 
