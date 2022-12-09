@@ -10,13 +10,13 @@
     <hr />
     <p>
       Uploader:
-      <a [routerLink]="['/user', post.author._id]">{{
-        post?.author?.username
-      }}</a>
+      <a [routerLink]="['/user', post?.author?._id]">
+        {{ post?.author?.username }}
+      </a>
     </p>
     <p>
       Source: <br />
-      {{ post?.source }}
+      <span [innerHtml]="post?.source | linkify"> </span>
     </p>
     <p>Views: {{ post?.views }}</p>
     <p>Likes: {{ post?.likes?.length }}</p>
@@ -93,6 +93,7 @@
     </div>
 
     <div class="commentSection">
+      <h3 *ngIf="post?.comments?.length < 1">No comments yet</h3>
       <app-comment-box
         *ngFor="let comment of post?.comments"
         [comment]="comment"

@@ -7,7 +7,9 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      let flags = await FlagModel.find({}).populate("author", "username");
+      let flags = await FlagModel.find({})
+        .populate("author", "username")
+        .populate("resolved", "username");
 
       res.status(200).send(flags);
     } catch (err) {

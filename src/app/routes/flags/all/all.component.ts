@@ -20,8 +20,6 @@ export class AllComponent implements OnInit {
     let specificParent = this.route.snapshot.params?.['id'] || false;
 
     if (specificParent) {
-      console.log(specificParent);
-
       this.flagService
         .getFlags(specificParent)
         .subscribe((data) => (this.flags = data));

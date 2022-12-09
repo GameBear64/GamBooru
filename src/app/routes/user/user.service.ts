@@ -16,40 +16,28 @@ export class UserService {
   };
 
   getUser(id: string) {
-    return this.http.get('http://localhost:3030/user/' + id);
+    return this.http.get(`${this.mAuth.APIUrl}/user/${id}`);
   }
 
   updateUser(content: any) {
     this.http
-      .patch<any>('http://localhost:3030/user', content, this.httpOptions)
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .patch<any>(`${this.mAuth.APIUrl}/user`, content, this.httpOptions)
+      .subscribe();
   }
 
   deleteUser() {
     this.http
-      .delete<any>('http://localhost:3030/user', this.httpOptions)
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .delete<any>(`${this.mAuth.APIUrl}/user`, this.httpOptions)
+      .subscribe();
   }
 
   resetPassword(content: any) {
     this.http
       .patch<any>(
-        'http://localhost:3030/auth/resetPassword',
+        `${this.mAuth.APIUrl}/auth/resetPassword`,
         content,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 }

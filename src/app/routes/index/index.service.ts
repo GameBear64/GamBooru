@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MasterAuthService } from '../master-auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IndexService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private mAuth: MasterAuthService) {}
 
   getCount() {
     return this.http.get<{ count: number; pages: number }>(
-      'http://localhost:3030/post/count'
+      `${this.mAuth.APIUrl}/post/count`
     );
   }
 }

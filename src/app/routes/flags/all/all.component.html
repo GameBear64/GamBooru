@@ -25,13 +25,17 @@
     <div *ngFor="let flag of flags">
       <div class="flagBox" *ngIf="flag.resolved">
         <p>
-          {{ flag.author.username }} complains about a
+          {{ flag.author.username }} complained about a
           {{ flag.type | lowercase }}:
         </p>
         <p>{{ flag.reason }}</p>
         <div class="actions">
           <button (click)="goToPost(flag)">Go to content</button>
         </div>
+        <p>
+          {{ flag.resolved.username }} resolved this on
+          {{ flag.updatedAt | date }}
+        </p>
         <p>Date: {{ flag.createdAt | date }}</p>
       </div>
     </div>

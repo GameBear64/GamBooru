@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class MasterAuthService {
   constructor() {}
 
+  APIUrl = `${window.location.protocol}//${window.location.hostname}:3030`;
+
   loggedIn: { jwt: string; user: { _id: string } } | null = null;
 
   refreshAuth() {

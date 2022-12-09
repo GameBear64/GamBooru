@@ -51,6 +51,21 @@ export class SingleComponent implements OnInit {
 
   voteLock() {}
 
+  delete() {
+    if (
+      confirm(
+        `Since you are not the original poster you have voted for this tags's deletion. \n\nTag will be deleted when enough people vote for this. \nProceed?`
+      )
+    ) {
+      this.tagService.voteDelete(this.tagId);
+      setTimeout(() => {
+        this.tagService
+          .getTag(this.tagId)
+          .subscribe((data) => (this.tag = data));
+      }, 300);
+    }
+  }
+
   get f() {
     return this.editForm.controls;
   }

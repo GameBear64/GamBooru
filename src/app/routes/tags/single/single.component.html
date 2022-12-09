@@ -1,5 +1,5 @@
-<!-- <pre>{{ tag | json }}</pre>
-<pre>{{ mAuth | json }}</pre> -->
+<pre>{{ tag | json }}</pre>
+<pre>{{ mAuth | json }}</pre>
 
 <div class="tagPage">
   <div class="description">
@@ -20,9 +20,11 @@
           This tag can be edited freely, feel free to provide more information
           about the subject.
         </p>
-        <div>
+        <hr />
+        <div class="action">
           <button (click)="toggleEdit()">Edit</button>
-          <button (click)="voteLock()">Lock</button>
+          <button (click)="voteLock()">Vote Lock</button>
+          <button (click)="delete()">Vote Delete</button>
         </div>
       </div>
       <ng-template #locked>

@@ -53,8 +53,6 @@ export class UploadComponent implements OnInit {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
 
-      console.log(file);
-
       reader.onload = () => {
         this.form.patchValue({
           fileSource: reader.result,

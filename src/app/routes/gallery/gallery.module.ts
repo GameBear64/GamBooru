@@ -17,6 +17,7 @@ import { CommentBoxModule } from 'src/app/components/comment-box/comment-box.mod
 import { MasterGuardGuard } from '../master-guard.guard';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LinkifyPipe } from 'src/app/components/helpers/linkify.pipe';
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PageComponent, PostComponent, UploadComponent],
+  declarations: [PageComponent, PostComponent, UploadComponent, LinkifyPipe],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

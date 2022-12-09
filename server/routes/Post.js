@@ -226,27 +226,26 @@ router
     if (!req.userInSession)
       return res.status(401).send({ message: "Not Authorized" });
 
-    await PostModel.updateOne(
-      { _id: ObjectId(req.params.id) },
-      { $addToSet: { deletionVotes: ObjectId(req.userInSession.id) } },
-      { timestamps: false }
-    );
+    let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
-    let post = await PostModel.find({ _id: ObjectId(req.params.id) });
-
-    if (post.deletionVotes > 10) {
+    if (post.deletionVotes.length > 5) {
       post.delete();
 
       return res.status(200).send({
         message:
           "Post has been deleted due to too many people voting for deletion",
       });
-    } else {
-      return res.status(200).send({
-        message:
-          "Voted, post will be deleted when enough people have voted for it's deletion",
-      });
     }
+
+    await post.update(
+      { $addToSet: { deletionVotes: ObjectId(req.userInSession.id) } },
+      { timestamps: false }
+    );
+
+    return res.status(200).send({
+      message:
+        "Voted, post will be deleted when enough people have voted for it's deletion",
+    });
   })
   .all((req, res) => {
     res.status(405).send({ message: "Use another method" });

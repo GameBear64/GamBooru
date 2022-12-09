@@ -29,8 +29,6 @@
   background-color: #8ae1f9;
   margin: 10vh 0 5vh 0;
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
 
   p {
     margin: 0;
@@ -38,6 +36,10 @@
   }
 
   button {
-    margin: 0 10px;
+    margin: 0 5px;
+  }
+
+  .action {
+    text-align: right;
   }
 }

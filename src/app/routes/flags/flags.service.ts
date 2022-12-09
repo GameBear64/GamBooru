@@ -16,25 +16,25 @@ export class FlagsService {
   };
 
   getAllFlags() {
-    return this.http.get('http://localhost:3030/flag');
+    return this.http.get(`${this.mAuth.APIUrl}/flag`);
   }
 
   getFlags(parentId: string) {
-    return this.http.get('http://localhost:3030/flag/' + parentId);
+    return this.http.get(`${this.mAuth.APIUrl}/flag/${parentId}`);
   }
 
   getFlagFor(id: string) {
-    return this.http.get('http://localhost:3030/flag/of/' + id);
+    return this.http.get(`${this.mAuth.APIUrl}/flag/of/${id}`);
   }
 
   getParentOfComment(commentId: string) {
-    return this.http.get('http://localhost:3030/comment/parent/' + commentId);
+    return this.http.get(`${this.mAuth.APIUrl}/comment/parent/${commentId}`);
   }
 
   resolveFlag(id: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/flag/resolve/' + id,
+        `${this.mAuth.APIUrl}/flag/resolve/${id}`,
         {},
         this.httpOptions
       )

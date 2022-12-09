@@ -18,7 +18,7 @@ export class CommentBoxService {
   edit(commentId: string, content: string) {
     this.http
       .patch<any>(
-        'http://localhost:3030/comment/' + commentId,
+        `${this.mAuth.APIUrl}/comment/` + commentId,
         { content },
         this.httpOptions
       )
@@ -28,7 +28,7 @@ export class CommentBoxService {
   delete(commentId: string) {
     this.http
       .delete<any>(
-        'http://localhost:3030/comment/' + commentId,
+        `${this.mAuth.APIUrl}/comment/` + commentId,
         this.httpOptions
       )
       .subscribe();
@@ -37,7 +37,7 @@ export class CommentBoxService {
   like(commentId: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/comment/like/' + commentId,
+        `${this.mAuth.APIUrl}/comment/like/` + commentId,
         {},
         this.httpOptions
       )
@@ -47,8 +47,18 @@ export class CommentBoxService {
   flag(commentId: string, reason: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/comment/flag/' + commentId,
+        `${this.mAuth.APIUrl}/comment/flag/` + commentId,
         { reason },
+        this.httpOptions
+      )
+      .subscribe();
+  }
+
+  voteDelete(commentId: string) {
+    return this.http
+      .post<any>(
+        `${this.mAuth.APIUrl}/comment/voteDelete/${commentId}`,
+        {},
         this.httpOptions
       )
       .subscribe();

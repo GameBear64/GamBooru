@@ -124,13 +124,24 @@ export class PostComponent implements OnInit {
   }
 
   delete() {
-    if (
-      confirm(
-        `Are you sure you want to delete this? This action cannot be undone.`
-      )
-    ) {
-      this.galleryService.postDelete(this.postId);
-      this.refresh();
+    if (this.mAuth?.loggedIn?.user?._id === this.post.author._id) {
+      if (
+        confirm(
+          `Are you sure you want to delete this? This action cannot be undone.`
+        )
+      ) {
+        this.galleryService.postDelete(this.postId);
+        this.refresh();
+      }
+    } else {
+      if (
+        confirm(
+          `Since you are not the original poster you have voted for this post's deletion. \n\nPost will be deleted when enough people vote for this. \nProceed?`
+        )
+      ) {
+        this.galleryService.voteDeletePost(this.postId);
+        this.refresh();
+      }
     }
   }
 
@@ -143,8 +154,6 @@ export class PostComponent implements OnInit {
       .getCollectionList(this.post.author._id)
       .subscribe((data: any) => {
         this.userCollections = data;
-
-        console.log(collectionTitles);
 
         data.forEach((cols: any) => {
           if (cols.posts.includes(this.postId))

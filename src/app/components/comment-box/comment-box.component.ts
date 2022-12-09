@@ -51,13 +51,24 @@ export class CommentBoxComponent {
   }
 
   delete() {
-    if (
-      confirm(
-        `Are you sure you want to delete this? This action cannot be undone.`
-      )
-    ) {
-      this.commentService.delete(this.comment?._id);
-      this.refresh.emit();
+    if (this.mAuth?.loggedIn?.user?._id === this.comment.author._id) {
+      if (
+        confirm(
+          `Are you sure you want to delete this? This action cannot be undone.`
+        )
+      ) {
+        this.commentService.delete(this.comment?._id);
+        this.refresh.emit();
+      }
+    } else {
+      if (
+        confirm(
+          `Since you are not the original poster you have voted for this post's deletion. \n\nPost will be deleted when enough people vote for this. \nProceed?`
+        )
+      ) {
+        this.commentService.voteDelete(this.comment?._id);
+        this.refresh.emit();
+      }
     }
   }
 }

@@ -17,48 +17,37 @@ export class CollectionsService {
 
   getCollection(colId: string) {
     return this.http.get(
-      'http://localhost:3030/collection/' + colId,
+      `${this.mAuth.APIUrl}/collection/${colId}`,
       this.httpOptions
     );
   }
 
   getLikesCollection() {
     return this.http.get(
-      'http://localhost:3030/collection/likes',
+      `${this.mAuth.APIUrl}/collection/likes`,
       this.httpOptions
     );
   }
 
   postCollection(content: any) {
     this.http
-      .post<any>('http://localhost:3030/collection', content, this.httpOptions)
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .post<any>(`${this.mAuth.APIUrl}/collection`, content, this.httpOptions)
+      .subscribe();
   }
 
   patchCollection(colId: string, content: any) {
     this.http
       .patch<any>(
-        'http://localhost:3030/collection/' + colId,
+        `${this.mAuth.APIUrl}/collection/${colId}`,
         content,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 
   deleteCollection(colId: string) {
     this.http
-      .delete<any>(
-        'http://localhost:3030/collection/' + colId,
-        this.httpOptions
-      )
+      .delete<any>(`${this.mAuth.APIUrl}/collection/${colId}`, this.httpOptions)
       .subscribe();
   }
 }

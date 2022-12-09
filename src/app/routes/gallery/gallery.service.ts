@@ -18,12 +18,12 @@ export class GalleryService {
 
   getPosts(page: number, searchParams: any) {
     let search = new URLSearchParams(searchParams).toString();
-    return this.http.get(`http://localhost:3030/post/page/${page}?${search}`);
+    return this.http.get(`${this.mAuth.APIUrl}/post/page/${page}?${search}`);
   }
 
   getPost(postId: string) {
     return this.http.get(
-      'http://localhost:3030/post/' + postId,
+      `${this.mAuth.APIUrl}/post/${postId}`,
       this.httpOptions
     );
   }
@@ -31,52 +31,40 @@ export class GalleryService {
   patchPost(postId: string, updatedContent: any) {
     return this.http
       .patch(
-        'http://localhost:3030/post/' + postId,
+        `${this.mAuth.APIUrl}/post/${postId}`,
         updatedContent,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 
   post(content: any) {
     // names ${cc.generate({ parts: 1, partLen: 5 }).toLocaleLowerCase()}_${artist + (artist || metadata)}
     this.http
-      .post<any>('http://localhost:3030/post', content, this.httpOptions)
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .post<any>(`${this.mAuth.APIUrl}/post`, content, this.httpOptions)
+      .subscribe();
   }
 
   postComment(postId: string, comment: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/comment/' + postId,
+        `${this.mAuth.APIUrl}/comment/${postId}`,
         comment,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 
   postDelete(postId: string) {
     this.http
-      .delete<any>('http://localhost:3030/post/' + postId, this.httpOptions)
+      .delete<any>(`${this.mAuth.APIUrl}/post/${postId}`, this.httpOptions)
       .subscribe();
   }
 
   postLike(postId: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/post/like/' + postId,
+        `${this.mAuth.APIUrl}/post/like/${postId}`,
         {},
         this.httpOptions
       )
@@ -86,20 +74,16 @@ export class GalleryService {
   postFlag(postId: string, reason: string) {
     this.http
       .post<any>(
-        'http://localhost:3030/post/flag/' + postId,
+        `${this.mAuth.APIUrl}/post/flag/${postId}`,
         { reason },
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
   }
 
   getCollectionList(userId: string) {
     return this.http.get(
-      'http://localhost:3030/collection/list/' + userId,
+      `${this.mAuth.APIUrl}/collection/list/${userId}`,
       this.httpOptions
     );
   }
@@ -107,7 +91,7 @@ export class GalleryService {
   addToCollection(postId: string, collections: string[]) {
     return this.http
       .post<any>(
-        'http://localhost:3030/collection/add',
+        `${this.mAuth.APIUrl}/collection/add`,
         { post: postId, collections },
         this.httpOptions
       )
@@ -116,24 +100,14 @@ export class GalleryService {
 
   getCount() {
     return this.http.get<{ count: number; pages: number }>(
-      'http://localhost:3030/post/count'
+      `${this.mAuth.APIUrl}/post/count`
     );
   }
 
   voteDeletePost(postId: string) {
     return this.http
       .post<any>(
-        'http://localhost:3030/post/voteDelete/' + postId,
-        {},
-        this.httpOptions
-      )
-      .subscribe();
-  }
-
-  voteDeleteComment(commentId: string) {
-    return this.http
-      .post<any>(
-        'http://localhost:3030/comment/voteDelete/' + commentId,
+        `${this.mAuth.APIUrl}/post/voteDelete/${postId}`,
         {},
         this.httpOptions
       )

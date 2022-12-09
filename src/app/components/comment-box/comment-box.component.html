@@ -31,7 +31,12 @@
     </p>
     <div>
       <button (click)="flag()">flag</button>
-      <button (click)="edit()">edit</button>
+      <button
+        (click)="edit()"
+        *ngIf="mAuth?.loggedIn?.user == comment?.author?._id"
+      >
+        edit
+      </button>
       <button (click)="delete()">delete</button>
     </div>
   </div>

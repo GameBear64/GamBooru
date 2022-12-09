@@ -83,6 +83,77 @@ router
         .status(406)
         .send({ message: "Error while editing post", error: err });
     }
+  })
+  // .delete(async (req, res) => {
+  //   let post = await TagModel.findOne({ _id: ObjectId(req.params.id) });
+
+  //   if (req.userInSession.id !== post.author.toString())
+  //     return res.status(401).send({ message: "Not Authorized" });
+
+  //   await TagModel.deleteOne({ _id: ObjectId(req.params.id) });
+
+  //   res.status(200).send({ message: "Entry deleted" });
+  // })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
+  });
+
+router
+  .route("/voteLock/:id")
+  .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
+
+    let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) });
+
+    if (tag.lockVotes.length > 5) {
+      return res.status(200).send({
+        message: "Tag has been locked",
+      });
+    }
+
+    await tag.update(
+      { $addToSet: { lockVotes: ObjectId(req.userInSession.id) } },
+      { timestamps: false }
+    );
+
+    return res.status(200).send({
+      message: "Voted, tag will be locked when enough people have voted.",
+    });
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
+  });
+
+router
+  .route("/voteDelete/:id")
+  .post(async (req, res) => {
+    if (!req.userInSession)
+      return res.status(401).send({ message: "Not Authorized" });
+
+    let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) });
+
+    if (tag.deletionVotes.length > 5) {
+      tag.delete();
+
+      return res.status(200).send({
+        message:
+          "Tag has been deleted due to too many people voting for deletion",
+      });
+    }
+
+    await tag.update(
+      { $addToSet: { deletionVotes: ObjectId(req.userInSession.id) } },
+      { timestamps: false }
+    );
+
+    return res.status(200).send({
+      message:
+        "Voted, tag will be deleted when enough people have voted for it's deletion",
+    });
+  })
+  .all((req, res) => {
+    res.status(405).send({ message: "Use another method" });
   });
 
 module.exports = router;

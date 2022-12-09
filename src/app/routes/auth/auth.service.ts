@@ -10,7 +10,7 @@ export class AuthService {
 
   register(content: any) {
     this.http
-      .post<any>('http://localhost:3030/auth/register', content)
+      .post<any>(`${this.mAuth.APIUrl}/auth/register`, content)
       .subscribe({
         next: (data) => {
           this.mAuth.loggedIn = data;
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   login(content: any) {
-    this.http.post<any>('http://localhost:3030/auth/login', content).subscribe({
+    this.http.post<any>(`${this.mAuth.APIUrl}/auth/login`, content).subscribe({
       next: (data) => {
         this.mAuth.loggedIn = data;
         localStorage.setItem('GamBooru', JSON.stringify(data));

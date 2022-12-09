@@ -47,7 +47,6 @@ router
 router
   .route("/register")
   .post(async (req, res) => {
-    console.log(req.body);
     let userExists = await UserModel.findOne({ email: req.body.email });
     if (userExists) return res.status(403).send({ message: "User exists" });
 

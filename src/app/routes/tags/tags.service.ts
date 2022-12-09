@@ -16,38 +16,40 @@ export class TagsService {
   };
 
   getCategories() {
-    return this.http.get<String[]>('http://localhost:3030/tags/categories');
+    return this.http.get<String[]>(`${this.mAuth.APIUrl}/tags/categories`);
   }
 
   getTags() {
-    return this.http.get('http://localhost:3030/tags');
+    return this.http.get(`${this.mAuth.APIUrl}/tags`);
   }
 
   getTag(tagId: string) {
-    return this.http.get('http://localhost:3030/tags/' + tagId);
+    return this.http.get(`${this.mAuth.APIUrl}/tags/${tagId}`);
   }
 
   post(content: any) {
     this.http
-      .post<any>('http://localhost:3030/tags', content, this.httpOptions)
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .post<any>(`${this.mAuth.APIUrl}/tags`, content, this.httpOptions)
+      .subscribe();
   }
 
-  patch(postId: string, updatedContent: any) {
+  patch(tagId: string, updatedContent: any) {
     return this.http
       .patch(
-        'http://localhost:3030/tags/' + postId,
+        `${this.mAuth.APIUrl}/tags/${tagId}`,
         updatedContent,
         this.httpOptions
       )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
+      .subscribe();
+  }
+
+  voteDelete(tagId: string) {
+    return this.http
+      .post<any>(
+        `${this.mAuth.APIUrl}/tags/voteDelete/${tagId}`,
+        {},
+        this.httpOptions
+      )
+      .subscribe();
   }
 }
