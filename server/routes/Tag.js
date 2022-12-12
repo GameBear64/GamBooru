@@ -74,7 +74,7 @@ router
     try {
       await TagModel.updateOne(
         { _id: ObjectId(req.params.id) },
-        { ...req.body }
+        { ...req.body, $set: { lockVotes: [], deletionVotes: [] } }
       );
 
       return res.status(200).send({ message: "Entry patched" });

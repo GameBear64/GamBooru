@@ -170,7 +170,7 @@ router
     try {
       await PostModel.updateOne(
         { _id: ObjectId(req.params.id) },
-        { ...req.body }
+        { ...req.body, $set: { deletionVotes: [] } }
       );
 
       return res.status(200).send({ message: "Entry patched" });

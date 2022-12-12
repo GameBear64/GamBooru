@@ -143,7 +143,7 @@ router
 
     await CommentModel.updateOne(
       { _id: ObjectId(req.params.id) },
-      { body: req.body.content }
+      { body: req.body.content, $set: { deletionVotes: [] } }
     );
 
     res.status(200).send({ message: "Patched" });
