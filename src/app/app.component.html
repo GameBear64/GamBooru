@@ -1,12 +1,57 @@
-<nav>
-  <a routerLink="/">Index (logo here)</a>
-  <a routerLink="/gallery">Posts</a>
-  <a routerLink="/comments">Comment Feed</a>
-  <a routerLink="/tags">Tags</a>
-  <a routerLink="/flags" *ngIf="auth.loggedIn?.user">Flags</a>
-  <a *ngIf="auth.loggedIn?.user" routerLink="/user">Account</a>
-  <a *ngIf="auth.loggedIn?.user" routerLink="/auth/logout">Logout</a>
-  <a *ngIf="!auth.loggedIn?.user" routerLink="/auth/login">Login</a>
+<nav class="w3-bar w3-border w3-light-grey">
+  <a
+    routerLink="/"
+    class="w3-bar-item w3-button"
+    [routerLinkActiveOptions]="{ exact: true }"
+    routerLinkActive="w3-light-blue"
+  >
+    Home
+  </a>
+  <a
+    routerLink="/gallery"
+    class="w3-bar-item w3-button"
+    routerLinkActive="w3-light-blue"
+  >
+    Posts
+  </a>
+  <a
+    routerLink="/comments"
+    class="w3-bar-item w3-button"
+    routerLinkActive="w3-light-blue"
+  >
+    Comment Feed
+  </a>
+  <a
+    routerLink="/tags"
+    class="w3-bar-item w3-button"
+    routerLinkActive="w3-light-blue"
+  >
+    Tags
+  </a>
+  <a
+    routerLink="/flags"
+    *ngIf="auth.loggedIn?.user"
+    class="w3-bar-item w3-button"
+    routerLinkActive="w3-light-blue"
+  >
+    Flags
+  </a>
+  <a
+    routerLink="/user"
+    *ngIf="auth.loggedIn?.user"
+    class="w3-bar-item w3-button w3-right"
+    routerLinkActive="w3-light-blue"
+  >
+    Account
+  </a>
+  <a
+    routerLink="/auth/login"
+    *ngIf="!auth.loggedIn?.user"
+    class="w3-bar-item w3-button w3-right"
+    routerLinkActive="w3-light-blue"
+  >
+    Login
+  </a>
+  <!-- <a *ngIf="auth.loggedIn?.user" routerLink="/auth/logout">Logout</a> -->
 </nav>
-<hr />
 <router-outlet> </router-outlet>

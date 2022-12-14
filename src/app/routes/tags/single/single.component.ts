@@ -41,6 +41,10 @@ export class SingleComponent implements OnInit {
     this.editMode = !this.editMode;
 
     this.editForm = this.fb.group({
+      name: new FormControl(this.tag?.name, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
       description: new FormControl(this.tag?.description, [
         Validators.required,
         Validators.minLength(50),

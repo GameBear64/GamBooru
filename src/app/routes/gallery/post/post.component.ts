@@ -13,6 +13,8 @@ import { MasterAuthService } from '../../master-auth.service';
 import { TagsService } from '../../tags/tags.service';
 import { GalleryService } from '../gallery.service';
 
+import Snackbar from 'awesome-snackbar';
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -102,12 +104,14 @@ export class PostComponent implements OnInit {
   like() {
     this.galleryService.postLike(this.postId);
     this.refresh();
+
+    new Snackbar('Like status updated');
   }
 
   flag() {
     let reason = prompt(
       'Whats the problem, please describe with as much detail as possible'
-    );
+    )?.trim();
     if (!reason || reason.length < 20)
       return alert(
         'No reason provided or reason is too short, it must be at least 20 characters long. \nKeep in mind false flags can lead to suspension of your account so please flag responsibly. \n\nCurrent flag abandoned.'
@@ -151,7 +155,7 @@ export class PostComponent implements OnInit {
     ] as FormArray;
 
     this.galleryService
-      .getCollectionList(this.post.author._id)
+      .getCollectionList(this.mAuth?.loggedIn!.user!._id)
       .subscribe((data: any) => {
         this.userCollections = data;
 
@@ -176,6 +180,7 @@ export class PostComponent implements OnInit {
     });
 
     this.userCollections = null;
+    new Snackbar('Updated');
   }
 
   onCheckboxChange(event: any) {

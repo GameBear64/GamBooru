@@ -38,7 +38,8 @@
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="name">Name</label><br />
-  <input formControlName="name" name="name" /> <br />
+  <input formControlName="name" name="name" trim="blur" />
+  <br />
   <span *ngIf="f?.['name']?.invalid && f?.['name']?.touched">
     Invalid name (minimum 3 chars)
     <br />
@@ -46,7 +47,9 @@
   <br />
 
   <label for="description">Description</label><br />
-  <textarea formControlName="description" name="description"> </textarea> <br />
+  <textarea formControlName="description" name="description" trim="blur">
+  </textarea>
+  <br />
   <span *ngIf="f?.['description']?.invalid && f?.['description']?.touched">
     Invalid description ({{ 50 - (form.value.description?.length || 0) }} more
     characters)

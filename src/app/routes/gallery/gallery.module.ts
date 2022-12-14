@@ -17,6 +17,8 @@ import { CommentBoxModule } from 'src/app/components/comment-box/comment-box.mod
 import { MasterGuardGuard } from '../master-guard.guard';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
+
 import { LinkifyPipe } from 'src/app/components/helpers/linkify.pipe';
 
 const routes: Routes = [
@@ -37,6 +39,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
+    NgxTrimDirectiveModule,
     NgSelectModule,
     TagListModule,
     CommentBoxModule,

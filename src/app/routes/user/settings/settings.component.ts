@@ -100,5 +100,4 @@ export class SettingsComponent implements OnInit {
 
 // todo:
 //  - deletion vote
-//  - pagination on home
-//  - styles and docs
+//  - styles

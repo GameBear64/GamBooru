@@ -1,6 +1,4 @@
-<!-- <pre> {{ comment | json }} </pre> -->
-
-<div class="commentBox" [ngClass]="{ highlight }">
+<div class="w3-card w3-round-large commentBox" [ngClass]="{ highlight }">
   <div class="meta">
     <a [routerLink]="['/user', comment.author._id]">
       <img [src]="comment?.author?.profilePicture" alt="" />
@@ -20,24 +18,38 @@
     </div>
   </div>
   <div class="content">{{ comment?.body }}</div>
-  <hr />
   <div
     class="actions"
     *ngIf="mAuth?.loggedIn?.user && !disableActions; else notLoggedIn"
   >
-    <p>
-      <button (click)="like()">Like!</button>
-      {{ comment?.likes.length }} likes
-    </p>
     <div>
-      <button (click)="flag()">flag</button>
+      <button
+        (click)="like()"
+        class="w3-button w3-padding-small w3-green w3-round"
+      >
+        {{ comment?.likes.length }} likes
+      </button>
+    </div>
+    <div>
+      <button
+        (click)="flag()"
+        class="w3-button w3-padding-small w3-dark-gray w3-round"
+      >
+        flag
+      </button>
       <button
         (click)="edit()"
         *ngIf="mAuth?.loggedIn?.user == comment?.author?._id"
+        class="w3-button w3-padding-small w3-blue w3-round"
       >
         edit
       </button>
-      <button (click)="delete()">delete</button>
+      <button
+        (click)="delete()"
+        class="w3-button w3-padding-small w3-red w3-round"
+      >
+        delete
+      </button>
     </div>
   </div>
   <ng-template #notLoggedIn>

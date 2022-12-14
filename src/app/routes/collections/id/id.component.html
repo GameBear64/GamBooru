@@ -41,7 +41,7 @@
     *ngFor="let post of collection?.posts"
     [routerLink]="['/gallery', post._id]"
   >
-    <img [src]="post.image.thumbnail" />
+    <img [src]="post.image?.thumbnail" />
   </a>
   <h3 *ngIf="collection?.posts?.length < 1">No images yet.</h3>
 </div>

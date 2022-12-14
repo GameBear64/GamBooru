@@ -31,10 +31,12 @@ export class UploadComponent implements OnInit {
 
     this.form = this.fb.group({
       file: new FormControl(null, [Validators.required]),
-      fileSource: null,
-      source: new FormControl(null, [Validators.required]),
-      tags: new FormControl([], [Validators.required]),
-      //todo: add a requirement for at least 5 tags
+      fileSource: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(8388608 /*8MB*/),
+      ]),
+      source: new FormControl('unknown', [Validators.minLength(5)]),
+      tags: new FormControl([], [Validators.required, Validators.minLength(1)]),
     });
   }
 
@@ -68,7 +70,7 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  get source() {
-    return this.form.get('source');
+  get f() {
+    return this.form.controls;
   }
 }

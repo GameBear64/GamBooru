@@ -8,9 +8,16 @@ import { IndexService } from './index.service';
 export class IndexComponent implements OnInit {
   constructor(private indexService: IndexService) {}
 
-  count = 0;
+  postCount = 0;
+  tagCount = 0;
 
   ngOnInit(): void {
-    this.indexService.getCount().subscribe((data) => (this.count = data.count));
+    this.indexService
+      .getPostCount()
+      .subscribe((data) => (this.postCount = data.count));
+
+    this.indexService
+      .getTagCount()
+      .subscribe((data) => (this.tagCount = data.count));
   }
 }

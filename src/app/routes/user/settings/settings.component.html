@@ -5,14 +5,21 @@
 
 <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="username">username: </label><br />
-  <!-- todo: "for" works with "id"s and i havent put any anywhere... -->
-  <input formControlName="username" name="username" /> <br />
+  <input formControlName="username" name="username" id="username" trim="blur" />
+  <br />
   <span *ngIf="f?.['username']?.invalid && f?.['username']?.touched">
     You bust provide a username
   </span>
 
   <label for="biography">biography: </label><br />
-  <textarea formControlName="biography" name="biography"> </textarea> <br />
+  <textarea
+    formControlName="biography"
+    name="biography"
+    id="biography"
+    trim="blur"
+  >
+  </textarea>
+  <br />
   <span *ngIf="f?.['biography']?.invalid && f?.['biography']?.touched">
     Invalid biography ({{ 20 - (form.value.biography?.length || 0) }} more
     characters)
@@ -27,13 +34,20 @@
 
 <form [formGroup]="passwordReset" (ngSubmit)="onSubmitPassword()">
   <label for="password">Password </label>
-  <input formControlName="password" name="password" /> <br />
+  <input formControlName="password" name="password" id="password" trim="blur" />
+  <br />
   <div *ngIf="f?.['password']?.invalid && f?.['password']?.touched">
     That password sucks...
   </div>
 
   <label for="confirmPassword">Confirm Password </label>
-  <input formControlName="confirmPassword" name="confirmPassword" /> <br />
+  <input
+    formControlName="confirmPassword"
+    name="confirmPassword"
+    id="confirmPassword"
+    trim="blur"
+  />
+  <br />
   <div
     *ngIf="f?.['confirmPassword']?.errors?.['mustMatch'] && f?.['confirmPassword']?.touched"
   >
@@ -41,7 +55,8 @@
   </div>
 
   <label for="newPass">New Password </label>
-  <input formControlName="newPass" name="newPass" /> <br />
+  <input formControlName="newPass" name="newPass" id="newPass" trim="blur" />
+  <br />
   <div *ngIf="f?.['newPass']?.invalid && f?.['newPass']?.touched">
     That password sucks...
   </div>

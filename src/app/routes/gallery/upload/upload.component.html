@@ -1,26 +1,55 @@
-<!-- <pre>{{ form.value | json }}</pre> -->
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="w3-container w3-padding-64"
+>
   <label for="file">Choose File</label><br />
   <input
     type="file"
     formControlName="file"
     name="file"
+    id="file"
     (change)="onFileChange($event)"
     accept="image/*, video/*"
+    class="w3-input w3-border"
   />
-  <br />
-  <img *ngIf="form.value.fileSource" [src]="form.value.fileSource" alt="" />
+  <div *ngIf="form.value.fileSource">
+    <br />
+    <img
+      [src]="form.value.fileSource"
+      alt=""
+      class="w3-image w3-center"
+      style="width: 100%"
+    />
+    <br />
+    <p
+      *ngIf="f?.['fileSource']?.invalid"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      Image is too big, max allowed size is 8MB.
+    </p>
+  </div>
   <br />
 
   <label for="source">Source: </label><br />
-  <input formControlName="source" name="source" /> <br />
-  <span *ngIf="source?.invalid && source?.touched">
-    You must provide a source
-  </span>
+  <input
+    formControlName="source"
+    name="source"
+    id="source"
+    class="w3-input w3-border"
+    trim="blur"
+  />
+  <br />
+  <p
+    *ngIf="f?.['source']?.invalid && f?.['source']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
+    Invalid source, if you are not sure - leave as unknown
+  </p>
 
   <label for="tags">Tags</label>
   <ng-select
+    id="tags"
     [items]="tags"
     bindLabel="name"
     bindValue="_id"
@@ -29,6 +58,19 @@
     formControlName="tags"
   >
   </ng-select>
+  <p
+    *ngIf="f?.['tags']?.invalid && f?.['tags']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
+    Provide at least 1 tag
+  </p>
 
-  <button class="button" type="submit" [disabled]="form.invalid">Upload</button>
+  <button
+    class="button"
+    type="submit"
+    [disabled]="form.invalid"
+    class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+  >
+    Upload
+  </button>
 </form>

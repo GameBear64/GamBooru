@@ -7,14 +7,22 @@ p {
   overflow-wrap: break-word;
   a {
     text-decoration: none;
-    color: black;
     display: inline;
   }
 }
 
+.details p {
+  margin: 0;
+}
+
 .actions {
-  button {
-    margin: 0 5px;
+  margin-top: 20px;
+  div {
+    display: flex;
+    gap: 10px;
+    button {
+      flex-grow: 1;
+    }
   }
 }
 

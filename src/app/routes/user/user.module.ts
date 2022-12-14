@@ -8,6 +8,8 @@ import { SettingsComponent } from './settings/settings.component';
 
 import { MasterGuardGuard } from '../master-guard.guard';
 
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
+
 const routes: Routes = [
   {
     path: 'settings',
@@ -23,6 +25,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    NgxTrimDirectiveModule,
     FormsModule,
     ReactiveFormsModule,
   ],

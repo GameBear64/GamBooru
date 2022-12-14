@@ -7,15 +7,18 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      trim: true,
       minLength: [3, "Your name is too short"],
     },
     email: {
       type: String,
       required: true,
+      trim: true,
     },
     password: {
       type: String,
       required: true,
+      trim: true,
       minLength: [8, "Try something stronger"],
     },
     profilePicture: {
@@ -25,6 +28,7 @@ const userSchema = new mongoose.Schema(
     biography: {
       type: String,
       default: null,
+      trim: true,
       maxLength: [2500, "Too long"],
     },
     role: {

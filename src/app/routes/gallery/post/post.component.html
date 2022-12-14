@@ -1,6 +1,3 @@
-<!-- <pre>{{ post | json }}</pre> -->
-<!-- <pre>{{ commentSection.value | json }}</pre> -->
-<!-- <pre>{{ collectionForm.value | json }}</pre> -->
 <div class="container">
   <div class="aside">
     <app-tag-list
@@ -8,19 +5,25 @@
       [tags]="post?.tags"
     ></app-tag-list>
     <hr />
-    <p>
-      Uploader:
-      <a [routerLink]="['/user', post?.author?._id]">
-        {{ post?.author?.username }}
-      </a>
-    </p>
-    <p>
-      Source: <br />
-      <span [innerHtml]="post?.source | linkify"> </span>
-    </p>
-    <p>Views: {{ post?.views }}</p>
-    <p>Likes: {{ post?.likes?.length }}</p>
-    <p>Posted: {{ post?.createdAt | date }}</p>
+    <div class="details">
+      <p>
+        Uploader:
+        <a
+          [routerLink]="['/user', post?.author?._id]"
+          class="w3-border-bottom w3-border-green"
+        >
+          {{ post?.author?.username }}
+        </a>
+      </p>
+      <p>
+        Source:
+        <span [innerHtml]="post?.source | linkify"> </span>
+      </p>
+      <p>Views: {{ post?.views }}</p>
+      <p>Likes: {{ post?.likes?.length }}</p>
+      <p>Posted: {{ post?.createdAt | date }}</p>
+    </div>
+    <hr />
     <form
       *ngIf="userCollections"
       [formGroup]="collectionForm"
@@ -29,6 +32,7 @@
       <h4>Add to collection:</h4>
       <div *ngFor="let collections of userCollections">
         <input
+          class="w3-check"
           type="checkbox"
           formArrayName="collectionTitles"
           name="collectionTitles"
@@ -39,23 +43,57 @@
         {{ collections.title }}
       </div>
       <br />
-      <button class="button" type="submit">Save</button>
+      <button class="button" type="submit" class="w3-btn w3-green w3-round">
+        Save
+      </button>
     </form>
     <div
       class="actions"
       *ngIf="!editMode && !userCollections && mAuth?.loggedIn?.user"
     >
-      <button (click)="like()">Like</button>
-      <button (click)="flag()">Flag</button>
-      <button (click)="addToCollectionTrigger()">Add to collection</button>
-      <hr />
-      <button (click)="toggleEditMode()">Edit</button>
-      <button (click)="delete()">Delete</button>
+      <div>
+        <button
+          (click)="like()"
+          class="w3-button w3-padding-small w3-white w3-border w3-border-blue w3-round"
+        >
+          Like
+        </button>
+
+        <button
+          (click)="addToCollectionTrigger()"
+          class="w3-button w3-padding-small w3-white w3-border w3-border-green w3-round"
+        >
+          Save
+        </button>
+      </div>
+      <div class="w3-margin-top">
+        <button
+          (click)="toggleEditMode()"
+          class="w3-button w3-padding-small w3-blue w3-round"
+        >
+          Edit
+        </button>
+        <button
+          (click)="delete()"
+          class="w3-button w3-padding-small w3-red w3-round"
+        >
+          Delete
+        </button>
+
+        <button
+          (click)="flag()"
+          class="w3-button w3-padding-small w3-dark-grey w3-round"
+        >
+          Flag
+        </button>
+      </div>
       <br />
-      <br />
-      <a [routerLink]="['/flags', post?._id]">Flag history</a>
+      <a
+        [routerLink]="['/flags', post?._id]"
+        class="w3-button w3-padding-small w3-white w3-border w3-border-blue w3-round w3-margin-top w3-margin-bottom"
+        >Flag history</a
+      >
     </div>
-    <br />
   </div>
   <div class="main">
     <h1 *ngIf="!post?.image?.data">Loading...</h1>
@@ -64,7 +102,12 @@
     <div *ngIf="editMode">
       <form [formGroup]="form" (ngSubmit)="editSubmit()">
         <label for="source">Source: </label><br />
-        <input formControlName="source" name="source" /> <br />
+        <input
+          formControlName="source"
+          name="source"
+          id="source"
+          class="w3-input w3-border w3-round"
+        />
         <ng-select
           [items]="editTags"
           bindLabel="name"
@@ -75,10 +118,20 @@
         >
         </ng-select>
 
-        <button class="button" type="submit" [disabled]="form.invalid">
+        <button
+          class="button"
+          type="submit"
+          [disabled]="form.invalid"
+          class="w3-button w3-padding-small w3-blue w3-round w3-margin-top"
+        >
           Update
         </button>
-        <button (click)="toggleEditMode()">Cancel</button>
+        <button
+          (click)="toggleEditMode()"
+          class="w3-button w3-padding-small w3-red w3-round w3-margin-top w3-margin-left"
+        >
+          Cancel
+        </button>
       </form>
     </div>
 
@@ -87,11 +140,22 @@
       <h2>Comment:</h2>
 
       <form [formGroup]="commentSection" (ngSubmit)="commentSubmit()">
-        <textarea formControlName="comment" name="comment"> </textarea> <br />
-        <button class="button" type="submit">Comment</button>
+        <textarea
+          formControlName="comment"
+          name="comment"
+          class="w3-input w3-border w3-round"
+        >
+        </textarea>
+        <button
+          class="button"
+          type="submit"
+          class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+        >
+          Comment
+        </button>
       </form>
     </div>
-
+    <hr />
     <div class="commentSection">
       <h3 *ngIf="post?.comments?.length < 1">No comments yet</h3>
       <app-comment-box

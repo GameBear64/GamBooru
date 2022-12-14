@@ -34,7 +34,7 @@ export class CommentBoxComponent {
   flag() {
     let reason = prompt(
       'Whats the problem, please describe with as much detail as possible'
-    );
+    )?.trim();
     if (!reason || reason.length < 20)
       return alert(
         'No reason provided or reason is too short, it must be at least 20 characters long. \nKeep in mind false flags can lead to suspension of your account so please flag responsibly. \n\nCurrent flag abandoned.'

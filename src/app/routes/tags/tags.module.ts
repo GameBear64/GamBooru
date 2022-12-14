@@ -7,6 +7,8 @@ import { SingleComponent } from './single/single.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
 
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
+
 import { MasterGuardGuard } from '../master-guard.guard';
 
 const routes: Routes = [
@@ -24,6 +26,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    NgxTrimDirectiveModule,
     FormsModule,
     ReactiveFormsModule,
   ],

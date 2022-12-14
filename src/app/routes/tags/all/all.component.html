@@ -1,19 +1,26 @@
-<!-- <pre>{{ tags | json }}</pre> -->
-<a routerLink="/tags/create" *ngIf="mAuth?.loggedIn?.user?._id">Create tag</a>
-
-<div class="tagPage">
-  <div
-    *ngFor="let category of tags | keyvalue"
-    [class]="category.key + 's' | lowercase"
+<div class="w3-container">
+  <a
+    routerLink="/tags/create"
+    *ngIf="mAuth?.loggedIn?.user?._id"
+    class="w3-button w3-blue w3-round"
   >
-    <h2>{{ category.key }}s</h2>
+    Create tag
+  </a>
 
+  <div class="tagPage">
     <div
-      *ngFor="let tag of $any(category.value)"
-      [class]="tag.category + 'Tags'"
+      *ngFor="let category of tags | keyvalue"
+      [class]="category.key + 's' | lowercase"
     >
-      <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
-      <span>{{ tag?.count }}</span>
+      <h2>{{ category.key }}s</h2>
+
+      <div
+        *ngFor="let tag of $any(category.value)"
+        [class]="tag.category + 'Tags'"
+      >
+        <a [routerLink]="['/tags', tag._id]">{{ tag.name }}</a>
+        <span>{{ tag?.count }}</span>
+      </div>
     </div>
   </div>
 </div>

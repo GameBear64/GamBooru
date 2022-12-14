@@ -21,12 +21,17 @@
 .search {
   width: 100vw;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   gap: 10px;
+  margin-bottom: 10px;
   ng-select {
     width: 70vw;
   }
   form {
     display: flex;
+    gap: 10px;
+  }
+  select {
+    width: max-content;
   }
 }

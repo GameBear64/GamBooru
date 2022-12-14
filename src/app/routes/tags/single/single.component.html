@@ -37,8 +37,17 @@
 
     <div *ngIf="editMode">
       <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <label for="name">Name</label><br />
+        <input formControlName="name" name="name" trim="blur" />
+        <br />
+        <span *ngIf="f?.['name']?.invalid && f?.['name']?.touched">
+          Invalid name (minimum 3 chars)
+          <br />
+        </span>
+        <br />
         <label for="description">Description</label><br />
-        <textarea formControlName="description" name="description"> </textarea>
+        <textarea formControlName="description" name="description" trim="blur">
+        </textarea>
         <br />
         <span
           *ngIf="f?.['description']?.invalid && f?.['description']?.touched"

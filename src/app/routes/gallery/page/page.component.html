@@ -1,9 +1,11 @@
-<!-- <pre> {{ posts | json }}</pre> -->
-<!-- <pre> {{ visibleTags | json }}</pre> -->
-<!-- <pre> {{ searchForm.value | json }}</pre> -->
-
 <div class="search">
-  <a routerLink="/gallery/upload" *ngIf="mAuth?.loggedIn?.user?._id">Upload</a>
+  <a
+    routerLink="/gallery/upload"
+    *ngIf="mAuth?.loggedIn?.user?._id"
+    class="w3-button w3-blue w3-round"
+  >
+    Upload
+  </a>
   <form [formGroup]="searchForm" (ngSubmit)="startSearch()">
     <ng-select
       [items]="tags"
@@ -15,13 +17,13 @@
     >
     </ng-select>
 
-    <select formControlName="order" name="order">
+    <select formControlName="order" name="order" class="w3-select">
       <option value="byDate">By date</option>
       <option value="byScore">By score</option>
       <option value="byViews">By views</option>
     </select>
 
-    <button>Search</button>
+    <button class="w3-btn w3-blue w3-round">Search</button>
   </form>
 </div>
 <div class="container">
@@ -35,14 +37,14 @@
   <div class="main">
     <div class="imagePost" *ngFor="let post of posts">
       <a [routerLink]="['/gallery', post._id]">
-        <img [src]="post.image.thumbnail" />
+        <img [src]="post.image?.thumbnail" class="w3-round" />
       </a>
     </div>
   </div>
   <div class="pageControl">
-    <a [routerLink]="['/gallery/page', 1]" *ngIf="searchForm.value.page != 1"
-      >«</a
-    >
+    <a [routerLink]="['/gallery/page', 1]" *ngIf="searchForm.value.page != 1">
+      «
+    </a>
     {{ searchForm.value.page }} / {{ availablePages }}
     <a
       [routerLink]="['/gallery/page', 2]"

@@ -1,5 +1,3 @@
-<!-- <pre>{{ user | json }}</pre> -->
-
 <div class="meta">
   <img [src]="user?.profilePicture" alt="user pfp" />
   <div class="userData">
@@ -7,7 +5,7 @@
       <h1>{{ user?.username }}</h1>
       <p class="bio">{{ user?.biography }}</p>
       <a
-        *ngIf="user._id === mAuth?.loggedIn?.user?._id"
+        *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
         routerLink="/user/settings"
         >Settings</a
       >
@@ -17,10 +15,10 @@
 </div>
 
 <div class="collections">
-  <h4 *ngIf="user._id === mAuth?.loggedIn?.user?._id">
+  <h4 *ngIf="user?._id === mAuth?.loggedIn?.user?._id">
     Generated collections:
   </h4>
-  <div class="generated" *ngIf="user._id === mAuth?.loggedIn?.user?._id">
+  <div class="generated" *ngIf="user?._id === mAuth?.loggedIn?.user?._id">
     <div class="singleCollection genCollection">
       <a routerLink="/collection/likes">Likes</a>
     </div>
@@ -28,13 +26,13 @@
   <h4>Collections:</h4>
   <div class="created">
     <div *ngFor="let collection of user?.collection" class="singleCollection">
-      <a [routerLink]="['/collection', collection._id]">{{
+      <a [routerLink]="['/collection', collection?._id]">{{
         collection.title
       }}</a>
     </div>
     <div
       class="singleCollection create"
-      *ngIf="user._id === mAuth?.loggedIn?.user?._id"
+      *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
     >
       <a routerLink="/collection/create">create collection</a>
     </div>

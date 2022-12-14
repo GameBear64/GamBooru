@@ -8,9 +8,15 @@ import { MasterAuthService } from '../master-auth.service';
 export class IndexService {
   constructor(private http: HttpClient, private mAuth: MasterAuthService) {}
 
-  getCount() {
+  getPostCount() {
     return this.http.get<{ count: number; pages: number }>(
       `${this.mAuth.APIUrl}/post/count`
+    );
+  }
+
+  getTagCount() {
+    return this.http.get<{ count: number; pages: number }>(
+      `${this.mAuth.APIUrl}/tags`
     );
   }
 }

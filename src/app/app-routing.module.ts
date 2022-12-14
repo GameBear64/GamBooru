@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './routes/index/index.component';
 import { NotFoundComponent } from './routes/not-found/not-found.component';
 import { MasterGuardGuard } from './routes/master-guard.guard';
-import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },

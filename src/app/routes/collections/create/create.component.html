@@ -2,14 +2,15 @@
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="title">Title: </label><br />
-  <!-- todo: "for" works with "id"s and i havent put any anywhere... -->
-  <input formControlName="title" name="title" /> <br />
+  <input formControlName="title" name="title" id="title" /> <br />
   <span *ngIf="f?.['title']?.invalid && f?.['title']?.touched">
     You bust provide a title
   </span>
 
   <label for="description">Description: </label><br />
-  <textarea formControlName="description" name="description"> </textarea> <br />
+  <textarea formControlName="description" name="description" id="description">
+  </textarea>
+  <br />
   <span *ngIf="f?.['description']?.invalid && f?.['description']?.touched">
     Invalid description ({{ 20 - (form.value.description?.length || 0) }} more
     characters)

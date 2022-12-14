@@ -1,7 +1,6 @@
-<!-- <pre>{{ comments | json }}</pre> -->
 <div *ngFor="let comment of comments" class="comment">
   <a [routerLink]="['/gallery', comment.post._id]" [fragment]="comment._id">
-    <img [src]="comment.post.image.thumbnail" alt="" />
+    <img [src]="comment.post?.image?.thumbnail" alt="" />
   </a>
   <app-comment-box [comment]="comment" [disableActions]="true">
   </app-comment-box>

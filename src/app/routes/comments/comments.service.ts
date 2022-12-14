@@ -9,6 +9,6 @@ export class CommentsService {
   constructor(private http: HttpClient, private mAuth: MasterAuthService) {}
 
   getComments() {
-    return this.http.get(`${this.mAuth.APIUrl}/comment/`);
+    return this.http.get(`${this.mAuth.APIUrl}/comment`);
   }
 }

@@ -12,6 +12,7 @@ const commentSchema = new mongoose.Schema(
     body: {
       type: String,
       required: true,
+      trim: true,
     },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     flag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flag" }],
@@ -26,6 +27,15 @@ commentSchema.pre("deleteOne", async function (next) {
   await FlagModel.deleteMany({ id: { $in: doc.flag } });
 
   next();
+});
+
+commentSchema.pre("deleteMany", async function (next) {
+  const doc = await this.model.findOne(this.getQuery());
+  console.log(doc);
+
+  // await FlagModel.deleteMany({ id: { $in: doc.flag } });
+
+  // next();
 });
 
 exports.CommentModel = mongoose.model("Comment", commentSchema);

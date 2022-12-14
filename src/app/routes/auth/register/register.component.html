@@ -1,25 +1,26 @@
 <p>register works!</p>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <label for="username">Username </label>
-  <input formControlName="username" name="username" /> <br />
+  <input formControlName="username" name="username" trim="blur" /> <br />
   <div *ngIf="f?.['username']?.invalid && f?.['username']?.touched">
     You must provide a valid name
   </div>
 
   <label for="email">Email </label>
-  <input formControlName="email" name="Email" type="email" /> <br />
+  <input formControlName="email" name="Email" type="email" trim="blur" /> <br />
   <div *ngIf="f?.['email']?.invalid && f?.['email']?.touched">
     Invalid email.
   </div>
 
   <label for="password">Password </label>
-  <input formControlName="password" name="password" /> <br />
+  <input formControlName="password" name="password" trim="blur" /> <br />
   <div *ngIf="f?.['password']?.invalid && f?.['password']?.touched">
     That password sucks...
   </div>
 
   <label for="confirmPassword">Confirm Password </label>
-  <input formControlName="confirmPassword" name="confirmPassword" /> <br />
+  <input formControlName="confirmPassword" name="confirmPassword" trim="blur" />
+  <br />
   <div
     *ngIf="f?.['confirmPassword']?.errors?.['mustMatch'] && f?.['confirmPassword']?.touched"
   >
