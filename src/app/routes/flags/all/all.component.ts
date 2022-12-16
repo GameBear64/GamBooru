@@ -59,6 +59,7 @@ export class AllComponent implements OnInit {
     this.flagService.resolveFlag(flagId);
     setTimeout(() => {
       this.flagService.getAllFlags().subscribe((data) => (this.flags = data));
+      this.toggleResolve();
     }, 300);
   }
 }

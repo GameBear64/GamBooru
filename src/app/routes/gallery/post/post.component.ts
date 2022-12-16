@@ -178,8 +178,8 @@ export class PostComponent implements OnInit {
     });
 
     this.userCollections = null;
+    if (this.collectionFormChanges) new Snackbar('Updated');
     this.collectionFormChanges = false;
-    new Snackbar('Updated');
   }
 
   onCheckboxChange(event: any) {

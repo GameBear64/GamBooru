@@ -29,8 +29,9 @@ const postSchema = new mongoose.Schema(
 
 postSchema.pre("deleteOne", async function (next) {
   const doc = await this.model.findOne(this.getQuery());
-  await ImageModel.deleteOne({ id: doc.image });
-  await CommentModel.deleteMany({ id: { $in: doc.comments } });
+  await ImageModel.deleteOne({ _id: doc.image });
+  await CommentModel.deleteMany({ _id: { $in: doc.comments } });
+  await FlagModel.deleteMany({ _id: { $in: doc.flag } });
 
   next();
 });

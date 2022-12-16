@@ -6,14 +6,10 @@ const { CollectionModel } = require("../models/Collection");
 const { PostModel } = require("../models/Post");
 
 router.route("/list/:id").get(async (req, res) => {
-  console.log(ObjectId(req.params.id));
-
   try {
     let collection = await CollectionModel.find({
       author: ObjectId(req.params.id),
     }).select("title posts");
-
-    console.log(collection);
 
     res.status(200).send(collection);
   } catch (err) {

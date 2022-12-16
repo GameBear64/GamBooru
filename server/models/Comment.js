@@ -24,18 +24,20 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.pre("deleteOne", async function (next) {
   const doc = await this.model.findOne(this.getQuery());
-  await FlagModel.deleteMany({ id: { $in: doc.flag } });
+  await FlagModel.deleteMany({ _id: { $in: doc.flag } });
 
   next();
 });
 
 commentSchema.pre("deleteMany", async function (next) {
-  const doc = await this.model.findOne(this.getQuery());
-  console.log(doc);
+  const doc = await this.model.find(this.getQuery());
+  const targets = doc
+    .map((doc) => doc.flag)
+    .reduce((acc, flags) => acc.concat(flags));
 
-  // await FlagModel.deleteMany({ id: { $in: doc.flag } });
+  await FlagModel.deleteMany({ _id: { $in: targets } });
 
-  // next();
+  next();
 });
 
 exports.CommentModel = mongoose.model("Comment", commentSchema);

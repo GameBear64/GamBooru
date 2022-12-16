@@ -7,7 +7,7 @@
   (close)="toggleResolve()"
   (action)="resolve(resolveModal)"
 ></app-modal>
-<div *ngIf="flags.length > 0; else noFlags" class="all">
+<div *ngIf="flags?.length > 0; else noFlags" class="all">
   <h1>Currently active:</h1>
 
   <div *ngFor="let flag of flags">
@@ -32,7 +32,7 @@
           Go to content
         </button>
         <button
-          (click)="toggleResolve(flag)"
+          (click)="toggleResolve(flag?._id)"
           class="w3-button w3-padding-small w3-red w3-round"
         >
           Resolve

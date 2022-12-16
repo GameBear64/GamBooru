@@ -31,9 +31,15 @@ router
   });
 
 router.route("/parent/:id").get(async (req, res) => {
-  let comment = await CommentModel.findOne({ _id: ObjectId(req.params.id) });
+  try {
+    let comment = await CommentModel.findOne({ _id: ObjectId(req.params.id) });
 
-  res.status(200).send(comment.post);
+    res.status(200).send(comment.post);
+  } catch (err) {
+    return res
+      .status(406)
+      .send({ message: "Error while fetching parent", error: err });
+  }
 });
 
 router
