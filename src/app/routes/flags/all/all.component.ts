@@ -15,6 +15,7 @@ export class AllComponent implements OnInit {
   ) {}
 
   flags!: any;
+  resolveModal: string | false = false;
 
   ngOnInit(): void {
     let specificParent = this.route.snapshot.params?.['id'] || false;
@@ -50,16 +51,14 @@ export class AllComponent implements OnInit {
     });
   }
 
-  resolve(flag: any) {
-    if (
-      confirm(
-        '\nIf you resolve this flag you claim that you have solved the problem and you will be credited as the resolver. \n\nDo you wish to resolve this flag?'
-      )
-    ) {
-      this.flagService.resolveFlag(flag._id);
-      setTimeout(() => {
-        this.flagService.getAllFlags().subscribe((data) => (this.flags = data));
-      }, 300);
-    }
+  toggleResolve(flagId?: string) {
+    this.resolveModal = flagId || false;
+  }
+
+  resolve(flagId: any) {
+    this.flagService.resolveFlag(flagId);
+    setTimeout(() => {
+      this.flagService.getAllFlags().subscribe((data) => (this.flags = data));
+    }, 300);
   }
 }

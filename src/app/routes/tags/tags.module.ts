@@ -9,6 +9,8 @@ import { CreateComponent } from './create/create.component';
 
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
+import { ModalModule } from 'src/app/components/modal/modal.module';
+
 import { MasterGuardGuard } from '../master-guard.guard';
 
 const routes: Routes = [
@@ -29,6 +31,7 @@ const routes: Routes = [
     NgxTrimDirectiveModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule,
   ],
 })
 export class TagsModule {}

@@ -17,6 +17,7 @@ export class ModalComponent implements OnChanges {
 
   @Input() visible = false;
   @Input() input = false;
+  @Input() inputValue = '';
   @Input() dialogTitle = 'Attention!';
   @Input() dialog = 'Do you confirm?';
   @Input() confirmText = 'Confirm';
@@ -32,14 +33,10 @@ export class ModalComponent implements OnChanges {
 
   ngOnChanges() {
     this.clickedOutside = false;
-    this.formInput = '';
+    this.formInput = this.inputValue || '';
   }
 
   outside() {
-    if (this.clickedOutside) {
-      this.close.emit();
-    } else {
-      this.clickedOutside = true;
-    }
+    this.clickedOutside ? this.close.emit() : (this.clickedOutside = true);
   }
 }

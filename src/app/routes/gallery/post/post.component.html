@@ -62,8 +62,21 @@
         {{ collections.title }}
       </div>
       <br />
-      <button class="button" type="submit" class="w3-btn w3-green w3-round">
+      <button
+        class="button"
+        type="submit"
+        class="w3-btn w3-green w3-round"
+        *ngIf="collectionFormChanges"
+      >
         Save
+      </button>
+      <button
+        class="button"
+        type="submit"
+        class="w3-btn w3-red w3-round"
+        *ngIf="!collectionFormChanges"
+      >
+        Cancel
       </button>
     </form>
     <div
@@ -155,6 +168,7 @@
           class="button"
           type="submit"
           [disabled]="form.invalid"
+          [disabled]="form.pristine"
           class="w3-button w3-padding-small w3-blue w3-round w3-margin-top"
         >
           Update

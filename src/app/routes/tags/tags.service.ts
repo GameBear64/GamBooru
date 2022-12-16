@@ -52,4 +52,14 @@ export class TagsService {
       )
       .subscribe();
   }
+
+  voteLock(tagId: string) {
+    return this.http
+      .post<any>(
+        `${this.mAuth.APIUrl}/tags/voteLock/${tagId}`,
+        {},
+        this.httpOptions
+      )
+      .subscribe();
+  }
 }

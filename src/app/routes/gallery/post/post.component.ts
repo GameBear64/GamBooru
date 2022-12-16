@@ -46,6 +46,7 @@ export class PostComponent implements OnInit {
         posts: string[];
       }[];
   collectionForm!: FormGroup;
+  collectionFormChanges = false;
   highlightComment!: string | null;
 
   ngOnInit(): void {
@@ -62,6 +63,10 @@ export class PostComponent implements OnInit {
     this.collectionForm = this.fb.group({
       collectionTitles: new FormArray([]),
     });
+
+    this.collectionForm
+      .get('collectionTitles')
+      ?.valueChanges.subscribe((_) => (this.collectionFormChanges = true));
 
     this.commentSection = this.fb.group({
       comment: new FormControl(null),
@@ -173,6 +178,7 @@ export class PostComponent implements OnInit {
     });
 
     this.userCollections = null;
+    this.collectionFormChanges = false;
     new Snackbar('Updated');
   }
 

@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MasterAuthService } from '../../master-auth.service';
 import { TagsService } from '../tags.service';
+import { isUnique } from 'src/app/components/helpers/isUnique';
 
 @Component({
   selector: 'app-single',
@@ -22,8 +23,10 @@ export class SingleComponent implements OnInit {
     protected mAuth: MasterAuthService
   ) {}
 
+  deleteModal = false;
   tagId!: string;
   tag: any;
+  allOtherTags: any;
   editMode = false;
   editForm!: FormGroup;
   categories!: [String];
@@ -35,6 +38,15 @@ export class SingleComponent implements OnInit {
     this.tagService
       .getCategories()
       .subscribe((data: any) => (this.categories = data));
+
+    this.tagService
+      .getTags()
+      .subscribe(
+        (data: any) =>
+          (this.allOtherTags = data.tags.filter(
+            (tag: any) => tag._id !== this.tagId
+          ))
+      );
   }
 
   toggleEdit() {
@@ -44,6 +56,7 @@ export class SingleComponent implements OnInit {
       name: new FormControl(this.tag?.name, [
         Validators.required,
         Validators.minLength(3),
+        isUnique(this.allOtherTags.map((tag: any) => tag.name)),
       ]),
       description: new FormControl(this.tag?.description, [
         Validators.required,
@@ -53,21 +66,18 @@ export class SingleComponent implements OnInit {
     });
   }
 
-  voteLock() {}
+  voteLock() {
+    this.tagService.voteLock(this.tagId);
+    setTimeout(() => {
+      this.tagService.getTag(this.tagId).subscribe((data) => (this.tag = data));
+    }, 300);
+  }
 
-  delete() {
-    if (
-      confirm(
-        `Since you are not the original poster you have voted for this tags's deletion. \n\nTag will be deleted when enough people vote for this. \nProceed?`
-      )
-    ) {
-      this.tagService.voteDelete(this.tagId);
-      setTimeout(() => {
-        this.tagService
-          .getTag(this.tagId)
-          .subscribe((data) => (this.tag = data));
-      }, 300);
-    }
+  voteDelete() {
+    this.tagService.voteDelete(this.tagId);
+    setTimeout(() => {
+      this.tagService.getTag(this.tagId).subscribe((data) => (this.tag = data));
+    }, 300);
   }
 
   get f() {

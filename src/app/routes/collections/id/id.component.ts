@@ -23,6 +23,7 @@ export class IdComponent implements OnInit {
     protected mAuth: MasterAuthService
   ) {}
 
+  deleteModal = false;
   collectionId!: string;
   collection: any;
   visibleTags: { _id: string; name: string; category: string }[] = [];
@@ -108,14 +109,12 @@ export class IdComponent implements OnInit {
     this.refresh();
   }
 
+  deleteModalToggle() {
+    this.deleteModal = !this.deleteModal;
+  }
+
   delete() {
-    if (
-      confirm(
-        `Are you sure you want to delete this? This action cannot be undone.`
-      )
-    ) {
-      this.collectionService.deleteCollection(this.collectionId);
-      this.refresh();
-    }
+    this.collectionService.deleteCollection(this.collectionId);
+    this.refresh();
   }
 }

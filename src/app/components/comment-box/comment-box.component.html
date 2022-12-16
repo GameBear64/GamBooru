@@ -1,6 +1,5 @@
 <app-modal
   [visible]="deleteModal"
-  color="w3-red"
   dialogTitle="Confirm deletion?"
   dialog="Are you sure you want to delete this? This action cannot be undone."
   confirmColor="w3-red"
@@ -20,6 +19,7 @@
 <app-modal
   [visible]="editModal"
   [input]="true"
+  [inputValue]="comment?.body"
   dialogTitle="Edit comment"
   dialog=""
   (close)="editModalToggle()"

@@ -1,3 +1,12 @@
+<app-modal
+  [visible]="!!resolveModal"
+  dialogTitle="Have you resolved the conflict?"
+  dialog="If you resolve this flag you claim that you have solved the problem and you will be credited as the resolver. Do you wish to resolve this flag?"
+  confirmColor="w3-red"
+  closeColor="w3-blue"
+  (close)="toggleResolve()"
+  (action)="resolve(resolveModal)"
+></app-modal>
 <div *ngIf="flags.length > 0; else noFlags" class="all">
   <h1>Currently active:</h1>
 
@@ -23,7 +32,7 @@
           Go to content
         </button>
         <button
-          (click)="resolve(flag)"
+          (click)="toggleResolve(flag)"
           class="w3-button w3-padding-small w3-red w3-round"
         >
           Resolve

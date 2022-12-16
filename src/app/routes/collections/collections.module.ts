@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MasterGuardGuard } from '../master-guard.guard';
+import { ModalModule } from 'src/app/components/modal/modal.module';
 
 import { CreateComponent } from './create/create.component';
 import { IdComponent } from './id/id.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     TagListModule,
+    ModalModule,
   ],
 })
 export class CollectionsModule {}

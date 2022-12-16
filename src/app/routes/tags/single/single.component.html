@@ -1,4 +1,4 @@
-<!-- <pre>{{ tag | json }}</pre> -->
+<!-- <pre>{{ allOtherTags | json }}</pre> -->
 <!-- <pre>{{ mAuth | json }}</pre> -->
 
 <div class="tagPage">
@@ -32,13 +32,21 @@
             (click)="voteLock()"
             class="w3-button w3-padding-small w3-green w3-round"
           >
-            Vote Lock
+            {{
+              tag?.lockVotes.includes(mAuth.loggedIn?.user?._id)
+                ? "Voted"
+                : "Vote Lock"
+            }}
           </button>
           <button
-            (click)="delete()"
+            (click)="voteDelete()"
             class="w3-button w3-padding-small w3-red w3-round"
           >
-            Vote Delete
+            {{
+              tag?.deletionVotes.includes(mAuth.loggedIn?.user?._id)
+                ? "Voted"
+                : "Vote Delete"
+            }}
           </button>
         </div>
       </div>
@@ -52,36 +60,61 @@
     <div *ngIf="editMode">
       <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
         <label for="name">Name</label><br />
-        <input formControlName="name" name="name" trim="blur" />
+        <input
+          formControlName="name"
+          name="name"
+          trim="blur"
+          class="w3-input w3-border w3-round"
+        />
+        <p
+          *ngIf="f?.['name']?.errors?.['notUnique']"
+          class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+        >
+          This tag already exists.
+        </p>
+        <p
+          *ngIf="f?.['name']?.errors?.['minlength'] && f?.['name']?.touched"
+          class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+        >
+          Invalid name, must be minimum 3 characters
+        </p>
         <br />
-        <span *ngIf="f?.['name']?.invalid && f?.['name']?.touched">
-          Invalid name (minimum 3 chars)
-          <br />
-        </span>
-        <br />
+
         <label for="description">Description</label><br />
-        <textarea formControlName="description" name="description" trim="blur">
+        <textarea
+          formControlName="description"
+          name="description"
+          trim="blur"
+          class="w3-input w3-border w3-round"
+        >
         </textarea>
-        <br />
-        <span
+        <p
           *ngIf="f?.['description']?.invalid && f?.['description']?.touched"
+          class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
         >
           Invalid description ({{
             50 - (editForm.value.description?.length || 50)
           }}
           more characters)
-          <br />
-        </span>
+        </p>
         <br />
         <label for="category">Category</label><br />
-        <select formControlName="category" name="category">
+        <select
+          formControlName="category"
+          name="category"
+          class="w3-select w3-border w3-round"
+        >
           <option *ngFor="let category of categories" [value]="category">
             {{ category }}
           </option>
         </select>
-        <br />
-        <br />
-        <button class="button" type="submit" [disabled]="editForm.invalid">
+        <button
+          class="button"
+          type="submit"
+          [disabled]="editForm.invalid"
+          [disabled]="editForm.pristine"
+          class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+        >
           Update
         </button>
       </form>
