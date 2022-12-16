@@ -41,6 +41,23 @@ router.route("/likes").get(async (req, res) => {
   }
 });
 
+router.route("/posts").get(async (req, res) => {
+  try {
+    let collection = await PostModel.find({
+      author: ObjectId(req?.userInSession?.id),
+    })
+      .populate("image", "thumbnail")
+      .populate("tags", "name category count");
+
+    res.status(200).send(collection);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(406)
+      .send({ message: "Error while fetching posts", error: err });
+  }
+});
+
 router.route("/add").post(async (req, res) => {
   let allCollections = await CollectionModel.find({
     author: ObjectId(req?.userInSession?.id),

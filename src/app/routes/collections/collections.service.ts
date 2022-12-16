@@ -29,6 +29,13 @@ export class CollectionsService {
     );
   }
 
+  getPostsCollection() {
+    return this.http.get(
+      `${this.mAuth.APIUrl}/collection/posts`,
+      this.httpOptions
+    );
+  }
+
   postCollection(content: any) {
     this.http
       .post<any>(`${this.mAuth.APIUrl}/collection`, content, this.httpOptions)

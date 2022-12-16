@@ -1,73 +1,119 @@
-<!-- <pre>{{ user | json }}</pre>
-<pre>{{ form?.value | json }}</pre> -->
+<div class="all">
+  <h1>{{ user?.username }}'s settings</h1>
 
-<h1>{{ user?.username }}'s settings</h1>
-
-<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <label for="username">username: </label><br />
-  <input formControlName="username" name="username" id="username" trim="blur" />
-  <br />
-  <span *ngIf="f?.['username']?.invalid && f?.['username']?.touched">
-    You bust provide a username
-  </span>
-
-  <label for="biography">biography: </label><br />
-  <textarea
-    formControlName="biography"
-    name="biography"
-    id="biography"
-    trim="blur"
-  >
-  </textarea>
-  <br />
-  <span *ngIf="f?.['biography']?.invalid && f?.['biography']?.touched">
-    Invalid biography ({{ 20 - (form.value.biography?.length || 0) }} more
-    characters)
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label><br />
+    <input
+      formControlName="username"
+      name="username"
+      id="username"
+      trim="blur"
+      class="w3-input w3-border"
+    />
+    <p
+      *ngIf="f?.['username']?.invalid && f?.['username']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      You bust provide a username
+    </p>
     <br />
-  </span>
 
-  <button class="button" type="submit" [disabled]="form.invalid">Update</button>
-</form>
+    <label for="biography">Biography: </label><br />
+    <textarea
+      formControlName="biography"
+      name="biography"
+      id="biography"
+      trim="blur"
+      class="w3-input w3-border"
+    >
+    </textarea>
+    <p
+      *ngIf="f?.['biography']?.invalid && f?.['biography']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      Invalid biography ({{ 20 - (form.value.biography?.length || 0) }} more
+      characters)
+    </p>
 
-<hr />
-<h2>Danger zone</h2>
+    <button
+      class="button"
+      type="submit"
+      [disabled]="form.invalid"
+      class="w3-button w3-padding-small w3-green w3-round w3-large w3-margin-top"
+    >
+      Update
+    </button>
+  </form>
 
-<form [formGroup]="passwordReset" (ngSubmit)="onSubmitPassword()">
-  <label for="password">Password </label>
-  <input formControlName="password" name="password" id="password" trim="blur" />
-  <br />
-  <div *ngIf="f?.['password']?.invalid && f?.['password']?.touched">
-    That password sucks...
+  <hr />
+
+  <h2>Security</h2>
+  <form [formGroup]="passwordReset" (ngSubmit)="onSubmitPassword()">
+    <div class="w3-row w3-centered">
+      <div class="w3-col" style="width: 45%">
+        <label for="password">Password </label>
+        <input
+          formControlName="password"
+          type="password"
+          name="password"
+          id="password"
+          trim="blur"
+          class="w3-input w3-border"
+        />
+      </div>
+      <div class="w3-col" style="width: 10%"><br /></div>
+      <div class="w3-col" style="width: 45%">
+        <label for="confirmPassword">Confirm Password </label>
+        <input
+          formControlName="confirmPassword"
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          trim="blur"
+          class="w3-input w3-border"
+        />
+      </div>
+    </div>
+    <p
+      *ngIf="f2?.['confirmPassword']?.errors?.['mustMatch'] && f2?.['confirmPassword']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      Passwords must match.
+    </p>
+    <br />
+
+    <label for="newPass">New Password </label>
+    <input
+      formControlName="newPass"
+      type="password"
+      name="newPass"
+      id="newPass"
+      trim="blur"
+      class="w3-input w3-border"
+    />
+    <p
+      *ngIf="f2?.['newPass']?.invalid && f2?.['newPass']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      That password sucks...
+    </p>
+    <br />
+
+    <button
+      class="button"
+      type="submit"
+      [disabled]="passwordReset.invalid"
+      class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+    >
+      Update
+    </button>
+  </form>
+  <div class="w3-center w3-padding-top-64">
+    <h2 class="w3-left-align">Danger zone</h2>
+    <hr />
+    <button class="w3-button w3-padding-small w3-red w3-round w3-xlarge">
+      Delete account
+    </button>
+    <hr />
   </div>
-
-  <label for="confirmPassword">Confirm Password </label>
-  <input
-    formControlName="confirmPassword"
-    name="confirmPassword"
-    id="confirmPassword"
-    trim="blur"
-  />
-  <br />
-  <div
-    *ngIf="f?.['confirmPassword']?.errors?.['mustMatch'] && f?.['confirmPassword']?.touched"
-  >
-    Passwords must match.
-  </div>
-
-  <label for="newPass">New Password </label>
-  <input formControlName="newPass" name="newPass" id="newPass" trim="blur" />
-  <br />
-  <div *ngIf="f?.['newPass']?.invalid && f?.['newPass']?.touched">
-    That password sucks...
-  </div>
-
-  <button class="button" type="submit">Update</button>
-</form>
-
-<br />
-<br />
-<br />
-
-<button>Delete account</button>
-
-<hr />
+</div>

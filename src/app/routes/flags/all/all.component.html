@@ -1,20 +1,35 @@
-<!-- <pre>{{ flags | json }}</pre> -->
-
-<div *ngIf="flags; else noFlags" class="all">
+<div *ngIf="flags.length > 0; else noFlags" class="all">
   <h1>Currently active:</h1>
 
   <div *ngFor="let flag of flags">
-    <div class="flagBox" *ngIf="!flag.resolved">
-      <p>
-        {{ flag.author.username }} complains about a
-        {{ flag.type | lowercase }}:
+    <div class="w3-card w3-round-large flagBox" *ngIf="!flag.resolved">
+      <h3>
+        <a
+          [routerLink]="['/user', flag?.author?._id]"
+          class="w3-border-bottom w3-border-green"
+        >
+          {{ flag?.author?.username }}</a
+        >
+        complains about a {{ flag.type | lowercase }}:
+      </h3>
+      <p class="w3-padding w3-leftbar w3-border-blue">
+        {{ flag.reason }}
       </p>
-      <p>{{ flag.reason }}</p>
       <div class="actions">
-        <button (click)="goToPost(flag)">Go to content</button>
-        <button (click)="resolve(flag)">Resolve</button>
+        <button
+          (click)="goToPost(flag)"
+          class="w3-button w3-padding-small w3-blue w3-round w3-margin-right"
+        >
+          Go to content
+        </button>
+        <button
+          (click)="resolve(flag)"
+          class="w3-button w3-padding-small w3-red w3-round"
+        >
+          Resolve
+        </button>
       </div>
-      <p>Date: {{ flag.createdAt | date }}</p>
+      <p>Date: {{ flag.createdAt | date : "dd/MMM/yy, HH:mm" }}</p>
     </div>
   </div>
   <div *ngIf="allFlagsResolved">All clear boss.</div>
@@ -23,23 +38,40 @@
     <h1>Resolved:</h1>
 
     <div *ngFor="let flag of flags">
-      <div class="flagBox" *ngIf="flag.resolved">
-        <p>
-          {{ flag.author.username }} complained about a
-          {{ flag.type | lowercase }}:
+      <div class="w3-card w3-round-large flagBox" *ngIf="flag.resolved">
+        <h3>
+          <a
+            [routerLink]="['/user', flag?.author?._id]"
+            class="w3-border-bottom w3-border-green"
+          >
+            {{ flag?.author?.username }}</a
+          >
+          complained about a {{ flag.type | lowercase }}:
+        </h3>
+        <p class="w3-padding w3-leftbar w3-border-blue">
+          {{ flag.reason }}
         </p>
-        <p>{{ flag.reason }}</p>
         <div class="actions">
-          <button (click)="goToPost(flag)">Go to content</button>
+          <button
+            (click)="goToPost(flag)"
+            class="w3-button w3-padding-small w3-blue w3-round w3-margin-right"
+          >
+            Go to content
+          </button>
         </div>
-        <p>
-          {{ flag.resolved.username }} resolved this on
-          {{ flag.updatedAt | date }}
+        <p>Date: {{ flag.createdAt | date : "dd/MMM/yy, HH:mm" }}</p>
+        <p class="w3-panel w3-padding w3-leftbar w3-border-green w3-pale-green">
+          <a [routerLink]="['/user', flag?.author?._id]">
+            {{ flag?.author?.username }}</a
+          >
+          resolved this on
+          {{ flag.updatedAt | date : "dd/MMM/yy, HH:mm" }}
         </p>
-        <p>Date: {{ flag.createdAt | date }}</p>
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #noFlags class="nothing"> No flags found </ng-template>
+<ng-template #noFlags class="nothing">
+  <h1 class="w3-center w3-padding-64"><b>No flags found</b></h1>
+</ng-template>

@@ -1,6 +1,6 @@
 {
   "name": "gam-booru",
-  "version": "0.0.1",
+  "version": "0.9.1",
   "scripts": {
     "ng": "ng",
     "ng-start": "ng serve --open --host 0.0.0.0",

@@ -1,5 +1,5 @@
-<!-- <pre>{{ tag | json }}</pre>
-<pre>{{ mAuth | json }}</pre> -->
+<!-- <pre>{{ tag | json }}</pre> -->
+<!-- <pre>{{ mAuth | json }}</pre> -->
 
 <div class="tagPage">
   <div class="description">
@@ -11,21 +11,35 @@
     <p>
       Post count: <b>{{ tag?.count }}</b>
     </p>
-    <div *ngIf="mAuth?.loggedIn?.user">
-      <div
-        class="lockedStatus"
-        *ngIf="tag?.lockVotes?.length < 10; else locked"
-      >
+    <div
+      *ngIf="mAuth?.loggedIn?.user"
+      class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-blue w3-padding-16 lockedStatus"
+    >
+      <div *ngIf="tag?.lockVotes?.length < 10; else locked">
         <p>
           This tag can be edited freely, feel free to provide more information
           about the subject.
         </p>
         <p>If you think this tag is perfect as it is, vote to lock it.</p>
-        <hr />
-        <div class="action">
-          <button (click)="toggleEdit()">Edit</button>
-          <button (click)="voteLock()">Vote Lock</button>
-          <button (click)="delete()">Vote Delete</button>
+        <div class="actions w3-padding-top-24">
+          <button
+            (click)="toggleEdit()"
+            class="w3-button w3-padding-small w3-blue w3-round"
+          >
+            Edit
+          </button>
+          <button
+            (click)="voteLock()"
+            class="w3-button w3-padding-small w3-green w3-round"
+          >
+            Vote Lock
+          </button>
+          <button
+            (click)="delete()"
+            class="w3-button w3-padding-small w3-red w3-round"
+          >
+            Vote Delete
+          </button>
         </div>
       </div>
       <ng-template #locked>
@@ -75,8 +89,13 @@
   </div>
   <div class="examples">
     <h4>Example images:</h4>
-    <a *ngFor="let post of tag?.example" [routerLink]="['/gallery', post._id]">
-      <img [src]="post.image.thumbnail" />
-    </a>
+    <div>
+      <a
+        *ngFor="let post of tag?.example"
+        [routerLink]="['/gallery', post._id]"
+      >
+        <img [src]="post.image?.thumbnail" class="w3-round" />
+      </a>
+    </div>
   </div>
 </div>

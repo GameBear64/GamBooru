@@ -1,37 +1,52 @@
-<div class="meta">
-  <img [src]="user?.profilePicture" alt="user pfp" />
-  <div class="userData">
-    <div>
-      <h1>{{ user?.username }}</h1>
-      <p class="bio">{{ user?.biography }}</p>
+<div class="all">
+  <div class="meta">
+    <img [src]="user?.profilePicture" alt="user pfp" />
+    <div class="userData">
+      <div>
+        <h1>{{ user?.username }}</h1>
+        <p class="bio">{{ user?.biography }}</p>
+      </div>
+      <p class="details">
+        Member since {{ user?.createdAt | date : "dd/MMM/yy, HH:mm" }}
+      </p>
+    </div>
+    <div class="options">
       <a
         *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
         routerLink="/user/settings"
-        >Settings</a
+        class="w3-button w3-padding-small w3-blue w3-round w3-margin-bottom w3-xlarge"
       >
+        Settings
+      </a>
+      <br />
+      <a
+        *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
+        routerLink="/auth/logout"
+        class="w3-button w3-padding-small w3-red w3-round w3-margin-top w3-xlarge"
+      >
+        Logout
+      </a>
     </div>
-    <p class="details">Member since {{ user?.createdAt | date }}</p>
   </div>
-</div>
 
-<div class="collections">
-  <h4 *ngIf="user?._id === mAuth?.loggedIn?.user?._id">
-    Generated collections:
-  </h4>
-  <div class="generated" *ngIf="user?._id === mAuth?.loggedIn?.user?._id">
-    <div class="singleCollection genCollection">
+  <h2>Collections:</h2>
+  <div class="collections">
+    <div
+      class="genCollection w3-card"
+      *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
+    >
       <a routerLink="/collection/likes">Likes</a>
     </div>
-  </div>
-  <h4>Collections:</h4>
-  <div class="created">
-    <div *ngFor="let collection of user?.collection" class="singleCollection">
+    <div class="genCollection w3-card">
+      <a routerLink="/collection/posts">Posts</a>
+    </div>
+    <div class="w3-card" *ngFor="let collection of user?.collection">
       <a [routerLink]="['/collection', collection?._id]">{{
         collection.title
       }}</a>
     </div>
     <div
-      class="singleCollection create"
+      class="create w3-card"
       *ngIf="user?._id === mAuth?.loggedIn?.user?._id"
     >
       <a routerLink="/collection/create">create collection</a>

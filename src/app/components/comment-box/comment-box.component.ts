@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MasterAuthService } from 'src/app/routes/master-auth.service';
 import { CommentBoxService } from './comment-box.service';
 
+import Snackbar from 'awesome-snackbar';
+
 @Component({
   selector: 'app-comment-box',
   templateUrl: './comment-box.component.html',
@@ -13,6 +15,10 @@ export class CommentBoxComponent {
     protected mAuth: MasterAuthService
   ) {}
 
+  deleteModal = false;
+  flagModal = false;
+  editModal = false;
+
   @Input() highlight = false;
   @Input() disableActions = false;
   @Input() comment!: any;
@@ -23,52 +29,52 @@ export class CommentBoxComponent {
     this.refresh.emit();
   }
 
-  edit() {
-    let edit = prompt('New content of your comment:', this.comment.body);
-    if (!edit) return alert('Comment cant be empty');
-
-    this.commentService.edit(this.comment?._id, edit!);
-    this.refresh.emit();
+  editModalToggle() {
+    this.editModal = !this.editModal;
   }
 
-  flag() {
-    let reason = prompt(
-      'Whats the problem, please describe with as much detail as possible'
-    )?.trim();
-    if (!reason || reason.length < 20)
-      return alert(
-        'No reason provided or reason is too short, it must be at least 20 characters long. \nKeep in mind false flags can lead to suspension of your account so please flag responsibly. \n\nCurrent flag abandoned.'
-      );
-    if (
-      confirm(
-        `You want to report this post for the following reason: \n${reason} \n\nProceed?`
-      )
-    ) {
-      alert('Report has been send to moderation, thank you for your time.');
-      this.commentService.flag(this.comment?._id, reason!);
+  edit(edit: string) {
+    if (edit.length == 0) {
+      new Snackbar("Comment can't be empty.");
+    } else {
+      this.commentService.edit(this.comment?._id, edit);
       this.refresh.emit();
+      this.editModalToggle();
+      new Snackbar('Comment updated.');
     }
   }
 
-  delete() {
-    if (this.mAuth?.loggedIn?.user?._id === this.comment.author._id) {
-      if (
-        confirm(
-          `Are you sure you want to delete this? This action cannot be undone.`
-        )
-      ) {
-        this.commentService.delete(this.comment?._id);
-        this.refresh.emit();
-      }
+  flagModalToggle() {
+    this.flagModal = !this.flagModal;
+  }
+
+  flag(reason: string) {
+    if (reason.length < 20) {
+      new Snackbar('Please provide a longer flag reason.');
     } else {
-      if (
-        confirm(
-          `Since you are not the original poster you have voted for this post's deletion. \n\nPost will be deleted when enough people vote for this. \nProceed?`
-        )
-      ) {
-        this.commentService.voteDelete(this.comment?._id);
-        this.refresh.emit();
-      }
+      this.commentService.flag(this.comment?._id, reason);
+      this.refresh.emit();
+      this.flagModalToggle();
+      new Snackbar('Comment flagged.');
+    }
+  }
+
+  deleteModalToggle() {
+    this.deleteModal = !this.deleteModal;
+  }
+
+  delete() {
+    this.commentService.delete(this.comment?._id);
+    this.refresh.emit();
+  }
+
+  voteDelete() {
+    if (this.comment?.deletionVotes.includes(this.mAuth.loggedIn?.user?._id)) {
+      new Snackbar('You already voted to get this post deleted.');
+    } else {
+      this.commentService.voteDelete(this.comment?._id);
+      this.refresh.emit();
+      new Snackbar('Deletion vote cast.');
     }
   }
 }

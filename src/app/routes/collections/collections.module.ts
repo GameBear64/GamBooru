@@ -8,6 +8,8 @@ import { MasterGuardGuard } from '../master-guard.guard';
 import { CreateComponent } from './create/create.component';
 import { IdComponent } from './id/id.component';
 
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
+
 import { TagListModule } from 'src/app/components/tag-list/tag-list.module';
 
 const routes: Routes = [
@@ -24,6 +26,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    NgxTrimDirectiveModule,
     FormsModule,
     ReactiveFormsModule,
     TagListModule,

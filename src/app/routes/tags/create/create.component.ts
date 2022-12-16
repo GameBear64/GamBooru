@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControlOptions,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { isUnique } from 'src/app/components/helpers/isUnique';
 
 import { TagsService } from '../tags.service';
 
@@ -21,6 +24,7 @@ export class CreateComponent implements OnInit {
     private router: Router
   ) {}
 
+  // tags: string[] = ['sauce', 'bob'];
   form!: FormGroup;
   categories!: [String];
 
@@ -29,16 +33,21 @@ export class CreateComponent implements OnInit {
       .getCategories()
       .subscribe((data: any) => (this.categories = data));
 
-    this.form = this.fb.group({
-      name: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      description: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(50),
-      ]),
-      category: new FormControl(null, [Validators.required]),
+    this.tagService.getTags().subscribe((data: any) => {
+      // this.tags = data.tags.map((tag: any) => tag.name)
+
+      this.form = this.fb.group({
+        name: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(3),
+          isUnique(data.tags.map((tag: any) => tag.name)),
+        ]),
+        description: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(50),
+        ]),
+        category: new FormControl('Tag', [Validators.required]),
+      });
     });
   }
 

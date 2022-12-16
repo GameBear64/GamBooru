@@ -84,16 +84,16 @@ router
         .send({ message: "Error while editing post", error: err });
     }
   })
-  // .delete(async (req, res) => {
-  //   let post = await TagModel.findOne({ _id: ObjectId(req.params.id) });
+  .delete(async (req, res) => {
+    let post = await TagModel.findOne({ _id: ObjectId(req.params.id) });
 
-  //   if (req.userInSession.id !== post.author.toString())
-  //     return res.status(401).send({ message: "Not Authorized" });
+    if (req.userInSession.id !== post.author.toString())
+      return res.status(401).send({ message: "Not Authorized" });
 
-  //   await TagModel.deleteOne({ _id: ObjectId(req.params.id) });
+    await TagModel.deleteOne({ _id: ObjectId(req.params.id) });
 
-  //   res.status(200).send({ message: "Entry deleted" });
-  // })
+    res.status(200).send({ message: "Entry deleted" });
+  })
   .all((req, res) => {
     res.status(405).send({ message: "Use another method" });
   });

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -27,16 +28,16 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.fb.group(
       {
-        username: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.required, Validators.email]],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-          ],
-        ],
+        username: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(3),
+        ]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+        ]),
         confirmPassword: '',
       },
       {

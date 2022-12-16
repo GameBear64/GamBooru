@@ -1,3 +1,22 @@
+<app-modal
+  [visible]="deleteModal"
+  color="w3-red"
+  dialogTitle="Confirm deletion?"
+  dialog="Are you sure you want to delete this? This action cannot be undone."
+  confirmColor="w3-red"
+  closeColor="w3-blue"
+  (close)="deleteModalToggle()"
+  (action)="delete()"
+></app-modal>
+<app-modal
+  [visible]="flagModal"
+  [input]="true"
+  dialogTitle="Flag this post?"
+  dialog="Whats the problem, please describe with as much detail as possible. This action cannot be undone and it will be forever visible by others."
+  confirmColor="w3-dark-grey"
+  (close)="flagModalToggle()"
+  (action)="flag($event)"
+></app-modal>
 <div class="container">
   <div class="aside">
     <app-tag-list
@@ -21,7 +40,7 @@
       </p>
       <p>Views: {{ post?.views }}</p>
       <p>Likes: {{ post?.likes?.length }}</p>
-      <p>Posted: {{ post?.createdAt | date }}</p>
+      <p>Posted: {{ post?.createdAt | date : "dd/MMM/yy, HH:mm" }}</p>
     </div>
     <hr />
     <form
@@ -56,7 +75,9 @@
           (click)="like()"
           class="w3-button w3-padding-small w3-white w3-border w3-border-blue w3-round"
         >
-          Like
+          {{
+            post?.likes.includes(mAuth.loggedIn?.user?._id) ? "Liked!" : "Like"
+          }}
         </button>
 
         <button
@@ -74,14 +95,25 @@
           Edit
         </button>
         <button
-          (click)="delete()"
+          *ngIf="mAuth?.loggedIn?.user?._id === post?.author?._id"
+          (click)="deleteModalToggle()"
           class="w3-button w3-padding-small w3-red w3-round"
         >
           Delete
         </button>
-
         <button
-          (click)="flag()"
+          *ngIf="mAuth?.loggedIn?.user?._id !== post?.author?._id"
+          (click)="voteDelete()"
+          class="w3-button w3-padding-small w3-red w3-round"
+        >
+          {{
+            post?.deletionVotes.includes(mAuth.loggedIn?.user?._id)
+              ? "Voted"
+              : "Vote Delete"
+          }}
+        </button>
+        <button
+          (click)="flagModalToggle()"
           class="w3-button w3-padding-small w3-dark-grey w3-round"
         >
           Flag
@@ -106,6 +138,7 @@
           formControlName="source"
           name="source"
           id="source"
+          trim="blur"
           class="w3-input w3-border w3-round"
         />
         <ng-select
@@ -143,6 +176,7 @@
         <textarea
           formControlName="comment"
           name="comment"
+          trim="blur"
           class="w3-input w3-border w3-round"
         >
         </textarea>

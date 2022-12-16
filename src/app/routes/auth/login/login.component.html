@@ -1,12 +1,54 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label for="email" trim="blur">Email </label>
-  <input formControlName="email" name="Email" trim="blur" /> <br />
-  <label for="password">Password </label>
-  <input formControlName="password" name="password" trim="blur" /> <br />
+<div class="center">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w3-container">
+    <label for="email">Email </label>
+    <input
+      formControlName="email"
+      type="email"
+      name="Email"
+      id="email"
+      trim="blur"
+      class="w3-input w3-border"
+    />
+    <p
+      *ngIf="f?.['email']?.invalid && f?.['email']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      Invalid email.
+    </p>
+    <br />
+    <label for="password">Password </label>
+    <input
+      formControlName="password"
+      type="password"
+      name="password"
+      id="password"
+      trim="blur"
+      class="w3-input w3-border"
+    />
+    <p
+      *ngIf="f?.['password']?.invalid && f?.['password']?.touched"
+      class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+    >
+      Invalid password
+    </p>
+    <br />
 
-  <button class="button" type="submit">Login</button>
-</form>
-<p>
-  Don't have an account?
-  <a routerLink="/auth/register">Register</a>
-</p>
+    <button
+      class="button"
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+    >
+      Login
+    </button>
+  </form>
+  <p class="w3-center">
+    Don't have an account?
+    <a
+      routerLink="/auth/register"
+      class="w3-button w3-padding-small w3-blue w3-round w3-small"
+    >
+      Register
+    </a>
+  </p>
+</div>

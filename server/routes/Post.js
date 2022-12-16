@@ -123,22 +123,22 @@ router
   .route("/:id")
   .get(async (req, res) => {
     // ======== rate limit for views ==============
-    let viewIdString = `${req?.userInSession?.id}/${req.params.id}`;
-    if (req?.userInSession?.id && !rateLimited.has(viewIdString)) {
-      await PostModel.updateOne(
-        { _id: ObjectId(req.params.id) },
-        { $inc: { views: 1 } },
-        { timestamps: false }
-      );
-
-      // ===== rate limit timer =======
-      rateLimited.add(viewIdString);
-      setTimeout(() => {
-        rateLimited.delete(viewIdString);
-      }, 10 * 60 * 1000); //==== 10 minutes ====
-    }
-
     try {
+      let viewIdString = `${req?.userInSession?.id}/${req.params.id}`;
+      if (req?.userInSession?.id && !rateLimited.has(viewIdString)) {
+        await PostModel.updateOne(
+          { _id: ObjectId(req.params.id) },
+          { $inc: { views: 1 } },
+          { timestamps: false }
+        );
+
+        // ===== rate limit timer =======
+        rateLimited.add(viewIdString);
+        setTimeout(() => {
+          rateLimited.delete(viewIdString);
+        }, 10 * 60 * 1000); //==== 10 minutes ====
+      }
+
       let post = await PostModel.findOne({ _id: ObjectId(req.params.id) })
         .populate("image")
         .populate("tags", "name category count")

@@ -42,6 +42,15 @@ export class IdComponent implements OnInit {
         };
         this.getVisibleTags();
       });
+    } else if (this.collectionId == 'posts') {
+      this.collectionService.getPostsCollection().subscribe((data) => {
+        this.collection = {
+          title: 'Posts',
+          description: 'All of the posts you have posted',
+          posts: data,
+        };
+        this.getVisibleTags();
+      });
     } else {
       this.refresh(0);
     }

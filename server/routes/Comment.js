@@ -70,7 +70,7 @@ router
 
     let comment = await CommentModel.findOne({ _id: ObjectId(req.params.id) });
 
-    if (tag.deletionVotes.length > 5) {
+    if (comment.deletionVotes.length > 5) {
       await CommentModel.deleteOne({ _id: ObjectId(req.params.id) });
 
       return res.status(200).send({

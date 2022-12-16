@@ -1,12 +1,21 @@
-<!-- <pre>{{ collection | json }}</pre> -->
-<!-- <pre>Visibletags: {{ visibleTags | json }}</pre> -->
-
 <div class="heading">
   <div class="topH">
     <h1>{{ collection?.title }}</h1>
     <div *ngIf="collection?.author === mAuth?.loggedIn?.user?._id">
-      <button *ngIf="editIsPossible" (click)="toggleEditMode()">Edit</button>
-      <button *ngIf="editIsPossible" (click)="delete()">Delete</button>
+      <button
+        *ngIf="editIsPossible"
+        (click)="toggleEditMode()"
+        class="w3-button w3-padding-small w3-blue w3-round w3-large"
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="editIsPossible"
+        (click)="delete()"
+        class="w3-button w3-padding-small w3-red w3-round w3-large w3-margin-left"
+      >
+        Delete
+      </button>
     </div>
   </div>
   <p>{{ collection?.description }}</p>
@@ -18,34 +27,61 @@
     [inline]="true"
   ></app-tag-list>
 </div>
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  *ngIf="editMode"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="w3-container w3-padding-32"
+>
   <h1>Edit this collection:</h1>
   <label for="title">Title: </label><br />
-  <input formControlName="title" name="title" /> <br />
-  <span *ngIf="f?.['title']?.invalid && f?.['title']?.touched">
+  <input
+    formControlName="title"
+    name="title"
+    id="title"
+    trim="blur"
+    class="w3-input w3-border"
+  />
+  <p
+    *ngIf="f?.['title']?.invalid && f?.['title']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
     You bust provide a title
-  </span>
+  </p>
+  <br />
 
   <label for="description">Description: </label><br />
-  <textarea formControlName="description" name="description"> </textarea> <br />
-  <span *ngIf="f?.['description']?.invalid && f?.['description']?.touched">
+  <textarea
+    formControlName="description"
+    name="description"
+    id="description"
+    trim="blur"
+    class="w3-input w3-border"
+  >
+  </textarea>
+  <p
+    *ngIf="f?.['description']?.invalid && f?.['description']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
     Invalid description ({{ 20 - (form.value.description?.length || 0) }} more
     characters)
-    <br />
-  </span>
+  </p>
 
-  <button class="button" type="submit" [disabled]="form.invalid">Submit</button>
+  <button
+    class="button"
+    type="submit"
+    [disabled]="form.invalid"
+    class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+  >
+    Submit
+  </button>
 </form>
 <div class="images">
   <a
     *ngFor="let post of collection?.posts"
     [routerLink]="['/gallery', post._id]"
   >
-    <img [src]="post.image?.thumbnail" />
+    <img [src]="post.image?.thumbnail" class="w3-round" />
   </a>
   <h3 *ngIf="collection?.posts?.length < 1">No images yet.</h3>
 </div>
-
-<br />
-<br />
-<br />

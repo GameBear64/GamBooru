@@ -4,14 +4,28 @@
   padding: 2vh 4vw;
 }
 
-img {
-  padding: 10px;
+.images {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  a {
+    padding: 10px;
+  }
+  img {
+    max-width: 150px;
+    max-height: 150px;
+  }
 }
 
-.images,
-form {
+.images {
   padding-top: 20px;
   width: 90vw;
+  margin: auto;
+}
+
+form {
+  width: 30vw;
   margin: auto;
 }
 

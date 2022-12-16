@@ -13,6 +13,7 @@ import { UploadComponent } from './upload/upload.component';
 
 import { TagListModule } from 'src/app/components/tag-list/tag-list.module';
 import { CommentBoxModule } from 'src/app/components/comment-box/comment-box.module';
+import { ModalModule } from 'src/app/components/modal/modal.module';
 
 import { MasterGuardGuard } from '../master-guard.guard';
 
@@ -43,6 +44,7 @@ const routes: Routes = [
     NgSelectModule,
     TagListModule,
     CommentBoxModule,
+    ModalModule,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })

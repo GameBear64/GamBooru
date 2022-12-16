@@ -30,6 +30,8 @@ export class PostComponent implements OnInit {
     protected mAuth: MasterAuthService
   ) {}
 
+  deleteModal = false;
+  flagModal = false;
   postId!: string;
   post: any;
   editMode = false;
@@ -104,48 +106,39 @@ export class PostComponent implements OnInit {
   like() {
     this.galleryService.postLike(this.postId);
     this.refresh();
-
-    new Snackbar('Like status updated');
   }
 
-  flag() {
-    let reason = prompt(
-      'Whats the problem, please describe with as much detail as possible'
-    )?.trim();
-    if (!reason || reason.length < 20)
-      return alert(
-        'No reason provided or reason is too short, it must be at least 20 characters long. \nKeep in mind false flags can lead to suspension of your account so please flag responsibly. \n\nCurrent flag abandoned.'
-      );
-    if (
-      confirm(
-        `You want to report this post for the following reason: \n${reason} \n\nProceed?`
-      )
-    ) {
-      alert('Report has been send to moderation, thank you for your time.');
+  flagModalToggle() {
+    this.flagModal = !this.flagModal;
+  }
+
+  flag(reason: string) {
+    if (reason.length < 20) {
+      new Snackbar('Please provide a longer flag reason.');
+    } else {
       this.galleryService.postFlag(this.postId, reason);
       this.refresh();
+      this.flagModalToggle();
+      new Snackbar('Post flagged.');
     }
   }
 
+  deleteModalToggle() {
+    this.deleteModal = !this.deleteModal;
+  }
+
   delete() {
-    if (this.mAuth?.loggedIn?.user?._id === this.post.author._id) {
-      if (
-        confirm(
-          `Are you sure you want to delete this? This action cannot be undone.`
-        )
-      ) {
-        this.galleryService.postDelete(this.postId);
-        this.refresh();
-      }
+    this.galleryService.postDelete(this.postId);
+    this.refresh();
+  }
+
+  voteDelete() {
+    if (this.post?.deletionVotes.includes(this.mAuth.loggedIn?.user?._id)) {
+      new Snackbar('You already voted to get this post deleted.');
     } else {
-      if (
-        confirm(
-          `Since you are not the original poster you have voted for this post's deletion. \n\nPost will be deleted when enough people vote for this. \nProceed?`
-        )
-      ) {
-        this.galleryService.voteDeletePost(this.postId);
-        this.refresh();
-      }
+      this.galleryService.voteDeletePost(this.postId);
+      this.refresh();
+      new Snackbar('Deletion vote cast.');
     }
   }
 

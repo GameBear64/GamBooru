@@ -1,70 +1,102 @@
-<!-- <pre>{{ form.value | json }}</pre> -->
+<div class="w3-container">
+  <h1>Rules:</h1>
+  <p>
+    If a tag already exists do not create synonym tags, always check for similar
+    words when searching for tags
+  </p>
+  <h2>Categories</h2>
+  <p>There are 5 categories, each has a purpose</p>
+  <ul>
+    <li>
+      Artist - this should be pretty self explanatory, use this category when
+      creating a tag for an artist
+    </li>
+    <li>
+      Copyright - is for tags relating to a company, franchise or brands.
+      Example: Coca-Cola, Stranger Things, Asus, Disney
+    </li>
+    <li>
+      Character - with this you should tag fictional or real characters. It is
+      best to clarify where those characters come from for generic names to
+      avoid duplicates. Example: Velma (scoby-doo), Harry Poter, PewDiePie, Tom
+      (Tom & Gerry)
+    </li>
+    <li>
+      Metadata - This describes the file itself or things about the file or
+      illustration. Example: 90s style, 4k resolution, wallpaper, pirated
+    </li>
+    <li>
+      Tag - all of the generic tags, things depicted in the image, go under the
+      tag category. Example: Popcorn, Blonde hair, Nature, fangs, Cabin, Roses,
+      Stylish clothes
+    </li>
+  </ul>
+</div>
 
-<!-- categories: -->
-<!-- <pre>{{ categories | json }}</pre> -->
-
-<h1>Rules:</h1>
-<p>
-  If a tag already exists do not create synonym tags, always check for similar
-  words when searching for tags
-</p>
-<h2>Categories</h2>
-<p>There are 5 categories, each has a purpose</p>
-<ul>
-  <li>
-    Artist - this should be pretty self explanatory, use this category when
-    creating a tag for an artist
-  </li>
-  <li>
-    Copyright - is for tags relating to a company, franchise or brands. Example:
-    Coca-Cola, Stranger Things, Asus, Disney
-  </li>
-  <li>
-    Character - with this you should tag fictional or real characters. It is
-    best to clarify where those characters come from for generic names to avoid
-    duplicates. Example: Velma (scoby-doo), Harry Poter, PewDiePie, Tom (Tom &
-    Gerry)
-  </li>
-  <li>
-    Metadata - This describes the file itself or things about the file or
-    illustration. Example: 90s style, 4k resolution, wallpaper, pirated
-  </li>
-  <li>
-    Tag - all of the generic tags, things depicted in the image, go under the
-    tag category. Example: Popcorn, Blonde hair, Nature, fangs, Cabin, Roses,
-    Stylish clothes
-  </li>
-</ul>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  *ngIf="form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="w3-container w3-padding-32"
+>
   <label for="name">Name</label><br />
-  <input formControlName="name" name="name" trim="blur" />
-  <br />
-  <span *ngIf="f?.['name']?.invalid && f?.['name']?.touched">
-    Invalid name (minimum 3 chars)
-    <br />
-  </span>
+  <input
+    formControlName="name"
+    name="name"
+    id="name"
+    trim="blur"
+    class="w3-input w3-border"
+  />
+  <p
+    *ngIf="f?.['name']?.errors?.['notUnique']"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
+    This tag already exists.
+  </p>
+  <p
+    *ngIf="f?.['name']?.errors?.['minlength'] && f?.['name']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
+    Invalid name, must be minimum 3 characters
+  </p>
   <br />
 
   <label for="description">Description</label><br />
-  <textarea formControlName="description" name="description" trim="blur">
+  <textarea
+    formControlName="description"
+    name="description"
+    id="description"
+    trim="blur"
+    class="w3-input w3-border"
+  >
   </textarea>
-  <br />
-  <span *ngIf="f?.['description']?.invalid && f?.['description']?.touched">
+  <p
+    *ngIf="f?.['description']?.invalid && f?.['description']?.touched"
+    class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-padding"
+  >
     Invalid description ({{ 50 - (form.value.description?.length || 0) }} more
     characters)
-    <br />
-  </span>
+  </p>
   <br />
 
   <label for="category">Category</label><br />
-  <select formControlName="category" name="category">
+  <select
+    formControlName="category"
+    name="category"
+    id="category"
+    class="w3-select w3-border"
+  >
     <option *ngFor="let category of categories" [value]="category">
       {{ category }}
     </option>
   </select>
-  <br />
-  <br />
 
-  <button class="button" type="submit" [disabled]="form.invalid">Create</button>
+  <button
+    class="button"
+    type="submit"
+    [disabled]="form.invalid"
+    class="w3-button w3-padding-small w3-green w3-round w3-xlarge w3-margin-top"
+  >
+    Create
+  </button>
 </form>

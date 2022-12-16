@@ -35,33 +35,23 @@ export class SettingsComponent implements OnInit {
       this.user = data;
 
       this.form = this.fb.group({
-        username: new FormControl(data.username, [Validators.required]),
-        biography: new FormControl(data.biography, [
+        username: new FormControl(data.username, [
           Validators.required,
-          Validators.minLength(20),
+          Validators.minLength(3),
         ]),
+        biography: new FormControl(data.biography, [Validators.minLength(20)]),
       });
     });
 
     this.passwordReset = this.fb.group(
       {
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-          ],
-        ],
-        confirmPassword: '',
-        newPass: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-          ],
-        ],
+        password: new FormControl(null),
+        confirmPassword: new FormControl(null),
+        newPass: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+        ]),
       },
       {
         validator: MustMatch('password', 'confirmPassword'),
@@ -71,6 +61,9 @@ export class SettingsComponent implements OnInit {
 
   get f() {
     return this.form?.controls;
+  }
+  get f2() {
+    return this.passwordReset?.controls;
   }
 
   onSubmit() {
