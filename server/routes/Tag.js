@@ -59,7 +59,7 @@ router
       let example = await PostModel.find({ tags: req.params.id })
         .sort({ createdAt: -1 })
         .select("_id")
-        .limit(10)
+        .limit(15)
         .populate("image", "thumbnail");
 
       return res.status(200).send({ ...tag, example });
@@ -134,7 +134,7 @@ router
     let tag = await TagModel.findOne({ _id: ObjectId(req.params.id) });
 
     if (tag.deletionVotes.length > 5) {
-      tag.delete();
+      await TagModel.deleteOne({ _id: ObjectId(req.params.id) });
 
       return res.status(200).send({
         message:

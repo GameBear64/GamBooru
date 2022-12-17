@@ -40,9 +40,11 @@ export class GalleryService {
 
   post(content: any) {
     // names ${cc.generate({ parts: 1, partLen: 5 }).toLocaleLowerCase()}_${artist + (artist || metadata)}
-    this.http
-      .post<any>(`${this.mAuth.APIUrl}/post`, content, this.httpOptions)
-      .subscribe();
+    return this.http.post<any>(
+      `${this.mAuth.APIUrl}/post`,
+      content,
+      this.httpOptions
+    );
   }
 
   postComment(postId: string, comment: string) {

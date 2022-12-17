@@ -9,6 +9,8 @@ import {
 import { Router } from '@angular/router';
 import { TagsService } from '../../tags/tags.service';
 
+import Snackbar from 'awesome-snackbar';
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -41,11 +43,14 @@ export class UploadComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.galleryService.post(this.form.value);
-    this.form.reset();
-    setTimeout(() => {
-      this.router.navigate(['/gallery']);
-    }, 1000);
+    this.galleryService.post(this.form.value).subscribe({
+      next: (data) => this.router.navigate(['/gallery', data.post]),
+      error: () =>
+        new Snackbar(
+          'Error uploading the image, make sure it does not exist already.',
+          { position: 'bottom-center' }
+        ),
+    });
   }
 
   onFileChange(event: any) {

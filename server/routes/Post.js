@@ -10,7 +10,7 @@ const { PostModel } = require("../models/Post");
 const { ImageModel } = require("../models/Image");
 const { FlagModel } = require("../models/Flag");
 
-const pageSize = 20;
+const pageSize = 35;
 
 router.route("/count").get(async (req, res) => {
   let count = await PostModel.count({});
@@ -103,12 +103,13 @@ router
     try {
       let imageIds = await uploadImage(req.body.fileSource, req);
 
-      await PostModel.create({
+      let created = await PostModel.create({
         ...req.body,
         author: req.userInSession.id,
         image: imageIds,
       });
-      res.status(200).send({ message: "Entry Created" });
+
+      res.status(200).send({ post: created._id, message: "Entry Created" });
     } catch (err) {
       return res
         .status(406)
@@ -229,7 +230,7 @@ router
     let post = await PostModel.findOne({ _id: ObjectId(req.params.id) });
 
     if (post.deletionVotes.length > 5) {
-      post.delete();
+      await PostModel.deleteOne({ _id: ObjectId(req.params.id) });
 
       return res.status(200).send({
         message:

@@ -90,7 +90,3 @@ export class SettingsComponent implements OnInit {
     this.router.navigate(['/']);
   }
 }
-
-// todo:
-//  - deletion vote
-//  - styles

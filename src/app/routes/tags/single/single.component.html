@@ -33,7 +33,7 @@
             class="w3-button w3-padding-small w3-green w3-round"
           >
             {{
-              tag?.lockVotes.includes(mAuth.loggedIn?.user?._id)
+              tag?.lockVotes?.includes(mAuth.loggedIn?.user?._id)
                 ? "Voted"
                 : "Vote Lock"
             }}
@@ -43,7 +43,7 @@
             class="w3-button w3-padding-small w3-red w3-round"
           >
             {{
-              tag?.deletionVotes.includes(mAuth.loggedIn?.user?._id)
+              tag?.deletionVotes?.includes(mAuth.loggedIn?.user?._id)
                 ? "Voted"
                 : "Vote Delete"
             }}
