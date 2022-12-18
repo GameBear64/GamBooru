@@ -38,7 +38,7 @@
       <a routerLink="/collection/likes">Likes</a>
     </div>
     <div class="genCollection w3-card">
-      <a routerLink="/collection/posts">Posts</a>
+      <a routerLink="/collection/posts" [fragment]="user._id">Posts</a>
     </div>
     <div class="w3-card" *ngFor="let collection of user?.collection">
       <a [routerLink]="['/collection', collection?._id]">{{

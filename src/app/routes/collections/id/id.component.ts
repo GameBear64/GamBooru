@@ -44,7 +44,10 @@ export class IdComponent implements OnInit {
         this.getVisibleTags();
       });
     } else if (this.collectionId == 'posts') {
-      this.collectionService.getPostsCollection().subscribe((data) => {
+      let ofUser =
+        this.route.snapshot.fragment || this.mAuth?.loggedIn?.user?._id || '';
+
+      this.collectionService.getPostsCollection(ofUser).subscribe((data) => {
         this.collection = {
           title: 'Posts',
           description: 'All of the posts you have posted',

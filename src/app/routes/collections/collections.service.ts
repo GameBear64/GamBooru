@@ -29,9 +29,9 @@ export class CollectionsService {
     );
   }
 
-  getPostsCollection() {
+  getPostsCollection(userId: string) {
     return this.http.get(
-      `${this.mAuth.APIUrl}/collection/posts`,
+      `${this.mAuth.APIUrl}/collection/posts/${userId}`,
       this.httpOptions
     );
   }

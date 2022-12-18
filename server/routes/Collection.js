@@ -37,10 +37,10 @@ router.route("/likes").get(async (req, res) => {
   }
 });
 
-router.route("/posts").get(async (req, res) => {
+router.route("/posts/:id").get(async (req, res) => {
   try {
     let collection = await PostModel.find({
-      author: ObjectId(req?.userInSession?.id),
+      author: ObjectId(req.params?.id || req?.userInSession?.id),
     })
       .populate("image", "thumbnail")
       .populate("tags", "name category count");
